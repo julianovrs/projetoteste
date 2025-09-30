@@ -151,7 +151,7 @@
                            class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
                 </div>
                 
-                <!-- NOVO CAMPO: Tipo de Usuário -->
+                <!-- CAMPO TIPO DE USUÁRIO (Obrigatório) -->
                 <div>
                     <label for="register-user-type" class="block text-sm font-medium mb-1">Tipo de Usuário</label>
                     <select id="register-user-type" required
@@ -178,7 +178,8 @@
         
         <!-- 3. NOVA TELA: Cadastro de Informações Pessoais -->
         <div id="info-form-view" class="view hidden">
-            <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Complete seu Perfil</h2>
+            <!-- MUDANÇA SOLICITADA: Título alterado para "Dados Básicos" -->
+            <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Dados Básicos</h2>
             <p class="text-center text-gray-400 mb-6">Preencha os dados básicos de saúde.</p>
             
             <form id="info-form" class="space-y-4">
@@ -306,7 +307,7 @@
 
         const registerNameInput = document.getElementById('register-name');
         const fullNameInput = document.getElementById('full-name'); 
-        // NOVO INPUT: Tipo de Usuário
+        // CAMPO: Tipo de Usuário (mantido, pois é onde o usuário deve selecioná-lo)
         const registerUserTypeInput = document.getElementById('register-user-type');
         const dashboardMessageElement = document.getElementById('dashboard-message');
 
@@ -532,7 +533,7 @@
                 if (userType === 'personal') {
                     dashboardMessage = 'Direcionando para o Dashboard do Personal Trainer!';
                 } else {
-                    // Default para aluno ou caso userType seja 'unknown'
+                    // Default para aluno
                     dashboardMessage = 'Direcionando para o seu Dashboard de Aluno!'; 
                 }
                 
@@ -555,9 +556,9 @@
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
             try {
+                // Ao logar, assume-se que o userType será lido do Firestore mais tarde.
+                // O fluxo de redirecionamento ocorrerá após o preenchimento dos Dados Básicos.
                 await signInWithEmailAndPassword(auth, email, password);
-                // Se o login for bem-sucedido, mas o userType não estiver no localStorage, assume "aluno" ou 
-                // que o tipo será lido do Firestore. Mantemos a lógica simples aqui, sem sobrescrever o tipo.
             } catch (error) {
                 displayMessage(translateError(error.code), 'error');
             }
@@ -570,7 +571,7 @@
             const email = document.getElementById('register-email').value;
             const password = document.getElementById('register-password').value;
             const confirmPassword = document.getElementById('register-confirm-password').value;
-            const userType = registerUserTypeInput.value; // NOVO: Coleta o tipo de usuário
+            const userType = registerUserTypeInput.value; // Coleta o tipo de usuário
 
             if (password !== confirmPassword) {
                 displayMessage('As senhas não coincidem. Por favor, verifique.', 'error');
@@ -587,7 +588,8 @@
                 if (name) {
                     await updateProfile(user, { displayName: name });
                 }
-                // SALVA O TIPO DE USUÁRIO TEMPORARIAMENTE para ser usado na próxima etapa (info form)
+                // SALVA O TIPO DE USUÁRIO TEMPORARIAMENTE para ser usado na próxima etapa (info form),
+                // onde será 'salvo' no console junto com o resto do perfil.
                 localStorage.setItem('pendingUserType', userType);
 
             } catch (error) {
@@ -599,11 +601,10 @@
             messageArea.classList.add('hidden');
             const provider = new GoogleAuthProvider();
             try {
-                // ATENÇÃO: No fluxo do Google, o userType NÃO é coletado, pois o campo está na tela de cadastro. 
-                // Para simplificar, se for um novo login via Google, assumimos "aluno" se o tipo não for pré-definido.
-                // Em um app real, o tipo seria solicitado em uma tela separada ou lido do DB.
+                // Para logins via Google, o Tipo de Usuário é definido como 'aluno' por padrão
+                // Se a seleção não foi feita, pois o campo está na tela de cadastro.
                 
-                const userType = registerUserTypeInput.value; // Tenta ler, mas pode estar vazio se vier da tela de login
+                const userType = registerUserTypeInput.value; 
                 if (userType) {
                     localStorage.setItem('pendingUserType', userType);
                 } else {
