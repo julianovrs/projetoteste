@@ -1,19 +1,15 @@
 <!DOCTYPE html>
-<!-- AJUSTE: O modo escuro agora é definido como padrão ao carregar a página -->
 <html lang="pt-BR" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login, Cadastro e Perfil</title>
-    <!-- Configuração do Tailwind para usar o modo escuro baseado na classe 'dark' no HTML tag -->
     <script>
         tailwind.config = {
             darkMode: 'class',
         }
     </script>
-    <!-- Carrega o Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Configuração da fonte Inter e estilos base -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         body {
@@ -47,19 +43,18 @@
             /* Adicione padding à direita se quiser espaço para um ícone customizado */
             padding-right: 2rem; 
         }
+        /* Estilo para lista múltipla de alimentos para se destacar */
+        #food-restrictions-input {
+            height: 100px; /* Altura fixa para visualização de múltiplas opções */
+        }
     </style>
 </head>
-<!-- AJUSTE: Cor de fundo padrão para Dark Mode (bg-gray-900) -->
 <body class="min-h-screen flex items-center justify-center p-4 transition-colors duration-300 bg-gray-900"> 
 
-    <!-- Container Principal do Cartão de Autenticação/Informações -->
-    <!-- AJUSTE: Cores de card e texto padrão para Dark Mode (bg-gray-800, text-gray-200) -->
     <div id="auth-card" class="w-full max-w-md p-8 sm:p-10 rounded-xl shadow-2xl transition-all duration-300 dark:shadow-none border border-gray-700 bg-gray-800 text-gray-200">
         
-        <!-- Botão de Alternância de Modo Escuro -->
         <div class="flex justify-end mb-4">
             <button id="theme-toggle" class="p-2 rounded-full text-gray-300 hover:text-indigo-400 transition duration-300">
-                <!-- Ícone SVG - O estado inicial (Moon) é visível no Dark Mode padrão -->
                 <svg id="sun-icon" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
@@ -69,15 +64,11 @@
             </button>
         </div>
 
-        <!-- Área de Mensagens de Erro/Sucesso -->
         <div id="message-area" class="mb-4 hidden p-3 rounded-lg text-sm transition-opacity duration-300" role="alert"></div>
 
-        <!-- 1. Tela de Login -->
         <div id="login-view" class="view">
-            <!-- AJUSTE: Cor do Título padrão para Dark Mode (text-white) -->
             <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Acesse sua Conta</h2>
 
-            <!-- Formulário de Login -->
             <form id="login-form" class="space-y-4">
                 <div>
                     <label for="login-email" class="block text-sm font-medium mb-1">E-mail</label>
@@ -91,7 +82,7 @@
                 </div>
                 
                 <button type="submit"
-                        class="w-full py-2 px-4 rounded-lg text-white font-semibold bg-indigo-600 hover:bg-indigo-700 transition duration-150 shadow-md">
+                         class="w-full py-2 px-4 rounded-lg text-white font-semibold bg-indigo-600 hover:bg-indigo-700 transition duration-150 shadow-md">
                     Entrar
                 </button>
             </form>
@@ -102,10 +93,8 @@
                 <div class="flex-grow border-t border-gray-700"></div>
             </div>
 
-            <!-- AJUSTE: Cores do Botão Google padrão para Dark Mode (text-gray-200, bg-gray-700) -->
             <button id="google-login-btn"
-                    class="w-full flex items-center justify-center py-2 px-4 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-200 bg-gray-700 hover:bg-gray-600 transition duration-150">
-                <!-- Ícone Google (SVG inline) -->
+                     class="w-full flex items-center justify-center py-2 px-4 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-200 bg-gray-700 hover:bg-gray-600 transition duration-150">
                 <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48">
                     <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.158,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.684,43.868,21.327,43.611,20.083z"/>
                     <path fill="#FF3D00" d="M6.306 14.691L11.41 18.257C13.204 16.292 14.004 14.072 14.004 12C14.004 9.928 13.204 7.708 11.41 5.743L6.306 9.309C5.541 10.334 5.148 11.167 5.148 12C5.148 12.833 5.541 13.666 6.306 14.691z"/>
@@ -123,12 +112,9 @@
             </p>
         </div>
 
-        <!-- 2. Tela de Cadastro -->
         <div id="register-view" class="view hidden">
-            <!-- AJUSTE: Cor do Título padrão para Dark Mode (text-white) -->
             <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Crie sua Conta</h2>
 
-            <!-- Formulário de Cadastro -->
             <form id="register-form" class="space-y-4">
                 <div>
                     <label for="register-name" class="block text-sm font-medium mb-1">Nome Completo</label>
@@ -151,10 +137,8 @@
                            class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
                 </div>
                 
-                <!-- O CAMPO TIPO DE USUÁRIO FOI REMOVIDO DAQUI E MOVIDO PARA info-form-view -->
-                
                 <button type="submit"
-                        class="w-full py-2 px-4 rounded-lg text-white font-semibold bg-green-600 hover:bg-green-700 transition duration-150 shadow-md">
+                         class="w-full py-2 px-4 rounded-lg text-white font-semibold bg-green-600 hover:bg-green-700 transition duration-150 shadow-md">
                     Criar Conta
                 </button>
             </form>
@@ -167,27 +151,22 @@
             </p>
         </div>
         
-        <!-- 3. TELA DE INFORMAÇÕES PESSOAIS (DADOS BÁSICOS) -->
         <div id="info-form-view" class="view hidden">
-            <!-- Título: Dados Básicos (Já corrigido) -->
             <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Dados Básicos</h2>
-            <!-- CORREÇÃO SOLICITADA: Subtítulo atualizado -->
             <p class="text-center text-gray-400 mb-6">Preencha seus dados básicos</p>
             
             <form id="info-form" class="space-y-4">
 
-                <!-- CORREÇÃO SOLICITADA: CAMPO TIPO DE USUÁRIO MOVIDO PARA CÁ -->
                 <div>
                     <label for="user-type-input" class="block text-sm font-medium mb-1">Tipo de Usuário</label>
                     <select id="user-type-input" required
-                            class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white appearance-none pr-8">
+                             class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white appearance-none pr-8">
                         <option value="" disabled selected>Selecione seu papel (Aluno ou Personal)</option>
                         <option value="aluno">Aluno</option>
                         <option value="personal">Personal Trainer</option>
                     </select>
                 </div>
                 
-                <!-- Nome Completo (AGORA EDITÁVEL) -->
                 <div>
                     <label for="full-name" class="block text-sm font-medium mb-1">Nome Completo</label>
                     <input type="text" id="full-name" placeholder="Nome Completo" 
@@ -195,70 +174,108 @@
                     <p class="text-xs text-gray-500 mt-1">Você pode alterar seu nome aqui.</p>
                 </div>
 
-                <!-- Idade -->
                 <div>
                     <label for="age" class="block text-sm font-medium mb-1">Idade</label>
                     <input type="number" id="age" placeholder="Ex: 30" min="1" max="150" required
                            class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
                 </div>
 
-                <!-- Gênero (Select) -->
                 <div>
                     <label for="gender" class="block text-sm font-medium mb-1">Gênero</label>
                     <select id="gender" required
-                            class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 appearance-none pr-8">
+                             class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 appearance-none pr-8">
                         <option value="" disabled selected>Selecione</option>
                         <option value="masculino">Masculino</option>
                         <option value="feminino">Feminino</option>
                     </select>
                 </div>
 
-                <!-- Peso e Altura (Layout lado a lado em telas maiores) -->
+                <div id="aluno-fields" class="space-y-4 hidden pt-2 border-t border-dashed border-gray-600/50">
+                    <p class="text-sm text-gray-400 font-semibold pt-2">Informações Adicionais (Aluno)</p>
+
+                    <div>
+                        <label for="physical-limitations-input" class="block text-sm font-medium mb-1">Limitações Físicas</label>
+                        <select id="physical-limitations-input"
+                                 class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white appearance-none pr-8">
+                            <option value="nenhuma" selected>Nenhuma Limitação</option>
+                            <option value="joelho">Dor/Lesão no Joelho</option>
+                            <option value="coluna">Dor/Lesão na Coluna (Lombar, Cervical)</option>
+                            <option value="ombro">Dor/Lesão no Ombro</option>
+                            <option value="cardio">Problemas Cardiovasculares (Hipertensão, etc.)</option>
+                            <option value="respiratorio">Problemas Respiratórios (Asma, Bronquite)</option>
+                            <option value="diabetes">Diabetes</option>
+                            <option value="outra">Outra (Detalhar na nota)</option>
+                        </select>
+                        <p class="text-xs text-gray-500 mt-1">Selecione uma limitação se aplicável.</p>
+                    </div>
+
+                    <div>
+                        <label for="food-restrictions-input" class="block text-sm font-medium mb-1">Alimentos que Não Gosta/Não Pode Comer</label>
+                        <select id="food-restrictions-input" multiple
+                                 class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                            <option value="" disabled>Selecione um ou mais</option>
+                            <option value="azeitona">Azeitona</option>
+                            <option value="figado">Fígado de boi</option>
+                            <option value="ameixa">Ameixa</option>
+                            <option value="damasco">Damasco</option>
+                            <option value="pimentao">Pimentão</option>
+                            <option value="cebola">Cebola</option>
+                            <option value="quiabo">Quiabo</option>
+                            <option value="beterraba">Beterraba</option>
+                            <option value="berinjela">Berinjela</option>
+                            <option value="couve-flor">Couve-flor</option>
+                            <option value="brocolis">Brócolis</option>
+                            <option value="rucula">Rúcula</option>
+                            <option value="repolho">Repolho</option>
+                            <option value="jilo">Jiló</option>
+                            <option value="palmito">Palmito</option>
+                            <option value="tomate">Tomate</option>
+                            <option value="nabo">Nabo</option>
+                            <option value="rabanete">Rabanete</option>
+                            <option value="alho">Alho</option>
+                            <option value="pepino">Pepino</option>
+                            <option value="ervilha">Ervilha</option>
+                        </select>
+                        <p class="text-xs text-gray-500 mt-1">Use **Ctrl/Cmd + clique** para selecionar múltiplos alimentos.</p>
+                    </div>
+                </div>
                 <div class="grid grid-cols-2 gap-4">
-                    <!-- Peso -->
                     <div>
                         <label for="weight" class="block text-sm font-medium mb-1">Peso (kg)</label>
                         <input type="number" id="weight" placeholder="Ex: 75.5" step="0.1" min="1" required
-                               class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                                 class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
                     </div>
 
-                    <!-- Altura -->
                     <div>
                         <label for="height" class="block text-sm font-medium mb-1">Altura (cm)</label>
                         <input type="number" id="height" placeholder="Ex: 175" step="1" min="50" required
-                               class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                                 class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
                     </div>
                 </div>
 
-                <!-- Botão de Enviar (Cor Primária: Indigo) -->
                 <button type="submit"
-                        class="w-full py-2 px-4 mt-4 rounded-lg text-white font-semibold bg-indigo-600 hover:bg-indigo-700 transition duration-150 shadow-md">
+                         class="w-full py-2 px-4 mt-4 rounded-lg text-white font-semibold bg-indigo-600 hover:bg-indigo-700 transition duration-150 shadow-md">
                     Salvar Informações
                 </button>
             </form>
 
-            <!-- A opção de pular foi removida daqui -->
-        </div>
+            </div>
 
-        <!-- 4. Tela de Sucesso (Será usada APÓS o preenchimento das informações) -->
         <div id="success-view" class="view hidden text-center p-8">
-            <!-- Ícone de sucesso -->
             <svg class="mx-auto h-16 w-16 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
-            <!-- Título de Sucesso - AGORA MOSTRA O DASHBOARD -->
             <h2 class="text-2xl font-bold text-white mt-4"><span id="dashboard-message">Bem-vindo(a)!</span></h2>
             <p class="mt-2">Seu perfil está completo, <span id="user-display-name" class="font-semibold text-indigo-400"></span>.</p>
             <p class="text-sm mt-1">Seu ID de usuário (UID) é: <span id="user-uid-display" class="font-mono text-xs bg-gray-700 p-1 rounded text-gray-300"></span></p>
 
             <button id="logout-btn"
-                    class="mt-8 py-2 px-4 rounded-lg text-white font-semibold bg-red-600 hover:bg-red-700 transition duration-150 shadow-md">
+                     class="mt-8 py-2 px-4 rounded-lg text-white font-semibold bg-red-600 hover:bg-red-700 transition duration-150 shadow-md">
                 Sair
             </button>
         </div>
     </div>
 
-    <!-- JavaScript e Inicialização do Firebase -->
     <script type="module">
         // Importa as funções necessárias do Firebase SDK (versão CDN)
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -310,9 +327,13 @@
 
         const registerNameInput = document.getElementById('register-name');
         const fullNameInput = document.getElementById('full-name'); 
-        // NOVO ID: Campo Tipo de Usuário (agora na tela de info-form)
         const userTypeInput = document.getElementById('user-type-input');
         const dashboardMessageElement = document.getElementById('dashboard-message');
+        
+        // NOVOS ELEMENTOS
+        const alunoFields = document.getElementById('aluno-fields'); // Container dos campos de aluno
+        const physicalLimitationsInput = document.getElementById('physical-limitations-input');
+        const foodRestrictionsInput = document.getElementById('food-restrictions-input');
 
 
         // Seletores para elementos que precisam de ajuste fino dinâmico
@@ -419,6 +440,8 @@
             // Ajusta o tamanho máximo do card dependendo da vista (opcional)
             authCard.classList.remove('max-w-lg');
             if (viewName === 'info-form') {
+                 // Aumento para acomodar mais campos
+                 authCard.classList.remove('max-w-md');
                  authCard.classList.add('max-w-lg');
             } else {
                  authCard.classList.add('max-w-md');
@@ -430,6 +453,8 @@
                 registerView.classList.remove('hidden');
             } else if (viewName === 'info-form') { 
                 infoFormView.classList.remove('hidden');
+                // Chamada de função para garantir que os campos de aluno estejam visíveis/ocultos ao entrar nesta view.
+                updateAlunoFieldsVisibility();
             } else if (viewName === 'success') {
                 successView.classList.remove('hidden');
             }
@@ -468,6 +493,24 @@
             }
         }
 
+        // --- Funções de Lógica de Campos Condicionais (NOVA) ---
+        
+        /**
+         * Alterna a visibilidade dos campos específicos de Aluno.
+         */
+        function updateAlunoFieldsVisibility() {
+            // Verifica o valor selecionado no dropdown de Tipo de Usuário
+            if (userTypeInput.value === 'aluno') {
+                alunoFields.classList.remove('hidden');
+            } else {
+                alunoFields.classList.add('hidden');
+            }
+        }
+        
+        // Listener para o dropdown de Tipo de Usuário
+        userTypeInput.addEventListener('change', updateAlunoFieldsVisibility);
+
+
         // --- Funções de Autenticação Firebase ---
 
         /**
@@ -495,23 +538,34 @@
         }
 
         /**
-         * Lida com o Envio do Formulário de Informações (incluindo a atualização do nome e tipo de usuário).
+         * Lida com o Envio do Formulário de Informações.
          */
         async function handleInfoFormSubmit(e) {
             e.preventDefault();
             messageArea.classList.add('hidden');
 
             const user = auth.currentUser;
-            const userType = userTypeInput.value; // NOVO: Coleta o tipo de usuário
+            const userType = userTypeInput.value; // Coleta o tipo de usuário
             const newName = fullNameInput.value.trim();
             const age = document.getElementById('age').value;
             const gender = document.getElementById('gender').value;
             const weight = document.getElementById('weight').value;
             const height = document.getElementById('height').value;
             
+            // Novos campos, inicializados como null ou array vazio
+            let physicalLimitations = null;
+            let foodRestrictions = [];
+
             if (!userType) {
                  displayMessage('Por favor, selecione seu Tipo de Usuário (Aluno ou Personal Trainer).', 'error');
                  return;
+            }
+            
+            // Coleta dados específicos do aluno, se aplicável
+            if (userType === 'aluno') {
+                physicalLimitations = physicalLimitationsInput.value;
+                // Coleta todas as opções selecionadas do dropdown múltiplo
+                foodRestrictions = Array.from(foodRestrictionsInput.selectedOptions).map(option => option.value);
             }
 
             try {
@@ -521,7 +575,7 @@
                 }
 
                 // 2. Lógica de Armazenamento (Apenas Console.log, aqui seria o setDoc no Firestore)
-                console.log("Informações do Usuário para armazenamento:", {
+                const userData = {
                     uid: user.uid,
                     email: user.email,
                     displayName: newName,
@@ -529,8 +583,16 @@
                     gender: gender,
                     weight: parseFloat(weight),
                     height: parseInt(height),
-                    userType: userType // DADO NOVO SALVO
-                });
+                    userType: userType 
+                };
+                
+                // Adiciona campos de Aluno se o tipo for 'aluno'
+                if (userType === 'aluno') {
+                    userData.physicalLimitations = physicalLimitations;
+                    userData.foodRestrictions = foodRestrictions;
+                }
+                
+                console.log("Informações do Usuário para armazenamento:", userData);
             
                 // 3. Feedback e Transição para a tela final de Sucesso (DASHBOARD)
                 let dashboardMessage;
@@ -560,7 +622,6 @@
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
             try {
-                // O tipo de usuário será selecionado/atualizado na próxima tela (info-form)
                 await signInWithEmailAndPassword(auth, email, password);
             } catch (error) {
                 displayMessage(translateError(error.code), 'error');
@@ -574,13 +635,11 @@
             const email = document.getElementById('register-email').value;
             const password = document.getElementById('register-password').value;
             const confirmPassword = document.getElementById('register-confirm-password').value;
-            // REMOVIDO: const userType = registerUserTypeInput.value;
 
             if (password !== confirmPassword) {
                 displayMessage('As senhas não coincidem. Por favor, verifique.', 'error');
                 return;
             }
-            // REMOVIDO: A verificação de tipo de usuário, pois foi movida para a próxima tela
             
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -588,8 +647,6 @@
                 if (name) {
                     await updateProfile(user, { displayName: name });
                 }
-                // REMOVIDO: O armazenamento temporário do userType
-
             } catch (error) {
                 displayMessage(translateError(error.code), 'error');
             }
@@ -599,7 +656,6 @@
             messageArea.classList.add('hidden');
             const provider = new GoogleAuthProvider();
             try {
-                // O tipo de usuário será selecionado/atualizado na próxima tela (info-form)
                 await signInWithPopup(auth, provider);
             } catch (error) {
                 displayMessage(translateError(error.code), 'error');
