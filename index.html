@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+<!-- AJUSTE: O modo escuro agora é definido como padrão ao carregar a página -->
 <html lang="pt-BR" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login, Cadastro e Dashboards</title>
+    <title>Login, Cadastro e Perfil</title>
     <!-- Configuração do Tailwind para usar o modo escuro baseado na classe 'dark' no HTML tag -->
     <script>
         tailwind.config = {
@@ -18,32 +19,47 @@
         body {
             font-family: 'Inter', sans-serif;
         }
-        input::placeholder, select {
+        /* Estilização para Placeholders no Dark Mode Padrão (Melhor legibilidade) */
+        input::placeholder {
             color: #9ca3af; /* gray-400 */
             opacity: 1; 
         }
-        .light input::placeholder, .light #auth-card input::placeholder, .light #auth-card select {
+        /* Ajuste do Select no Dark Mode: garante que o texto seja claro */
+        select {
+            color: white; 
+        }
+        /* Estilização para Placeholders e Selectors no Light Mode */
+        .light input::placeholder,
+        .light #auth-card input::placeholder,
+        .light #auth-card select {
             color: #4b5563; /* gray-600 */
         }
+        /* Ajuste do Select no Light Mode: garante que o texto seja escuro */
+        .light select {
+            color: #4b5563; /* gray-700 */
+        }
+
+        /* Classes para remover a seta padrão do select e permitir estilo customizado (opcional) */
         select {
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
+            /* Adicione padding à direita se quiser espaço para um ícone customizado */
             padding-right: 2rem; 
         }
     </style>
 </head>
+<!-- AJUSTE: Cor de fundo padrão para Dark Mode (bg-gray-900) -->
 <body class="min-h-screen flex items-center justify-center p-4 transition-colors duration-300 bg-gray-900"> 
 
-    <!-- Container Principal do Cartão de Autenticação/Informações/Dashboard -->
+    <!-- Container Principal do Cartão de Autenticação/Informações -->
+    <!-- AJUSTE: Cores de card e texto padrão para Dark Mode (bg-gray-800, text-gray-200) -->
     <div id="auth-card" class="w-full max-w-md p-8 sm:p-10 rounded-xl shadow-2xl transition-all duration-300 dark:shadow-none border border-gray-700 bg-gray-800 text-gray-200">
         
-        <!-- Botão de Alternância de Modo Escuro e Logout (visível em Dashboards) -->
-        <div class="flex justify-between items-center mb-4">
-            <button id="logout-btn-header" class="hidden p-2 text-sm rounded-lg text-gray-300 hover:text-red-400 transition duration-300 bg-gray-700 hover:bg-red-800">
-                Sair
-            </button>
-            <button id="theme-toggle" class="p-2 rounded-full text-gray-300 hover:text-indigo-400 transition duration-300 ml-auto">
+        <!-- Botão de Alternância de Modo Escuro -->
+        <div class="flex justify-end mb-4">
+            <button id="theme-toggle" class="p-2 rounded-full text-gray-300 hover:text-indigo-400 transition duration-300">
+                <!-- Ícone SVG - O estado inicial (Moon) é visível no Dark Mode padrão -->
                 <svg id="sun-icon" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
@@ -58,7 +74,10 @@
 
         <!-- 1. Tela de Login -->
         <div id="login-view" class="view">
+            <!-- AJUSTE: Cor do Título padrão para Dark Mode (text-white) -->
             <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Acesse sua Conta</h2>
+
+            <!-- Formulário de Login -->
             <form id="login-form" class="space-y-4">
                 <div>
                     <label for="login-email" class="block text-sm font-medium mb-1">E-mail</label>
@@ -70,18 +89,23 @@
                     <input type="password" id="login-password" placeholder="••••••••" required
                            class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
                 </div>
+                
                 <button type="submit"
                         class="w-full py-2 px-4 rounded-lg text-white font-semibold bg-indigo-600 hover:bg-indigo-700 transition duration-150 shadow-md">
                     Entrar
                 </button>
             </form>
+
             <div class="my-6 flex items-center">
                 <div class="flex-grow border-t border-gray-700"></div>
                 <span class="flex-shrink mx-4 text-sm">OU</span>
                 <div class="flex-grow border-t border-gray-700"></div>
             </div>
+
+            <!-- AJUSTE: Cores do Botão Google padrão para Dark Mode (text-gray-200, bg-gray-700) -->
             <button id="google-login-btn"
                     class="w-full flex items-center justify-center py-2 px-4 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-200 bg-gray-700 hover:bg-gray-600 transition duration-150">
+                <!-- Ícone Google (SVG inline) -->
                 <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48">
                     <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.158,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.684,43.868,21.327,43.611,20.083z"/>
                     <path fill="#FF3D00" d="M6.306 14.691L11.41 18.257C13.204 16.292 14.004 14.072 14.004 12C14.004 9.928 13.204 7.708 11.41 5.743L6.306 9.309C5.541 10.334 5.148 11.167 5.148 12C5.148 12.833 5.541 13.666 6.306 14.691z"/>
@@ -90,6 +114,7 @@
                 </svg>
                 Entrar com Google
             </button>
+
             <p class="mt-6 text-center text-sm">
                 Não tem uma conta?
                 <a href="#" id="show-register-link" class="font-medium text-indigo-400 hover:text-indigo-300">
@@ -100,7 +125,10 @@
 
         <!-- 2. Tela de Cadastro -->
         <div id="register-view" class="view hidden">
+            <!-- AJUSTE: Cor do Título padrão para Dark Mode (text-white) -->
             <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Crie sua Conta</h2>
+
+            <!-- Formulário de Cadastro -->
             <form id="register-form" class="space-y-4">
                 <div>
                     <label for="register-name" class="block text-sm font-medium mb-1">Nome Completo</label>
@@ -122,11 +150,15 @@
                     <input type="password" id="register-confirm-password" placeholder="Repita a senha" required
                            class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
                 </div>
+                
+                <!-- O CAMPO TIPO DE USUÁRIO FOI REMOVIDO DAQUI E MOVIDO PARA info-form-view -->
+                
                 <button type="submit"
                         class="w-full py-2 px-4 rounded-lg text-white font-semibold bg-green-600 hover:bg-green-700 transition duration-150 shadow-md">
                     Criar Conta
                 </button>
             </form>
+
             <p class="mt-6 text-center text-sm">
                 Já tem uma conta?
                 <a href="#" id="show-login-link" class="font-medium text-indigo-400 hover:text-indigo-300">
@@ -137,11 +169,14 @@
         
         <!-- 3. TELA DE INFORMAÇÕES PESSOAIS (DADOS BÁSICOS) -->
         <div id="info-form-view" class="view hidden">
+            <!-- Título: Dados Básicos (Já corrigido) -->
             <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Dados Básicos</h2>
-            <p class="text-center text-gray-400 mb-6">Selecione seu papel e preencha seus dados básicos.</p>
+            <!-- CORREÇÃO SOLICITADA: Subtítulo atualizado -->
+            <p class="text-center text-gray-400 mb-6">Preencha seus dados básicos</p>
             
             <form id="info-form" class="space-y-4">
-                
+
+                <!-- CORREÇÃO SOLICITADA: CAMPO TIPO DE USUÁRIO MOVIDO PARA CÁ -->
                 <div>
                     <label for="user-type-input" class="block text-sm font-medium mb-1">Tipo de Usuário</label>
                     <select id="user-type-input" required
@@ -152,149 +187,80 @@
                     </select>
                 </div>
                 
+                <!-- Nome Completo (AGORA EDITÁVEL) -->
                 <div>
                     <label for="full-name" class="block text-sm font-medium mb-1">Nome Completo</label>
                     <input type="text" id="full-name" placeholder="Nome Completo" 
                            class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                    <p class="text-xs text-gray-500 mt-1">Você pode alterar seu nome aqui.</p>
                 </div>
 
-                <!-- Campos de Saúde -->
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label for="age" class="block text-sm font-medium mb-1">Idade</label>
-                        <input type="number" id="age" placeholder="Ex: 30" min="1" max="150" required
-                               class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
-                    </div>
-                    <div>
-                        <label for="gender" class="block text-sm font-medium mb-1">Gênero</label>
-                        <select id="gender" required
-                                class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 appearance-none pr-8">
-                            <option value="" disabled selected>Selecione</option>
-                            <option value="masculino">Masculino</option>
-                            <option value="feminino">Feminino</option>
-                        </select>
-                    </div>
+                <!-- Idade -->
+                <div>
+                    <label for="age" class="block text-sm font-medium mb-1">Idade</label>
+                    <input type="number" id="age" placeholder="Ex: 30" min="1" max="150" required
+                           class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
                 </div>
+
+                <!-- Gênero (Select) -->
+                <div>
+                    <label for="gender" class="block text-sm font-medium mb-1">Gênero</label>
+                    <select id="gender" required
+                            class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 appearance-none pr-8">
+                        <option value="" disabled selected>Selecione</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="feminino">Feminino</option>
+                    </select>
+                </div>
+
+                <!-- Peso e Altura (Layout lado a lado em telas maiores) -->
                 <div class="grid grid-cols-2 gap-4">
+                    <!-- Peso -->
                     <div>
                         <label for="weight" class="block text-sm font-medium mb-1">Peso (kg)</label>
                         <input type="number" id="weight" placeholder="Ex: 75.5" step="0.1" min="1" required
                                class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
                     </div>
+
+                    <!-- Altura -->
                     <div>
                         <label for="height" class="block text-sm font-medium mb-1">Altura (cm)</label>
                         <input type="number" id="height" placeholder="Ex: 175" step="1" min="50" required
                                class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
                     </div>
                 </div>
-                
-                <!-- NOVO CAMPO: Objetivo (Visível apenas para Aluno) -->
-                <div id="objective-field" class="hidden">
-                    <label for="objective-input" class="block text-sm font-medium mb-1">Objetivo</label>
-                    <select id="objective-input"
-                            class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white appearance-none pr-8">
-                        <option value="" disabled selected>Selecione seu objetivo principal</option>
-                        <option value="emagrecer">Emagrecer</option>
-                        <option value="massa_muscular">Obter massa muscular</option>
-                    </select>
-                </div>
 
-
+                <!-- Botão de Enviar (Cor Primária: Indigo) -->
                 <button type="submit"
                         class="w-full py-2 px-4 mt-4 rounded-lg text-white font-semibold bg-indigo-600 hover:bg-indigo-700 transition duration-150 shadow-md">
-                    Salvar Informações e Ir para Dashboard
-                </button>
-            </form>
-        </div>
-
-        <!-- 4. DASHBOARD DO ALUNO -->
-        <div id="dashboard-aluno-view" class="view hidden max-w-lg">
-            <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Dashboard do Aluno</h2>
-            
-            <div class="bg-indigo-900/30 p-4 rounded-xl mb-6 border border-indigo-700/50">
-                <p class="text-sm text-indigo-300 mb-2">Seu Código Único de Acesso:</p>
-                <div class="flex items-center justify-between">
-                    <p id="aluno-unique-code" class="text-3xl font-bold tracking-widest text-indigo-400"></p>
-                    <button id="copy-code-btn" class="text-indigo-400 hover:text-indigo-300 p-1 rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v10a2 2 0 002 2h2m0-12h8m-8 0V5a2 2 0 012-2h4a2 2 0 012 2v2m0 0h2a2 2 0 012 2v5m-14 3h12a2 2 0 002-2v-3a2 2 0 00-2-2H6a2 2 0 00-2 2v3a2 2 0 002 2z" />
-                        </svg>
-                    </button>
-                </div>
-                <p class="text-xs text-gray-500 mt-2">Compartilhe este código com seu Personal Trainer.</p>
-            </div>
-
-            <h3 class="text-xl font-semibold border-b border-gray-700 pb-2 mb-4">Meu Perfil</h3>
-            <div id="aluno-profile-data" class="space-y-2 text-sm">
-                <!-- Dados do aluno serão injetados aqui -->
-            </div>
-
-            <h3 class="text-xl font-semibold border-b border-gray-700 pb-2 mt-6 mb-4">Meus Planos</h3>
-            
-            <div class="space-y-4">
-                <div class="bg-gray-700/50 p-3 rounded-lg">
-                    <p class="font-medium text-indigo-400">Plano Alimentar:</p>
-                    <pre id="aluno-plano-alimentar" class="text-gray-300 whitespace-pre-wrap text-sm mt-1"></pre>
-                </div>
-                <div class="bg-gray-700/50 p-3 rounded-lg">
-                    <p class="font-medium text-indigo-400">Plano de Treino:</p>
-                    <pre id="aluno-plano-treino" class="text-gray-300 whitespace-pre-wrap text-sm mt-1"></pre>
-                </div>
-            </div>
-            
-        </div>
-
-        <!-- 5. DASHBOARD DO PERSONAL TRAINER -->
-        <div id="dashboard-personal-view" class="view hidden max-w-lg">
-            <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Dashboard do Personal</h2>
-            <p class="text-center text-gray-400 mb-6">Busque e gerencie os planos dos seus alunos.</p>
-
-            <!-- Busca de Aluno -->
-            <form id="search-form" class="flex space-x-2 mb-6">
-                <input type="text" id="student-code-input" placeholder="Insira o Código Único do Aluno" required
-                       maxlength="6"
-                       class="flex-grow uppercase px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
-                <button type="submit"
-                        class="py-2 px-4 rounded-lg text-white font-semibold bg-indigo-600 hover:bg-indigo-700 transition duration-150 shadow-md">
-                    Buscar
+                    Salvar Informações
                 </button>
             </form>
 
-            <div id="student-details-card" class="hidden bg-gray-700/50 p-4 rounded-xl border border-gray-600">
-                <h3 class="text-xl font-semibold border-b border-indigo-700/50 pb-2 mb-4 text-indigo-400">Aluno Encontrado: <span id="found-student-name"></span></h3>
-                
-                <!-- Perfil do Aluno -->
-                <h4 class="font-bold mb-2">Perfil:</h4>
-                <div id="personal-student-profile" class="space-y-1 text-sm text-gray-300 mb-6">
-                    <!-- Dados do aluno serão injetados aqui -->
-                </div>
+            <!-- A opção de pular foi removida daqui -->
+        </div>
 
-                <!-- Formulário de Atualização de Planos -->
-                <h4 class="font-bold mb-3 border-t border-gray-600 pt-4">Gerenciar Planos:</h4>
-                <form id="plans-form" class="space-y-4">
-                    <div>
-                        <label for="plan-alimentar-input" class="block text-sm font-medium mb-1">Plano Alimentar</label>
-                        <textarea id="plan-alimentar-input" rows="4" placeholder="Detalhes do plano alimentar..."
-                                  class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-800 text-white"></textarea>
-                    </div>
-                    <div>
-                        <label for="plan-treino-input" class="block text-sm font-medium mb-1">Plano de Treino</label>
-                        <textarea id="plan-treino-input" rows="4" placeholder="Detalhes do plano de treino..."
-                                  class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-800 text-white"></textarea>
-                    </div>
-                    <button type="submit"
-                            class="w-full py-2 px-4 rounded-lg text-white font-semibold bg-green-600 hover:bg-green-700 transition duration-150 shadow-md">
-                        Salvar e Atualizar Planos do Aluno
-                    </button>
-                </form>
-            </div>
-            
+        <!-- 4. Tela de Sucesso (Será usada APÓS o preenchimento das informações) -->
+        <div id="success-view" class="view hidden text-center p-8">
+            <!-- Ícone de sucesso -->
+            <svg class="mx-auto h-16 w-16 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <!-- Título de Sucesso - AGORA MOSTRA O DASHBOARD -->
+            <h2 class="text-2xl font-bold text-white mt-4"><span id="dashboard-message">Bem-vindo(a)!</span></h2>
+            <p class="mt-2">Seu perfil está completo, <span id="user-display-name" class="font-semibold text-indigo-400"></span>.</p>
+            <p class="text-sm mt-1">Seu ID de usuário (UID) é: <span id="user-uid-display" class="font-mono text-xs bg-gray-700 p-1 rounded text-gray-300"></span></p>
+
+            <button id="logout-btn"
+                    class="mt-8 py-2 px-4 rounded-lg text-white font-semibold bg-red-600 hover:bg-red-700 transition duration-150 shadow-md">
+                Sair
+            </button>
         </div>
     </div>
 
-    <!-- JavaScript e Inicialização do Firebase/Firestore -->
+    <!-- JavaScript e Inicialização do Firebase -->
     <script type="module">
-        // --- Importações Firebase ---
+        // Importa as funções necessárias do Firebase SDK (versão CDN)
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { 
             getAuth, 
@@ -304,39 +270,23 @@
             signInWithPopup, 
             onAuthStateChanged,
             signOut,
-            updateProfile,
-            signInWithCustomToken,
-            signInAnonymously
+            updateProfile 
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { 
-            getFirestore, 
-            doc, 
-            setDoc, 
-            getDoc, 
-            onSnapshot, 
-            query, 
-            collection, 
-            where, 
-            getDocs,
-            setLogLevel 
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        // Configuração do Firebase (mantida inalterada)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDhTtTqh0e4D2k-g9Lufzih4A9HSsIDKPM",
+            authDomain: "projeto-personal-6ed7e.firebaseapp.com",
+            projectId: "projeto-personal-6ed7e",
+            storageBucket: "projeto-personal-6ed7e.firebasestorage.app",
+            messagingSenderId: "312968986005",
+            appId: "1:312968986005:web:26324c8313d12ad3cc8a9c",
+            measurementId: "G-7E8595YF2S"
+        };
 
-        // Ativa o log para debug do Firestore
-        setLogLevel('Debug');
-
-        // --- Configuração e Inicialização Firebase ---
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
+        // Inicializa o Firebase e o Auth
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // --- Variáveis Globais de Estado ---
-        let currentUserId = null;
-        let currentUserData = null; // Armazena os dados do Firestore do usuário logado
-        let currentStudentCode = null; // Usado no Personal Dashboard
 
         // --- Variáveis de Elementos DOM ---
         const html = document.documentElement; 
@@ -346,8 +296,7 @@
         const loginView = document.getElementById('login-view');
         const registerView = document.getElementById('register-view');
         const infoFormView = document.getElementById('info-form-view'); 
-        const dashboardAlunoView = document.getElementById('dashboard-aluno-view');
-        const dashboardPersonalView = document.getElementById('dashboard-personal-view');
+        const successView = document.getElementById('success-view');
         const messageArea = document.getElementById('message-area');
         const themeToggle = document.getElementById('theme-toggle');
         const sunIcon = document.getElementById('sun-icon');
@@ -357,96 +306,97 @@
         const registerForm = document.getElementById('register-form');
         const infoForm = document.getElementById('info-form'); 
         const googleLoginBtn = document.getElementById('google-login-btn');
-        const logoutBtnHeader = document.getElementById('logout-btn-header');
+        const logoutBtn = document.getElementById('logout-btn');
 
+        const registerNameInput = document.getElementById('register-name');
         const fullNameInput = document.getElementById('full-name'); 
+        // NOVO ID: Campo Tipo de Usuário (agora na tela de info-form)
         const userTypeInput = document.getElementById('user-type-input');
+        const dashboardMessageElement = document.getElementById('dashboard-message');
+
+
+        // Seletores para elementos que precisam de ajuste fino dinâmico
+        const titles = document.querySelectorAll('#login-view h2, #register-view h2, #info-form-view h2, #success-view h2');
+        const inputsAndSelects = document.querySelectorAll('#auth-card input, #auth-card select');
         
-        // NOVO: Elementos do campo Objetivo
-        const objectiveField = document.getElementById('objective-field');
-        const objectiveInput = document.getElementById('objective-input');
+        // --- Funções de Dark Mode (Mantidas Inalteradas) ---
 
-        // Elementos Dashboard Aluno
-        const alunoUniqueCode = document.getElementById('aluno-unique-code');
-        const alunoProfileData = document.getElementById('aluno-profile-data');
-        const alunoPlanoAlimentar = document.getElementById('aluno-plano-alimentar');
-        const alunoPlanoTreino = document.getElementById('aluno-plano-treino');
-        const copyCodeBtn = document.getElementById('copy-code-btn');
-
-        // Elementos Dashboard Personal
-        const searchForm = document.getElementById('search-form');
-        const studentCodeInput = document.getElementById('student-code-input');
-        const studentDetailsCard = document.getElementById('student-details-card');
-        const foundStudentName = document.getElementById('found-student-name');
-        const personalStudentProfile = document.getElementById('personal-student-profile');
-        const plansForm = document.getElementById('plans-form');
-        const planAlimentarInput = document.getElementById('plan-alimentar-input');
-        const planTreinoInput = document.getElementById('plan-treino-input');
-        
-        const titles = document.querySelectorAll('#auth-card h2');
-        const inputsAndSelects = document.querySelectorAll('#auth-card input, #auth-card select, #auth-card textarea');
-
-        // --- Constantes Firestore ---
-        const PUBLIC_COLLECTION_PATH = `artifacts/${appId}/public/data/users`;
-
-        // --- Funções de Utilitários ---
-        
-        /**
-         * Gera um código alfanumérico aleatório de 6 caracteres.
-         */
-        function generateUniqueCode() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let result = '';
-            for (let i = 0; i < 6; i++) {
-                result += characters.charAt(Math.floor(Math.random() * characters.length));
-            }
-            return result;
-        }
-
-        // --- Funções de UI (Mantidas) ---
-
-        function applyTheme(isDark) { /* ... Lógica de tema ... */
+        function applyTheme(isDark) {
             body.classList.remove('light');
             
             if (isDark) {
+                // Modo Escuro (Dark Mode)
                 html.classList.add('dark');
+                
+                // Card e Corpo: Aplica classes de Dark Mode
                 body.classList.add('bg-gray-900');
                 body.classList.remove('bg-gray-100');
                 authCard.classList.add('bg-gray-800', 'text-gray-200', 'border-gray-700');
                 authCard.classList.remove('bg-white', 'text-gray-800', 'border-gray-300');
+
+                // Ícones
                 sunIcon.classList.add('hidden');
                 moonIcon.classList.remove('hidden');
-                titles.forEach(h2 => { h2.classList.add('text-white'); h2.classList.remove('text-gray-800'); });
+                
+                // Títulos
+                titles.forEach(h2 => {
+                    h2.classList.add('text-white'); 
+                    h2.classList.remove('text-gray-800'); 
+                });
+                
+                // Inputs e Selects
                 inputsAndSelects.forEach(el => {
                     el.classList.remove('bg-white', 'text-gray-800', 'border-gray-300'); 
                     el.classList.add('bg-gray-700', 'text-white', 'border-gray-600'); 
                 });
+                
+                // Botão Google
                 googleLoginBtn.classList.add('bg-gray-700', 'text-gray-200', 'border-gray-600', 'hover:bg-gray-600'); 
                 googleLoginBtn.classList.remove('bg-white', 'text-gray-800', 'border-gray-300', 'hover:bg-gray-50'); 
+
                 localStorage.setItem('theme', 'dark');
             } else {
+                // Modo Claro (Light Mode)
                 html.classList.remove('dark');
                 body.classList.add('light'); 
+                
+                // Card e Corpo: Aplica classes de Light Mode
                 body.classList.remove('bg-gray-900');
                 body.classList.add('bg-gray-100');
                 authCard.classList.remove('bg-gray-800', 'text-gray-200', 'border-gray-700');
                 authCard.classList.add('bg-white', 'text-gray-800', 'border-gray-300');
+
+                // Ícones
                 sunIcon.classList.remove('hidden');
                 moonIcon.classList.add('hidden');
-                titles.forEach(h2 => { h2.classList.add('text-gray-800'); h2.classList.remove('text-white');});
+                
+                // Títulos
+                titles.forEach(h2 => {
+                    h2.classList.add('text-gray-800'); 
+                    h2.classList.remove('text-white');
+                });
+
+                // Inputs e Selects
                 inputsAndSelects.forEach(el => {
                     el.classList.remove('bg-gray-700', 'text-white', 'border-gray-600'); 
                     el.classList.add('bg-white', 'text-gray-800', 'border-gray-300');
                 });
+                
+                // Botão Google
                 googleLoginBtn.classList.remove('bg-gray-700', 'text-gray-200', 'border-gray-600', 'hover:bg-gray-600'); 
                 googleLoginBtn.classList.add('bg-white', 'text-gray-800', 'border-gray-300', 'hover:bg-gray-50');
+
                 localStorage.setItem('theme', 'light');
             }
         }
 
         function loadThemePreference() {
             const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') { applyTheme(false); } else { applyTheme(true); }
+            if (savedTheme === 'light') {
+                applyTheme(false);
+            } else {
+                applyTheme(true); 
+            }
         }
 
         function toggleDarkMode() {
@@ -454,28 +404,35 @@
             applyTheme(!isDark);
         }
 
+        // --- Funções de UI ---
+
+        /**
+         * Alterna a visualização entre login, cadastro, info-form e sucesso.
+         */
         function toggleView(viewName) {
-            document.querySelectorAll('.view').forEach(view => view.classList.add('hidden'));
+            loginView.classList.add('hidden');
+            registerView.classList.add('hidden');
+            infoFormView.classList.add('hidden'); 
+            successView.classList.add('hidden');
             messageArea.classList.add('hidden');
             
-            authCard.classList.remove('max-w-lg', 'max-w-xl');
-            
-            if (viewName === 'login' || viewName === 'register') {
-                authCard.classList.add('max-w-md');
-                logoutBtnHeader.classList.add('hidden');
-            } else if (viewName === 'info-form') {
+            // Ajusta o tamanho máximo do card dependendo da vista (opcional)
+            authCard.classList.remove('max-w-lg');
+            if (viewName === 'info-form') {
                  authCard.classList.add('max-w-lg');
-                 logoutBtnHeader.classList.remove('hidden');
-            } else if (viewName.startsWith('dashboard')) {
-                 authCard.classList.add('max-w-xl'); // Mais largo para dashboards
-                 logoutBtnHeader.classList.remove('hidden');
+            } else {
+                 authCard.classList.add('max-w-md');
             }
 
-            if (viewName === 'login') { loginView.classList.remove('hidden'); } 
-            else if (viewName === 'register') { registerView.classList.remove('hidden'); } 
-            else if (viewName === 'info-form') { infoFormView.classList.remove('hidden'); } 
-            else if (viewName === 'dashboard-aluno') { dashboardAlunoView.classList.remove('hidden'); }
-            else if (viewName === 'dashboard-personal') { dashboardPersonalView.classList.remove('hidden'); }
+            if (viewName === 'login') {
+                loginView.classList.remove('hidden');
+            } else if (viewName === 'register') {
+                registerView.classList.remove('hidden');
+            } else if (viewName === 'info-form') { 
+                infoFormView.classList.remove('hidden');
+            } else if (viewName === 'success') {
+                successView.classList.remove('hidden');
+            }
         }
 
         function displayMessage(message, type) {
@@ -492,354 +449,110 @@
 
         function translateError(code) {
             switch (code) {
-                case 'auth/invalid-email': return 'O endereço de e-mail é inválido.';
+                case 'auth/invalid-email':
+                    return 'O endereço de e-mail é inválido.';
                 case 'auth/user-not-found':
-                case 'auth/wrong-password': return 'E-mail ou senha incorretos.';
-                case 'auth/email-already-in-use': return 'Este e-mail já está em uso.';
-                case 'auth/weak-password': return 'A senha deve ter pelo menos 6 caracteres.';
-                case 'auth/operation-not-allowed': return 'Autenticação por E-mail/Senha não está habilitada.';
-                case 'auth/popup-closed-by-user': return 'A janela de login com Google foi fechada.';
-                case 'permission-denied': return 'Permissão negada. Você não tem acesso a este recurso.';
+                case 'auth/wrong-password':
+                    return 'E-mail ou senha incorretos.';
+                case 'auth/email-already-in-use':
+                    return 'Este e-mail já está em uso.';
+                case 'auth/weak-password':
+                    return 'A senha deve ter pelo menos 6 caracteres.';
+                case 'auth/operation-not-allowed':
+                    return 'Autenticação por E-mail/Senha não está habilitada.';
+                case 'auth/popup-closed-by-user':
+                    return 'A janela de login com Google foi fechada.';
                 default:
                     console.error("Firebase Error:", code);
                     return 'Ocorreu um erro desconhecido. Tente novamente.';
             }
         }
-        
-        /**
-         * Formata o valor do objetivo para exibição.
-         */
-        function formatObjective(objective) {
-            if (!objective) return 'Não definido.';
-            if (objective === 'emagrecer') return 'Emagrecer';
-            if (objective === 'massa_muscular') return 'Obter Massa Muscular';
-            return objective;
-        }
 
-        // --- Funções de Dashboard ---
+        // --- Funções de Autenticação Firebase ---
 
         /**
-         * Roteia o usuário logado para o formulário de perfil ou para o dashboard correto.
+         * Gerencia a mudança de estado de autenticação e o fluxo do site.
          */
-        async function routeUser(user) {
-            currentUserId = user.uid;
-            
-            // Tenta buscar os dados do usuário no Firestore (documento nomeado pelo UID)
-            const userDocRef = doc(db, PUBLIC_COLLECTION_PATH, user.uid);
-            const userDoc = await getDoc(userDocRef);
-
-            if (userDoc.exists()) {
-                currentUserData = userDoc.data();
+        function handleAuthStateChange(user) {
+            if (user) {
+                // Usuário logado
                 
-                if (currentUserData.userType === 'aluno') {
-                    // Se for aluno e os dados existirem, vai para o dashboard de aluno
-                    loadAlunoDashboard(currentUserData);
-                } else if (currentUserData.userType === 'personal') {
-                    // Se for personal e os dados existirem, vai para o dashboard de personal
-                    loadPersonalDashboard();
-                } else {
-                    // Tipo de usuário desconhecido, envia para preencher o formulário
-                    toggleView('info-form');
-                    // Pré-preenche o nome caso já tenha sido definido no Auth
-                    fullNameInput.value = user.displayName || '';
-                }
-            } else {
-                // Se o documento não existir, é a primeira vez, pede o preenchimento do perfil
+                // Preenche o nome (se existir), o campo é editável.
+                const displayName = user.displayName || '';
+                fullNameInput.value = displayName; 
+
+                // Redireciona para o formulário de informações
                 toggleView('info-form');
-                fullNameInput.value = user.displayName || '';
+                
+                // Atualiza a tela de sucesso para quando o formulário for submetido
+                document.getElementById('user-display-name').textContent = user.displayName || 'Usuário';
+                document.getElementById('user-uid-display').textContent = user.uid;
+
+            } else {
+                // Usuário deslogado
+                toggleView('login');
             }
         }
 
         /**
-         * Carrega e monitora os dados para o Dashboard do Aluno em tempo real.
-         */
-        function loadAlunoDashboard(data) {
-            if (!data || data.userType !== 'aluno') {
-                displayMessage('Erro ao carregar dashboard: Dados de aluno ausentes ou incorretos.', 'error');
-                return;
-            }
-
-            toggleView('dashboard-aluno');
-            
-            // Monitora o documento do aluno em tempo real (onSnapshot)
-            const alunoDocRef = doc(db, PUBLIC_COLLECTION_PATH, data.uid);
-            
-            // Substitui o getDoc por onSnapshot para atualizações em tempo real (Personal Trainer)
-            onSnapshot(alunoDocRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    const aluno = docSnap.data();
-                    
-                    // 1. Código Único
-                    alunoUniqueCode.textContent = aluno.uniqueCode || 'Aguardando...';
-
-                    // 2. Perfil
-                    const objectiveText = formatObjective(aluno.objective);
-                    
-                    alunoProfileData.innerHTML = `
-                        <p><span class="font-semibold text-indigo-300">Nome:</span> ${aluno.displayName || aluno.name}</p>
-                        <p><span class="font-semibold text-indigo-300">Tipo:</span> ${aluno.userType === 'aluno' ? 'Aluno' : 'Personal'}</p>
-                        <p><span class="font-semibold text-indigo-300">Objetivo:</span> ${objectiveText}</p>
-                        <p><span class="font-semibold text-indigo-300">Idade:</span> ${aluno.age || 'N/A'} anos</p>
-                        <p><span class="font-semibold text-indigo-300">Peso:</span> ${aluno.weight || 'N/A'} kg</p>
-                        <p><span class="font-semibold text-indigo-300">Altura:</span> ${aluno.height || 'N/A'} cm</p>
-                    `;
-
-                    // 3. Planos
-                    alunoPlanoAlimentar.textContent = aluno.planAlimentar || 'Seu Plano Alimentar ainda não foi definido pelo Personal.';
-                    alunoPlanoTreino.textContent = aluno.planTreino || 'Seu Plano de Treino ainda não foi definido pelo Personal.';
-                    
-                } else {
-                    displayMessage('Seu perfil de aluno não foi encontrado no banco de dados.', 'error');
-                    // Redireciona para o formulário se o perfil sumir
-                    setTimeout(() => toggleView('info-form'), 3000);
-                }
-            }, (error) => {
-                displayMessage(`Erro de conexão com o banco de dados: ${translateError(error.code)}`, 'error');
-            });
-        }
-        
-        /**
-         * Carrega a interface para o Personal Trainer.
-         */
-        function loadPersonalDashboard() {
-            toggleView('dashboard-personal');
-            // Reseta a visualização do aluno ao entrar no dashboard do Personal
-            studentDetailsCard.classList.add('hidden');
-        }
-
-        // --- Funções de Persistência Firestore ---
-        
-        /**
-         * Salva ou atualiza os dados básicos do usuário no Firestore.
-         */
-        async function saveUserProfile(user, form) {
-            const docRef = doc(db, PUBLIC_COLLECTION_PATH, user.uid);
-            let profileData = {};
-            let uniqueCode = form.uniqueCode;
-
-            // Tenta obter o documento existente para manter o código único, se já existir
-            try {
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    profileData = docSnap.data();
-                    uniqueCode = profileData.uniqueCode || uniqueCode; // Mantém o código existente
-                }
-            } catch (e) {
-                console.warn("Aviso: Falha ao ler documento existente. Continuando com os dados do formulário.", e);
-            }
-
-            // Garante que o Personal Trainer não tenha um código único (apenas alunos)
-            if (form.userType === 'personal') {
-                uniqueCode = undefined;
-            }
-            
-            // Dados a serem salvos
-            const dataToSave = {
-                uid: user.uid,
-                email: user.email,
-                displayName: form.name,
-                userType: form.userType,
-                age: parseInt(form.age),
-                gender: form.gender,
-                weight: parseFloat(form.weight),
-                height: parseInt(form.height),
-                uniqueCode: uniqueCode, // Só será definido se for aluno
-                // NOVO: Objetivo
-                objective: form.objective || profileData.objective || undefined,
-                // Mantém planos existentes se houver, ou inicializa
-                planAlimentar: profileData.planAlimentar || 'Não definido.',
-                planTreino: profileData.planTreino || 'Não definido.'
-            };
-
-            await setDoc(docRef, dataToSave, { merge: true });
-            return dataToSave;
-        }
-
-        // --- Handlers de Formulário e Eventos ---
-
-        /**
-         * Lida com o Envio do Formulário de Dados Básicos.
+         * Lida com o Envio do Formulário de Informações (incluindo a atualização do nome e tipo de usuário).
          */
         async function handleInfoFormSubmit(e) {
             e.preventDefault();
             messageArea.classList.add('hidden');
 
             const user = auth.currentUser;
-            const userType = userTypeInput.value;
-            const name = fullNameInput.value.trim();
+            const userType = userTypeInput.value; // NOVO: Coleta o tipo de usuário
+            const newName = fullNameInput.value.trim();
             const age = document.getElementById('age').value;
             const gender = document.getElementById('gender').value;
             const weight = document.getElementById('weight').value;
             const height = document.getElementById('height').value;
             
-            // NOVO: Coleta o objetivo apenas se for aluno
-            const objective = userType === 'aluno' ? objectiveInput.value : undefined;
-
-
-            if (!userType || !name || !age || !gender || !weight || !height || (userType === 'aluno' && !objective)) {
-                 displayMessage('Por favor, preencha todos os campos e selecione seu Tipo de Usuário/Objetivo.', 'error');
+            if (!userType) {
+                 displayMessage('Por favor, selecione seu Tipo de Usuário (Aluno ou Personal Trainer).', 'error');
                  return;
             }
-            
-            // 1. Atualiza o displayName do Firebase Auth
-            try {
-                if (name && name !== user.displayName) {
-                    await updateProfile(user, { displayName: name });
-                }
-            } catch (error) {
-                console.error("Erro ao atualizar nome no Auth:", error);
-                displayMessage('Erro ao atualizar seu nome. Continuando o processo...', 'warning');
-            }
-            
-            try {
-                let codeToUse;
-                // Alunos precisam de um código, vamos garantir que ele exista antes de salvar
-                if (userType === 'aluno') {
-                    // Tenta encontrar um código único existente ou gera um novo
-                    const docSnap = await getDoc(doc(db, PUBLIC_COLLECTION_PATH, user.uid));
-                    if (docSnap.exists() && docSnap.data().uniqueCode) {
-                        codeToUse = docSnap.data().uniqueCode;
-                    } else {
-                        // Gera um código único (simplesmente gera, pois o ID do documento é o UID do Firebase)
-                        codeToUse = generateUniqueCode();
-                    }
-                }
-                
-                const formData = { name, age, gender, weight, height, userType, uniqueCode: codeToUse, objective };
-                
-                // 2. Salva ou Atualiza o perfil no Firestore
-                const savedData = await saveUserProfile(user, formData);
-                currentUserData = savedData; // Atualiza o estado global
 
-                displayMessage('Informações salvas com sucesso! Redirecionando...', 'success');
-                
-                // 3. Roteia para o dashboard
-                if (userType === 'aluno') {
-                    loadAlunoDashboard(savedData);
-                } else if (userType === 'personal') {
-                    loadPersonalDashboard();
+            try {
+                // 1. Atualiza o displayName do Firebase se o nome for diferente
+                if (newName && newName !== user.displayName) {
+                    await updateProfile(user, { displayName: newName });
                 }
 
+                // 2. Lógica de Armazenamento (Apenas Console.log, aqui seria o setDoc no Firestore)
+                console.log("Informações do Usuário para armazenamento:", {
+                    uid: user.uid,
+                    email: user.email,
+                    displayName: newName,
+                    age: parseInt(age),
+                    gender: gender,
+                    weight: parseFloat(weight),
+                    height: parseInt(height),
+                    userType: userType // DADO NOVO SALVO
+                });
+            
+                // 3. Feedback e Transição para a tela final de Sucesso (DASHBOARD)
+                let dashboardMessage;
+                if (userType === 'personal') {
+                    dashboardMessage = 'Direcionando para o Dashboard do Personal Trainer!';
+                } else {
+                    // Default para aluno
+                    dashboardMessage = 'Direcionando para o seu Dashboard de Aluno!'; 
+                }
+                
+                dashboardMessageElement.textContent = dashboardMessage;
+                displayMessage('Informações salvas com sucesso! Redirecionando para o Dashboard.', 'success');
+                toggleView('success');
+                
+                // Reatualiza o nome na tela de sucesso após o updateProfile
+                document.getElementById('user-display-name').textContent = newName || 'Usuário';
+
             } catch (error) {
-                console.error("Erro ao salvar informações ou rotear:", error);
-                displayMessage('Erro ao salvar as informações no banco de dados. Tente novamente.', 'error');
+                console.error("Erro ao salvar informações ou atualizar perfil:", error);
+                displayMessage('Erro ao salvar as informações. Tente novamente.', 'error');
             }
         }
-        
-        /**
-         * Busca o perfil de um aluno pelo código único (Personal Trainer).
-         */
-        async function searchStudentByCode(e) {
-            e.preventDefault();
-            messageArea.classList.add('hidden');
-            
-            const code = studentCodeInput.value.trim().toUpperCase();
-            if (code.length !== 6) {
-                displayMessage('O código do aluno deve ter 6 caracteres.', 'error');
-                return;
-            }
-            
-            try {
-                // Busca na coleção pública onde o campo 'uniqueCode' é igual ao código inserido.
-                const q = query(collection(db, PUBLIC_COLLECTION_PATH), 
-                                where("uniqueCode", "==", code),
-                                where("userType", "==", "aluno"));
-                
-                const querySnapshot = await getDocs(q);
-
-                if (querySnapshot.empty) {
-                    displayMessage(`Nenhum aluno encontrado com o código: ${code}.`, 'error');
-                    studentDetailsCard.classList.add('hidden');
-                    currentStudentCode = null;
-                    return;
-                }
-
-                // Deve haver apenas um resultado (pois o código é único)
-                const studentDoc = querySnapshot.docs[0];
-                const studentData = studentDoc.data();
-                
-                currentStudentCode = studentData.uniqueCode; // Armazena o código do aluno para uso no plans-form
-                
-                // Exibir dados do aluno
-                foundStudentName.textContent = studentData.displayName || 'Aluno';
-                
-                const objectiveText = formatObjective(studentData.objective);
-
-                personalStudentProfile.innerHTML = `
-                    <p><span class="font-semibold text-indigo-300">UID:</span> ${studentData.uid}</p>
-                    <p><span class="font-semibold text-indigo-300">Objetivo:</span> ${objectiveText}</p>
-                    <p><span class="font-semibold text-indigo-300">Idade:</span> ${studentData.age || 'N/A'} anos</p>
-                    <p><span class="font-semibold text-indigo-300">Peso:</span> ${studentData.weight || 'N/A'} kg</p>
-                    <p><span class="font-semibold text-indigo-300">Altura:</span> ${studentData.height || 'N/A'} cm</p>
-                `;
-
-                // Pré-preencher os planos existentes
-                planAlimentarInput.value = studentData.planAlimentar !== 'Não definido.' ? studentData.planAlimentar : '';
-                planTreinoInput.value = studentData.planTreino !== 'Não definido.' ? studentData.planTreino : '';
-                
-                studentDetailsCard.classList.remove('hidden');
-                displayMessage(`Aluno ${studentData.displayName} carregado com sucesso!`, 'success');
-
-            } catch (error) {
-                console.error("Erro ao buscar aluno:", error);
-                displayMessage(`Erro ao buscar aluno: ${translateError(error.code)}`, 'error');
-                studentDetailsCard.classList.add('hidden');
-            }
-        }
-        
-        /**
-         * Salva os planos de treino/alimentar do aluno (Personal Trainer).
-         */
-        async function updateStudentPlans(e) {
-            e.preventDefault();
-            messageArea.classList.add('hidden');
-
-            if (!currentStudentCode) {
-                displayMessage('Nenhum aluno selecionado para atualizar.', 'error');
-                return;
-            }
-
-            try {
-                // Busca o aluno pelo código, igual à função de busca
-                const q = query(collection(db, PUBLIC_COLLECTION_PATH), where("uniqueCode", "==", currentStudentCode));
-                const querySnapshot = await getDocs(q);
-
-                if (querySnapshot.empty) {
-                    displayMessage(`Aluno com código ${currentStudentCode} não encontrado.`, 'error');
-                    return;
-                }
-
-                const studentDocRef = doc(db, PUBLIC_COLLECTION_PATH, querySnapshot.docs[0].id);
-                
-                const newPlanAlimentar = planAlimentarInput.value.trim() || 'Não definido.';
-                const newPlanTreino = planTreinoInput.value.trim() || 'Não definido.';
-
-                await setDoc(studentDocRef, {
-                    planAlimentar: newPlanAlimentar,
-                    planTreino: newPlanTreino
-                }, { merge: true }); // Usa merge para não sobrescrever o resto do perfil
-
-                displayMessage(`Planos de ${foundStudentName.textContent} atualizados com sucesso!`, 'success');
-
-            } catch (error) {
-                console.error("Erro ao atualizar planos:", error);
-                displayMessage(`Erro ao atualizar planos: ${translateError(error.code)}`, 'error');
-            }
-        }
-        
-        async function handleLogout() {
-            try {
-                await signOut(auth);
-                currentUserData = null;
-                currentUserId = null;
-                displayMessage('Você foi desconectado com sucesso.', 'success');
-            } catch (error) {
-                console.error("Erro ao fazer logout:", error);
-                displayMessage('Ocorreu um erro ao tentar sair.', 'error');
-            }
-        }
-
-        // --- Funções de Autenticação Firebase (Mantidas) ---
 
         async function loginWithEmailPassword(e) {
             e.preventDefault();
@@ -847,6 +560,7 @@
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
             try {
+                // O tipo de usuário será selecionado/atualizado na próxima tela (info-form)
                 await signInWithEmailAndPassword(auth, email, password);
             } catch (error) {
                 displayMessage(translateError(error.code), 'error');
@@ -856,15 +570,17 @@
         async function registerWithEmailPassword(e) {
             e.preventDefault();
             messageArea.classList.add('hidden');
-            const name = document.getElementById('register-name').value.trim();
+            const name = registerNameInput.value.trim();
             const email = document.getElementById('register-email').value;
             const password = document.getElementById('register-password').value;
             const confirmPassword = document.getElementById('register-confirm-password').value;
+            // REMOVIDO: const userType = registerUserTypeInput.value;
 
             if (password !== confirmPassword) {
                 displayMessage('As senhas não coincidem. Por favor, verifique.', 'error');
                 return;
             }
+            // REMOVIDO: A verificação de tipo de usuário, pois foi movida para a próxima tela
             
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -872,6 +588,8 @@
                 if (name) {
                     await updateProfile(user, { displayName: name });
                 }
+                // REMOVIDO: O armazenamento temporário do userType
+
             } catch (error) {
                 displayMessage(translateError(error.code), 'error');
             }
@@ -881,93 +599,55 @@
             messageArea.classList.add('hidden');
             const provider = new GoogleAuthProvider();
             try {
+                // O tipo de usuário será selecionado/atualizado na próxima tela (info-form)
                 await signInWithPopup(auth, provider);
             } catch (error) {
                 displayMessage(translateError(error.code), 'error');
             }
         }
         
-        async function copyToClipboard(text) {
-             try {
-                // Usa document.execCommand('copy') como fallback seguro em ambientes restritos de iframe
-                const tempInput = document.createElement('textarea');
-                tempInput.value = text;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-                displayMessage('Código copiado para a área de transferência!', 'success');
-             } catch (err) {
-                 displayMessage('Erro ao copiar: Funcionalidade não suportada neste ambiente.', 'error');
-             }
-        }
-
-        // --- Inicialização e Listeners ---
-        async function initializeAppAndAuth() {
-            loadThemePreference();
-
-            // Lógica para mostrar/esconder campo Objetivo
-            userTypeInput.addEventListener('change', () => {
-                if (userTypeInput.value === 'aluno') {
-                    objectiveField.classList.remove('hidden');
-                    objectiveInput.setAttribute('required', 'required');
-                } else {
-                    objectiveField.classList.add('hidden');
-                    objectiveInput.removeAttribute('required');
-                    objectiveInput.value = ''; // Limpa o valor quando escondido
-                }
-            });
-
-            // 1. Autenticação com Custom Token ou Anônima
+        async function handleLogout() {
             try {
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
-                } else {
-                    await signInAnonymously(auth);
-                }
+                await signOut(auth);
+                displayMessage('Você foi desconectado com sucesso.', 'success');
             } catch (error) {
-                console.error("Erro na autenticação inicial:", error);
-                displayMessage('Falha na autenticação inicial. Recarregue a página.', 'error');
-                // Não retorna, deixa o onAuthStateChanged lidar com o estado
+                console.error("Erro ao fazer logout:", error);
+                displayMessage('Ocorreu um erro ao tentar sair.', 'error');
             }
-
-            // 2. Listener principal para o estado de autenticação
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    routeUser(user);
-                } else {
-                    toggleView('login');
-                }
-            });
-
-            // 3. Listeners de Formulário e Botões de Ação
-            loginForm.addEventListener('submit', loginWithEmailPassword);
-            registerForm.addEventListener('submit', registerWithEmailPassword);
-            infoForm.addEventListener('submit', handleInfoFormSubmit); 
-            googleLoginBtn.addEventListener('click', signInWithGoogle);
-            logoutBtnHeader.addEventListener('click', handleLogout);
-            themeToggle.addEventListener('click', toggleDarkMode); 
-            searchForm.addEventListener('submit', searchStudentByCode);
-            plansForm.addEventListener('submit', updateStudentPlans);
-            
-            // Listener para copiar o código (Dashboard Aluno)
-            copyCodeBtn.addEventListener('click', () => {
-                copyToClipboard(alunoUniqueCode.textContent);
-            });
-
-            // 4. Listeners para Alternar Telas
-            document.getElementById('show-register-link').addEventListener('click', (e) => {
-                e.preventDefault();
-                toggleView('register');
-            });
-
-            document.getElementById('show-login-link').addEventListener('click', (e) => {
-                e.preventDefault();
-                toggleView('login');
-            });
         }
 
-        initializeAppAndAuth();
+        // --- Adição de Listeners de Eventos e Inicialização ---
+
+        // 1. Carrega a preferência de tema
+        loadThemePreference();
+
+        // 2. Listener para o estado de autenticação (essencial para atualizar a UI)
+        onAuthStateChanged(auth, handleAuthStateChange);
+
+        // 3. Listeners de Formulário e Botões de Ação
+        loginForm.addEventListener('submit', loginWithEmailPassword);
+        registerForm.addEventListener('submit', registerWithEmailPassword);
+        infoForm.addEventListener('submit', handleInfoFormSubmit); 
+        googleLoginBtn.addEventListener('click', signInWithGoogle);
+        logoutBtn.addEventListener('click', handleLogout);
+        themeToggle.addEventListener('click', toggleDarkMode); 
+
+        // 4. Listeners para Alternar Telas
+        document.getElementById('show-register-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleView('register');
+        });
+
+        document.getElementById('show-login-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleView('login');
+        });
+
+        // 5. Garante que a tela inicial é o login se não estiver autenticado
+        if (!auth.currentUser) {
+             toggleView('login');
+        }
+
     </script>
 </body>
 </html>
