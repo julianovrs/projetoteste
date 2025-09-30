@@ -151,6 +151,17 @@
                            class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
                 </div>
                 
+                <!-- NOVO CAMPO: Tipo de Usuário -->
+                <div>
+                    <label for="register-user-type" class="block text-sm font-medium mb-1">Tipo de Usuário</label>
+                    <select id="register-user-type" required
+                            class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white appearance-none pr-8">
+                        <option value="" disabled selected>Selecione seu papel</option>
+                        <option value="aluno">Aluno</option>
+                        <option value="personal">Personal Trainer</option>
+                    </select>
+                </div>
+                
                 <button type="submit"
                         class="w-full py-2 px-4 rounded-lg text-white font-semibold bg-green-600 hover:bg-green-700 transition duration-150 shadow-md">
                     Criar Conta
@@ -166,7 +177,6 @@
         </div>
         
         <!-- 3. NOVA TELA: Cadastro de Informações Pessoais -->
-        <!-- O max-w-md (o default do card) já é responsivo e funciona bem para este formulário. -->
         <div id="info-form-view" class="view hidden">
             <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Complete seu Perfil</h2>
             <p class="text-center text-gray-400 mb-6">Preencha os dados básicos de saúde.</p>
@@ -228,11 +238,12 @@
 
         <!-- 4. Tela de Sucesso (Será usada APÓS o preenchimento das informações) -->
         <div id="success-view" class="view hidden text-center p-8">
+            <!-- Ícone de sucesso -->
             <svg class="mx-auto h-16 w-16 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
-            <!-- Título de Sucesso -->
-            <h2 class="text-2xl font-bold text-white mt-4">Bem-vindo(a)!</h2>
+            <!-- Título de Sucesso - AGORA MOSTRA O DASHBOARD -->
+            <h2 class="text-2xl font-bold text-white mt-4"><span id="dashboard-message">Bem-vindo(a)!</span></h2>
             <p class="mt-2">Seu perfil está completo, <span id="user-display-name" class="font-semibold text-indigo-400"></span>.</p>
             <p class="text-sm mt-1">Seu ID de usuário (UID) é: <span id="user-uid-display" class="font-mono text-xs bg-gray-700 p-1 rounded text-gray-300"></span></p>
 
@@ -295,6 +306,10 @@
 
         const registerNameInput = document.getElementById('register-name');
         const fullNameInput = document.getElementById('full-name'); 
+        // NOVO INPUT: Tipo de Usuário
+        const registerUserTypeInput = document.getElementById('register-user-type');
+        const dashboardMessageElement = document.getElementById('dashboard-message');
+
 
         // Seletores para elementos que precisam de ajuste fino dinâmico
         const titles = document.querySelectorAll('#login-view h2, #register-view h2, #info-form-view h2, #success-view h2');
@@ -458,11 +473,12 @@
             if (user) {
                 // Usuário logado
                 
-                // AJUSTE: Preenche o nome (se existir), agora o campo é editável.
+                // Preenche o nome (se existir), o campo é editável.
                 const displayName = user.displayName || '';
                 fullNameInput.value = displayName; 
 
                 // Redireciona para o formulário de informações
+                // Em um app real, o tipo de usuário seria lido do Firestore aqui.
                 toggleView('info-form');
                 
                 // Atualiza a tela de sucesso para quando o formulário for submetido
@@ -476,7 +492,7 @@
         }
 
         /**
-         * Lida com o Envio do Formulário de Informações (incluindo a atualização do nome, se alterado).
+         * Lida com o Envio do Formulário de Informações (incluindo a atualização do nome e tipo de usuário).
          */
         async function handleInfoFormSubmit(e) {
             e.preventDefault();
@@ -489,26 +505,41 @@
             const weight = document.getElementById('weight').value;
             const height = document.getElementById('height').value;
 
+            // RECUPERA o tipo de usuário salvo temporariamente no localStorage
+            const userType = localStorage.getItem('pendingUserType') || 'aluno';
+            localStorage.removeItem('pendingUserType'); // Limpa o temporário
+
             try {
                 // 1. Atualiza o displayName do Firebase se o nome for diferente
                 if (newName && newName !== user.displayName) {
                     await updateProfile(user, { displayName: newName });
                 }
 
-                // 2. Lógica de Armazenamento (Apenas Console.log)
-                console.log("Informações do Usuário para armazenamento:", {
+                // 2. Lógica de Armazenamento (Apenas Console.log, aqui seria o setDoc no Firestore)
+                console.log("Informações do Usuário para armazenamento (Incluindo Tipo):", {
                     uid: user.uid,
                     email: user.email,
                     displayName: newName,
                     age: parseInt(age),
                     gender: gender,
                     weight: parseFloat(weight),
-                    height: parseInt(height)
+                    height: parseInt(height),
+                    userType: userType // DADO NOVO SALVO
                 });
             
-                // 3. Feedback e Transição
-                displayMessage('Informações salvas com sucesso! Bem-vindo(a) ao seu Dashboard.', 'success');
+                // 3. Feedback e Transição para a tela final de Sucesso (DASHBOARD)
+                let dashboardMessage;
+                if (userType === 'personal') {
+                    dashboardMessage = 'Direcionando para o Dashboard do Personal Trainer!';
+                } else {
+                    // Default para aluno ou caso userType seja 'unknown'
+                    dashboardMessage = 'Direcionando para o seu Dashboard de Aluno!'; 
+                }
+                
+                dashboardMessageElement.textContent = dashboardMessage;
+                displayMessage('Informações salvas com sucesso! Redirecionando para o Dashboard.', 'success');
                 toggleView('success');
+                
                 // Reatualiza o nome na tela de sucesso após o updateProfile
                 document.getElementById('user-display-name').textContent = newName || 'Usuário';
 
@@ -525,6 +556,8 @@
             const password = document.getElementById('login-password').value;
             try {
                 await signInWithEmailAndPassword(auth, email, password);
+                // Se o login for bem-sucedido, mas o userType não estiver no localStorage, assume "aluno" ou 
+                // que o tipo será lido do Firestore. Mantemos a lógica simples aqui, sem sobrescrever o tipo.
             } catch (error) {
                 displayMessage(translateError(error.code), 'error');
             }
@@ -537,9 +570,14 @@
             const email = document.getElementById('register-email').value;
             const password = document.getElementById('register-password').value;
             const confirmPassword = document.getElementById('register-confirm-password').value;
+            const userType = registerUserTypeInput.value; // NOVO: Coleta o tipo de usuário
 
             if (password !== confirmPassword) {
                 displayMessage('As senhas não coincidem. Por favor, verifique.', 'error');
+                return;
+            }
+            if (!userType) {
+                displayMessage('Por favor, selecione seu Tipo de Usuário (Aluno ou Personal Trainer).', 'error');
                 return;
             }
 
@@ -549,6 +587,9 @@
                 if (name) {
                     await updateProfile(user, { displayName: name });
                 }
+                // SALVA O TIPO DE USUÁRIO TEMPORARIAMENTE para ser usado na próxima etapa (info form)
+                localStorage.setItem('pendingUserType', userType);
+
             } catch (error) {
                 displayMessage(translateError(error.code), 'error');
             }
@@ -558,6 +599,18 @@
             messageArea.classList.add('hidden');
             const provider = new GoogleAuthProvider();
             try {
+                // ATENÇÃO: No fluxo do Google, o userType NÃO é coletado, pois o campo está na tela de cadastro. 
+                // Para simplificar, se for um novo login via Google, assumimos "aluno" se o tipo não for pré-definido.
+                // Em um app real, o tipo seria solicitado em uma tela separada ou lido do DB.
+                
+                const userType = registerUserTypeInput.value; // Tenta ler, mas pode estar vazio se vier da tela de login
+                if (userType) {
+                    localStorage.setItem('pendingUserType', userType);
+                } else {
+                    // Define 'aluno' como fallback seguro para logins sem tipo pré-selecionado (ex: Google)
+                    localStorage.setItem('pendingUserType', 'aluno');
+                }
+                
                 await signInWithPopup(auth, provider);
             } catch (error) {
                 displayMessage(translateError(error.code), 'error');
