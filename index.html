@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login, Cadastro e Perfil com Firestore</title>
+    <title>Login, Cadastro e Perfil com Persistência</title>
     <!-- Configuração do Tailwind para usar o modo escuro baseado na classe 'dark' no HTML tag -->
     <script>
         tailwind.config = {
@@ -32,9 +32,9 @@
             color: #4b5563; /* gray-700 */
         }
 
-        /* Estilo para lista múltipla de alimentos para se destacar */
+        /* Estilo para lista múltipla de alimentos para se destacar, agora um pouco maior */
         #food-restrictions-input {
-            height: 120px; /* Altura fixa para visualização de múltiplas opções */
+            height: 180px; /* Altura fixa para visualização de múltiplas opções */
         }
         /* Garante que o input múltiplo não tenha a seta padrão */
         select[multiple] {
@@ -196,7 +196,7 @@
                 <div id="aluno-fields" class="space-y-4 hidden pt-2 border-t border-dashed border-gray-600/50">
                     <p class="text-sm text-gray-400 font-semibold pt-2">Informações Adicionais (Aluno)</p>
 
-                    <!-- Limitações Físicas (Opção 'Outra' REMOVIDA) -->
+                    <!-- Limitações Físicas (LISTA FECHADA - SEM OPÇÃO 'OUTRA') -->
                     <div>
                         <label for="physical-limitations-input" class="block text-sm font-medium mb-1">Limitações Físicas</label>
                         <select id="physical-limitations-input"
@@ -212,9 +212,10 @@
                         <p class="text-xs text-gray-500 mt-1">Selecione uma limitação se aplicável.</p>
                     </div>
 
-                    <!-- Alimentos que o aluno não gosta ou não pode comer (Múltipla Seleção GARANTIDA) -->
+                    <!-- Alimentos que o aluno não gosta ou não pode comer (Múltipla Seleção) -->
                     <div>
                         <label for="food-restrictions-input" class="block text-sm font-medium mb-1">Alimentos que Não Gosta/Não Pode Comer</label>
+                        <!-- O atributo 'multiple' torna este campo uma caixa de seleção com múltiplas opções -->
                         <select id="food-restrictions-input" multiple
                                  class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
                             <option value="azeitona">Azeitona</option>
@@ -238,8 +239,11 @@
                             <option value="alho">Alho</option>
                             <option value="pepino">Pepino</option>
                             <option value="ervilha">Ervilha</option>
+                            <option value="coentro">Coentro (Cilantro)</option>
+                            <option value="sardinha">Sardinha</option>
+                            <option value="ostra">Ostra</option>
                         </select>
-                        <p class="text-xs text-gray-500 mt-1">Use **Ctrl/Cmd + clique** para selecionar múltiplos alimentos.</p>
+                        <p class="text-xs text-gray-500 mt-1">Use **Ctrl/Cmd + clique** (ou toque longo no celular) para selecionar múltiplos alimentos.</p>
                     </div>
                 </div>
                 <!-- FIM DOS NOVOS CAMPOS PARA ALUNOS -->
@@ -303,7 +307,7 @@
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         
         // NOVO: Importa funções do Firestore
-        import { getFirestore, doc, setDoc, getDoc, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
         // Sua configuração do Firebase
         const firebaseConfig = {
@@ -341,10 +345,10 @@
         
         const alunoFields = document.getElementById('aluno-fields'); 
         const physicalLimitationsInput = document.getElementById('physical-limitations-input');
-        const foodRestrictionsInput = document.getElementById('food-restrictions-input'); // Select Múltiplo
+        const foodRestrictionsInput = document.getElementById('food-restrictions-input'); 
         const saveInfoBtn = document.getElementById('save-info-btn');
         
-        // ... (Outras variáveis e Funções de Theme/UI/Error mantidas inalteradas) ...
+        // --- Funções de UI/Theme/Error ---
         function applyTheme(isDark) {
             body.classList.remove('light');
             
@@ -441,7 +445,7 @@
         
         userTypeInput.addEventListener('change', updateAlunoFieldsVisibility);
 
-        // NOVO: Função para pré-selecionar múltiplas opções em um select
+        // Função para pré-selecionar múltiplas opções em um select (usada para carregar dados)
         function setMultipleSelectOptions(selectElement, values) {
             if (!selectElement || !Array.isArray(values)) return;
             // Desseleciona tudo primeiro
@@ -457,11 +461,16 @@
             });
         }
         
-        // NOVO: Função para carregar dados do Firestore e preencher o formulário
+        // Função para carregar dados do Firestore e preencher o formulário
         async function loadUserData(uid) {
+            const user = auth.currentUser;
+            
             try {
                 saveInfoBtn.textContent = 'Carregando Dados...';
                 saveInfoBtn.disabled = true;
+
+                // Garante que o nome de exibição (se existir) seja preenchido para edição
+                fullNameInput.value = user.displayName || '';
 
                 const docRef = doc(db, "users_data", uid);
                 const docSnap = await getDoc(docRef);
@@ -469,8 +478,8 @@
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     
-                    // Preenche campos comuns
-                    fullNameInput.value = data.displayName || auth.currentUser.displayName || '';
+                    // Preenche campos comuns (preserva o displayName do Auth se não houver no Firestore)
+                    fullNameInput.value = data.displayName || user.displayName || '';
                     ageInput.value = data.age || '';
                     genderInput.value = data.gender || '';
                     weightInput.value = data.weight || '';
@@ -505,17 +514,13 @@
             if (user) {
                 // Usuário logado
                 
-                // 1. Define o nome no input do formulário
-                const displayName = user.displayName || '';
-                fullNameInput.value = displayName; 
-
-                // 2. Tenta carregar dados do Firestore
+                // 1. Tenta carregar dados do Firestore
                 loadUserData(user.uid);
                 
-                // 3. Redireciona para o formulário de informações
+                // 2. Redireciona para o formulário de informações
                 toggleView('info-form');
                 
-                // 4. Atualiza a tela de sucesso
+                // 3. Atualiza a tela de sucesso
                 document.getElementById('user-display-name').textContent = user.displayName || 'Usuário';
                 document.getElementById('user-uid-display').textContent = user.uid;
 
@@ -556,7 +561,7 @@
                     weight: parseFloat(weightInput.value) || null,
                     height: parseInt(heightInput.value) || null,
                     userType: userType,
-                    updatedAt: new Date() // Adiciona timestamp de atualização
+                    updatedAt: new Date()
                 };
                 
                 // Adiciona campos de Aluno se o tipo for 'aluno'
@@ -566,13 +571,13 @@
                     userData.foodRestrictions = Array.from(foodRestrictionsInput.selectedOptions).map(option => option.value);
                 } else {
                     // Limpa dados específicos de aluno caso o usuário mude para "Personal"
-                    delete userData.physicalLimitations;
-                    delete userData.foodRestrictions;
+                    // (O Firestore não limpa automaticamente, então podemos evitar salvar estes campos)
+                    // No entanto, como estamos usando 'merge: true', é melhor deixar o merge funcionar
                 }
                 
                 // 3. Salva os dados no Firestore (Coleção: users_data, Documento: uid)
                 const docRef = doc(db, "users_data", uid);
-                await setDoc(docRef, userData, { merge: true }); // Usamos merge para não sobrescrever outros campos futuros
+                await setDoc(docRef, userData, { merge: true });
 
                 // 4. Feedback e Transição para a tela final de Sucesso (DASHBOARD)
                 const dashboardMessage = userType === 'personal' ? 
@@ -594,7 +599,7 @@
             }
         }
 
-        // --- Funções de Autenticação (Mantidas Inalteradas) ---
+        // --- Funções de Autenticação ---
         async function loginWithEmailPassword(e) {
             e.preventDefault();
             messageArea.classList.add('hidden');
