@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<!-- AJUSTE: O modo escuro agora é definido como padrão ao carregar a página -->
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login e Cadastro Firebase</title>
+    <!-- Configuração do Tailwind para usar o modo escuro baseado na classe 'dark' no HTML tag -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <!-- Carrega o Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuração da fonte Inter e estilos base -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estilização para Placeholders no Dark Mode Padrão (Melhor legibilidade) */
+        input::placeholder {
+            color: #9ca3af; /* gray-400 */
+            opacity: 1; 
+        }
+        /* Garantindo que o placeholder seja escuro no Light Mode */
+        .light input::placeholder,
+        .light #auth-card input::placeholder {
+            color: #4b5563; /* gray-600 */
+        }
+    </style>
+</head>
+<!-- AJUSTE: Cor de fundo padrão para Dark Mode (bg-gray-900) -->
+<body class="min-h-screen flex items-center justify-center p-4 transition-colors duration-300 bg-gray-900"> 
+
+    <!-- Container Principal do Cartão de Autenticação -->
+    <!-- AJUSTE: Cores de card e texto padrão para Dark Mode (bg-gray-800, text-gray-200) -->
+    <div id="auth-card" class="w-full max-w-md p-8 sm:p-10 rounded-xl shadow-2xl transition-all duration-300 dark:shadow-none border border-gray-700 bg-gray-800 text-gray-200">
+        
+        <!-- Botão de Alternância de Modo Escuro -->
+        <div class="flex justify-end mb-4">
+            <button id="theme-toggle" class="p-2 rounded-full text-gray-300 hover:text-indigo-400 transition duration-300">
+                <!-- Ícone SVG - O estado inicial (Moon) é visível no Dark Mode padrão -->
+                <svg id="sun-icon" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                <svg id="moon-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Área de Mensagens de Erro/Sucesso -->
+        <div id="message-area" class="mb-4 hidden p-3 rounded-lg text-sm transition-opacity duration-300" role="alert"></div>
+
+        <!-- 1. Tela de Login -->
+        <div id="login-view" class="view">
+            <!-- AJUSTE: Cor do Título padrão para Dark Mode (text-white) -->
+            <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Acesse sua Conta</h2>
+
+            <!-- Formulário de Login -->
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label for="login-email" class="block text-sm font-medium mb-1">E-mail</label>
+                    <input type="email" id="login-email" placeholder="seu@email.com" required
+                           class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                </div>
+                <div>
+                    <label for="login-password" class="block text-sm font-medium mb-1">Senha</label>
+                    <input type="password" id="login-password" placeholder="••••••••" required
+                           class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                </div>
+                
+                <button type="submit"
+                        class="w-full py-2 px-4 rounded-lg text-white font-semibold bg-indigo-600 hover:bg-indigo-700 transition duration-150 shadow-md">
+                    Entrar
+                </button>
+            </form>
+
+            <div class="my-6 flex items-center">
+                <div class="flex-grow border-t border-gray-700"></div>
+                <span class="flex-shrink mx-4 text-sm">OU</span>
+                <div class="flex-grow border-t border-gray-700"></div>
+            </div>
+
+            <!-- AJUSTE: Cores do Botão Google padrão para Dark Mode (text-gray-200, bg-gray-700) -->
+            <button id="google-login-btn"
+                    class="w-full flex items-center justify-center py-2 px-4 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-200 bg-gray-700 hover:bg-gray-600 transition duration-150">
+                <!-- Ícone Google (SVG inline) -->
+                <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48">
+                    <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.158,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.684,43.868,21.327,43.611,20.083z"/>
+                    <path fill="#FF3D00" d="M6.306 14.691L11.41 18.257C13.204 16.292 14.004 14.072 14.004 12C14.004 9.928 13.204 7.708 11.41 5.743L6.306 9.309C5.541 10.334 5.148 11.167 5.148 12C5.148 12.833 5.541 13.666 6.306 14.691z"/>
+                    <path fill="#4CAF50" d="M24 44C12.955 44 4 35.045 4 24C4 22.684 4.132 21.327 4.389 20.083H1.944C1.353 21.378 1 22.673 1 24C1 37.807 12.193 49 26 49C29.626 49 33.024 48.219 35.91 46.853L30.253 42.275C28.483 43.141 26.242 43.5 24 43.5z"/>
+                    <path fill="#1976D2" d="M43.611 20.083C43.868 21.327 44 22.684 44 24C44 25.316 43.868 26.673 43.611 27.917L42 27.917L30.253 32.535C30.253 32.535 30.253 32.535 30.253 32.535L35.91 37.113C38.796 35.747 41.677 32.866 43.611 27.917z"/>
+                </svg>
+                Entrar com Google
+            </button>
+
+            <p class="mt-6 text-center text-sm">
+                Não tem uma conta?
+                <a href="#" id="show-register-link" class="font-medium text-indigo-400 hover:text-indigo-300">
+                    Criar conta
+                </a>
+            </p>
+        </div>
+
+        <!-- 2. Tela de Cadastro -->
+        <div id="register-view" class="view hidden">
+            <!-- AJUSTE: Cor do Título padrão para Dark Mode (text-white) -->
+            <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Crie sua Conta</h2>
+
+            <!-- Formulário de Cadastro -->
+            <form id="register-form" class="space-y-4">
+                <div>
+                    <label for="register-name" class="block text-sm font-medium mb-1">Nome Completo</label>
+                    <input type="text" id="register-name" placeholder="Seu Nome" required
+                           class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                </div>
+                <div>
+                    <label for="register-email" class="block text-sm font-medium mb-1">E-mail</label>
+                    <input type="email" id="register-email" placeholder="seu@email.com" required
+                           class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                </div>
+                <div>
+                    <label for="register-password" class="block text-sm font-medium mb-1">Senha</label>
+                    <input type="password" id="register-password" placeholder="Mínimo 6 caracteres" required
+                           class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                </div>
+                <div>
+                    <label for="register-confirm-password" class="block text-sm font-medium mb-1">Confirme a Senha</label>
+                    <input type="password" id="register-confirm-password" placeholder="Repita a senha" required
+                           class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                </div>
+                
+                <button type="submit"
+                        class="w-full py-2 px-4 rounded-lg text-white font-semibold bg-green-600 hover:bg-green-700 transition duration-150 shadow-md">
+                    Criar Conta
+                </button>
+            </form>
+
+            <p class="mt-6 text-center text-sm">
+                Já tem uma conta?
+                <a href="#" id="show-login-link" class="font-medium text-indigo-400 hover:text-indigo-300">
+                    Fazer Login
+                </a>
+            </p>
+        </div>
+
+        <!-- 3. Tela de Sucesso (Após login/cadastro) -->
+        <div id="success-view" class="view hidden text-center p-8">
+            <svg class="mx-auto h-16 w-16 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <!-- Título de Sucesso -->
+            <h2 class="text-2xl font-bold text-white mt-4">Login Bem-Sucedido!</h2>
+            <p class="mt-2">Bem-vindo(a), <span id="user-display-name" class="font-semibold text-indigo-400"></span>.</p>
+            <p class="text-sm mt-1">Seu ID de usuário (UID) é: <span id="user-uid-display" class="font-mono text-xs bg-gray-700 p-1 rounded text-gray-300"></span></p>
+
+            <button id="logout-btn"
+                    class="mt-8 py-2 px-4 rounded-lg text-white font-semibold bg-red-600 hover:bg-red-700 transition duration-150 shadow-md">
+                Sair
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript e Inicialização do Firebase -->
+    <script type="module">
+        // Importa as funções necessárias do Firebase SDK (versão CDN)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { 
+            getAuth, 
+            signInWithEmailAndPassword, 
+            createUserWithEmailAndPassword, 
+            GoogleAuthProvider, 
+            signInWithPopup, 
+            onAuthStateChanged,
+            signOut,
+            updateProfile 
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDhTtTqh0e4D2k-g9Lufzih4A9HSsIDKPM",
+            authDomain: "projeto-personal-6ed7e.firebaseapp.com",
+            projectId: "projeto-personal-6ed7e",
+            storageBucket: "projeto-personal-6ed7e.firebasestorage.app",
+            messagingSenderId: "312968986005",
+            appId: "1:312968986005:web:26324c8313d12ad3cc8a9c",
+            measurementId: "G-7E8595YF2S"
+        };
+
+        // Inicializa o Firebase e o Auth
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // --- Variáveis de Elementos DOM ---
+        const html = document.documentElement; 
+        const body = document.body; 
+        const authCard = document.getElementById('auth-card');
+        
+        const loginView = document.getElementById('login-view');
+        const registerView = document.getElementById('register-view');
+        const successView = document.getElementById('success-view');
+        const messageArea = document.getElementById('message-area');
+        const themeToggle = document.getElementById('theme-toggle');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const googleLoginBtn = document.getElementById('google-login-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        const registerNameInput = document.getElementById('register-name');
+
+        // Seletores para elementos que precisam de ajuste fino dinâmico
+        const titles = document.querySelectorAll('#login-view h2, #register-view h2, #success-view h2');
+        const inputs = document.querySelectorAll('#auth-card input');
+        
+        // --- Funções de Dark Mode ---
+
+        /**
+         * Aplica ou remove a classe 'dark' do elemento <html> e salva a preferência.
+         */
+        function applyTheme(isDark) {
+            // Adiciona a classe 'light' ao body no modo claro para o placeholder CSS customizado
+            body.classList.remove('light');
+            
+            if (isDark) {
+                // Modo Escuro (Dark Mode)
+                html.classList.add('dark');
+                
+                // Card e Corpo: Aplica classes de Dark Mode
+                body.classList.add('bg-gray-900');
+                body.classList.remove('bg-gray-100');
+                authCard.classList.add('bg-gray-800', 'text-gray-200', 'border-gray-700');
+                authCard.classList.remove('bg-white', 'text-gray-800', 'border-gray-300');
+
+                // Ícones
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+                
+                // Títulos: Garante cor branca (text-white)
+                titles.forEach(h2 => {
+                    h2.classList.add('text-white'); 
+                    h2.classList.remove('text-gray-800'); 
+                });
+                
+                // Inputs: Garante cores de Dark Mode
+                inputs.forEach(input => {
+                    input.classList.remove('bg-white', 'text-gray-800', 'border-gray-300'); 
+                    input.classList.add('bg-gray-700', 'text-white', 'border-gray-600'); 
+                });
+                
+                // Botão Google: Garante cores de Dark Mode
+                googleLoginBtn.classList.add('bg-gray-700', 'text-gray-200', 'border-gray-600', 'hover:bg-gray-600'); 
+                googleLoginBtn.classList.remove('bg-white', 'text-gray-800', 'border-gray-300', 'hover:bg-gray-50'); 
+
+                localStorage.setItem('theme', 'dark');
+            } else {
+                // Modo Claro (Light Mode)
+                html.classList.remove('dark');
+                body.classList.add('light'); // Marca o body para o CSS do placeholder
+                
+                // Card e Corpo: Aplica classes de Light Mode
+                body.classList.remove('bg-gray-900');
+                body.classList.add('bg-gray-100');
+                authCard.classList.remove('bg-gray-800', 'text-gray-200', 'border-gray-700');
+                authCard.classList.add('bg-white', 'text-gray-800', 'border-gray-300');
+
+                // Ícones
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+                
+                // 1. Títulos: Garante cor escura (text-gray-800)
+                titles.forEach(h2 => {
+                    h2.classList.add('text-gray-800'); 
+                    h2.classList.remove('text-white');
+                });
+
+                // 2. Inputs: Garante cores de Light Mode (text-gray-800 para texto/placeholder)
+                inputs.forEach(input => {
+                    input.classList.remove('bg-gray-700', 'text-white', 'border-gray-600'); 
+                    input.classList.add('bg-white', 'text-gray-800', 'border-gray-300');
+                });
+                
+                // 3. Botão Google: Garante cores de Light Mode (branco/texto escuro)
+                googleLoginBtn.classList.remove('bg-gray-700', 'text-gray-200', 'border-gray-600', 'hover:bg-gray-600'); 
+                googleLoginBtn.classList.add('bg-white', 'text-gray-800', 'border-gray-300', 'hover:bg-gray-50');
+
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        /**
+         * Carrega a preferência de tema ao iniciar a página, padronizando para Dark Mode.
+         */
+        function loadThemePreference() {
+            const savedTheme = localStorage.getItem('theme');
+            
+            // AJUSTE: O padrão agora é Dark Mode (true)
+            if (savedTheme === 'light') {
+                applyTheme(false); // Se for explicitamente 'light', aplica Light Mode
+            } else {
+                applyTheme(true); // Caso contrário, aplica Dark Mode
+            }
+        }
+
+        /**
+         * Alterna o tema atual (light <-> dark).
+         */
+        function toggleDarkMode() {
+            const isDark = html.classList.contains('dark');
+            applyTheme(!isDark);
+        }
+
+        // --- Funções de UI (Interface do Usuário) ---
+
+        /**
+         * Alterna a visualização entre login, cadastro e sucesso.
+         * @param {string} viewName O nome da vista a ser exibida ('login', 'register' ou 'success').
+         */
+        function toggleView(viewName) {
+            loginView.classList.add('hidden');
+            registerView.classList.add('hidden');
+            successView.classList.add('hidden');
+            messageArea.classList.add('hidden');
+            
+            if (viewName === 'login') {
+                loginView.classList.remove('hidden');
+            } else if (viewName === 'register') {
+                registerView.classList.remove('hidden');
+            } else if (viewName === 'success') {
+                successView.classList.remove('hidden');
+            }
+        }
+
+        /**
+         * Exibe uma mensagem de feedback (erro ou sucesso).
+         * @param {string} message A mensagem a ser exibida.
+         * @param {string} type O tipo de mensagem ('error' ou 'success').
+         */
+        function displayMessage(message, type) {
+            messageArea.textContent = message;
+            messageArea.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700', 'bg-red-900', 'text-red-300', 'bg-green-900', 'text-green-300');
+
+            if (type === 'error') {
+                // Cores para Dark/Light Mode
+                messageArea.classList.add(html.classList.contains('dark') ? 'bg-red-900' : 'bg-red-100', html.classList.contains('dark') ? 'text-red-300' : 'text-red-700');
+            } else if (type === 'success') {
+                messageArea.classList.add(html.classList.contains('dark') ? 'bg-green-900' : 'bg-green-100', html.classList.contains('dark') ? 'text-green-300' : 'text-green-700');
+            }
+            messageArea.classList.remove('hidden');
+        }
+
+        /**
+         * Converte códigos de erro do Firebase para mensagens amigáveis em Português.
+         * @param {string} code O código de erro do Firebase.
+         * @returns {string} Mensagem de erro em Português.
+         */
+        function translateError(code) {
+            switch (code) {
+                case 'auth/invalid-email':
+                    return 'O endereço de e-mail é inválido.';
+                case 'auth/user-not-found':
+                case 'auth/wrong-password':
+                    return 'E-mail ou senha incorretos.';
+                case 'auth/email-already-in-use':
+                    return 'Este e-mail já está em uso.';
+                case 'auth/weak-password':
+                    return 'A senha deve ter pelo menos 6 caracteres.';
+                case 'auth/operation-not-allowed':
+                    return 'Autenticação por E-mail/Senha não está habilitada.';
+                case 'auth/popup-closed-by-user':
+                    return 'A janela de login com Google foi fechada.';
+                default:
+                    console.error("Firebase Error:", code);
+                    return 'Ocorreu um erro desconhecido. Tente novamente.';
+            }
+        }
+
+        // --- Funções de Autenticação Firebase (Não Alteradas) ---
+
+        /**
+         * Gerencia a mudança de estado de autenticação (login/logout).
+         * @param {object} user O objeto usuário do Firebase ou null.
+         */
+        function handleAuthStateChange(user) {
+            if (user) {
+                // Usuário logado
+                toggleView('success');
+                const displayName = user.displayName || 'Usuário';
+                document.getElementById('user-display-name').textContent = displayName;
+                document.getElementById('user-uid-display').textContent = user.uid;
+                displayMessage(`Você está logado(a) como ${displayName}!`, 'success');
+            } else {
+                // Usuário deslogado
+                toggleView('login');
+            }
+        }
+
+        /**
+         * Lida com o Login por E-mail e Senha.
+         */
+        async function loginWithEmailPassword(e) {
+            e.preventDefault();
+            messageArea.classList.add('hidden');
+
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            try {
+                // Tenta fazer o login
+                await signInWithEmailAndPassword(auth, email, password);
+                // A UI será atualizada automaticamente por onAuthStateChanged
+            } catch (error) {
+                displayMessage(translateError(error.code), 'error');
+            }
+        }
+
+        /**
+         * Lida com o Cadastro de Novo Usuário.
+         */
+        async function registerWithEmailPassword(e) {
+            e.preventDefault();
+            messageArea.classList.add('hidden');
+
+            const name = registerNameInput.value.trim();
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+
+            if (password !== confirmPassword) {
+                displayMessage('As senhas não coincidem. Por favor, verifique.', 'error');
+                return;
+            }
+
+            try {
+                // Cria o usuário
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // Salva o nome do usuário
+                if (name) {
+                    await updateProfile(user, { displayName: name });
+                }
+
+                // A UI será atualizada automaticamente por onAuthStateChanged
+            } catch (error) {
+                displayMessage(translateError(error.code), 'error');
+            }
+        }
+
+        /**
+         * Lida com o Login usando Google Pop-up.
+         */
+        async function signInWithGoogle() {
+            messageArea.classList.add('hidden');
+            const provider = new GoogleAuthProvider();
+            try {
+                // Abre o pop-up de login com Google
+                await signInWithPopup(auth, provider);
+                // A UI será atualizada automaticamente por onAuthStateChanged
+            } catch (error) {
+                displayMessage(translateError(error.code), 'error');
+            }
+        }
+        
+        /**
+         * Lida com o Logout.
+         */
+        async function handleLogout() {
+            try {
+                await signOut(auth);
+                displayMessage('Você foi desconectado com sucesso.', 'success');
+            } catch (error) {
+                console.error("Erro ao fazer logout:", error);
+                displayMessage('Ocorreu um erro ao tentar sair.', 'error');
+            }
+        }
+
+        // --- Adição de Listeners de Eventos e Inicialização ---
+
+        // 1. Carrega a preferência de tema (agora, inicia em Dark Mode se for a primeira vez)
+        loadThemePreference();
+
+        // 2. Listener para o estado de autenticação (essencial para atualizar a UI)
+        onAuthStateChanged(auth, handleAuthStateChange);
+
+        // 3. Listeners de Formulário e Botões de Ação
+        loginForm.addEventListener('submit', loginWithEmailPassword);
+        registerForm.addEventListener('submit', registerWithEmailPassword);
+        googleLoginBtn.addEventListener('click', signInWithGoogle);
+        logoutBtn.addEventListener('click', handleLogout);
+        themeToggle.addEventListener('click', toggleDarkMode); // Listener do Dark Mode
+
+        // 4. Listeners para Alternar Telas
+        document.getElementById('show-register-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleView('register');
+        });
+
+        document.getElementById('show-login-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleView('login');
+        });
+
+        // 5. Garante que a tela inicial é o login se não estiver autenticado
+        if (!auth.currentUser) {
+             toggleView('login');
+        }
+
+    </script>
+</body>
+</html>
