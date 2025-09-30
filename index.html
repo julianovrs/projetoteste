@@ -4,15 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login, Cadastro e Perfil com Persistência</title>
-    <!-- Configuração do Tailwind para usar o modo escuro baseado na classe 'dark' no HTML tag -->
     <script>
         tailwind.config = {
             darkMode: 'class',
         }
     </script>
-    <!-- Carrega o Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Configuração da fonte Inter e estilos base -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         body {
@@ -31,8 +28,8 @@
         .light select {
             color: #4b5563; /* gray-700 */
         }
-        /* Estilo para tags (chips) */
-        .food-tag {
+        /* Estilo para tags (chips) - Usado tanto para Alimentos quanto Limitações */
+        .restriction-tag {
             display: inline-flex;
             align-items: center;
             padding: 4px 10px;
@@ -46,10 +43,8 @@
 </head>
 <body class="min-h-screen flex items-center justify-center p-4 transition-colors duration-300 bg-gray-900"> 
 
-    <!-- Container Principal do Cartão de Autenticação/Informações -->
     <div id="auth-card" class="w-full max-w-md p-8 sm:p-10 rounded-xl shadow-2xl transition-all duration-300 dark:shadow-none border border-gray-700 bg-gray-800 text-gray-200">
         
-        <!-- Botão de Alternância de Modo Escuro -->
         <div class="flex justify-end mb-4">
             <button id="theme-toggle" class="p-2 rounded-full text-gray-300 hover:text-indigo-400 transition duration-300">
                 <svg id="sun-icon" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -61,10 +56,8 @@
             </button>
         </div>
 
-        <!-- Área de Mensagens de Erro/Sucesso -->
         <div id="message-area" class="mb-4 hidden p-3 rounded-lg text-sm transition-opacity duration-300" role="alert"></div>
 
-        <!-- 1. Tela de Login -->
         <div id="login-view" class="view">
             <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Acesse sua Conta</h2>
             <form id="login-form" class="space-y-4">
@@ -110,7 +103,6 @@
             </p>
         </div>
 
-        <!-- 2. Tela de Cadastro -->
         <div id="register-view" class="view hidden">
             <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Crie sua Conta</h2>
             <form id="register-form" class="space-y-4">
@@ -149,14 +141,12 @@
             </p>
         </div>
         
-        <!-- 3. TELA DE INFORMAÇÕES PESSOAIS (DADOS BÁSICOS) -->
         <div id="info-form-view" class="view hidden">
             <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Seu Perfil</h2>
             <p class="text-center text-gray-400 mb-6">Preencha ou atualize seus dados.</p>
             
             <form id="info-form" class="space-y-4">
 
-                <!-- CAMPO TIPO DE USUÁRIO (Controla visibilidade dos campos de aluno) -->
                 <div>
                     <label for="user-type-input" class="block text-sm font-medium mb-1">Tipo de Usuário</label>
                     <select id="user-type-input" required
@@ -167,21 +157,18 @@
                     </select>
                 </div>
                 
-                <!-- Nome Completo (EDITÁVEL) -->
                 <div>
                     <label for="full-name" class="block text-sm font-medium mb-1">Nome Completo</label>
                     <input type="text" id="full-name" placeholder="Nome Completo" 
                            class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
                 </div>
 
-                <!-- Idade -->
                 <div>
                     <label for="age" class="block text-sm font-medium mb-1">Idade</label>
                     <input type="number" id="age" placeholder="Ex: 30" min="1" max="150" required
                            class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
                 </div>
 
-                <!-- Gênero (Select) -->
                 <div>
                     <label for="gender" class="block text-sm font-medium mb-1">Gênero</label>
                     <select id="gender" required
@@ -192,31 +179,26 @@
                     </select>
                 </div>
 
-                <!-- NOVOS CAMPOS EXCLUSIVOS PARA ALUNOS -->
                 <div id="aluno-fields" class="space-y-4 hidden pt-2 border-t border-dashed border-gray-600/50">
                     <p class="text-sm text-gray-400 font-semibold pt-2">Informações Adicionais (Aluno)</p>
 
-                    <!-- Limitações Físicas (SELEÇÃO ÚNICA - Conforme solicitado) -->
                     <div>
-                        <label for="physical-limitations-input" class="block text-sm font-medium mb-1">Limitações Físicas</label>
-                        <select id="physical-limitations-input"
-                                 class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white appearance-none pr-8">
-                            <option value="nenhuma" selected>Nenhuma Limitação</option>
-                            <option value="joelho">Dor/Lesão no Joelho</option>
-                            <option value="coluna">Dor/Lesão na Coluna (Lombar, Cervical)</option>
-                            <option value="ombro">Dor/Lesão no Ombro</option>
-                            <option value="cardio">Problemas Cardiovasculares (Hipertensão, etc.)</option>
-                            <option value="respiratorio">Problemas Respiratórios (Asma, Bronquite)</option>
-                            <option value="diabetes">Diabetes</option>
-                        </select>
-                        <p class="text-xs text-gray-500 mt-1">Selecione uma limitação se aplicável.</p>
+                        <label class="block text-sm font-medium mb-1">Limitações Físicas</label>
+                        <div id="selected-limitations-tags" class="flex flex-wrap gap-2 p-2 min-h-[40px] border border-gray-600 rounded-lg focus-within:border-indigo-500 transition duration-150 bg-gray-700/50">
+                            <span id="no-limitations-selected" class="text-sm text-gray-400">Nenhuma limitação selecionada.</span>
+                        </div>
+                        
+                        <button type="button" id="add-limitations-btn"
+                                class="mt-2 w-full py-2 px-4 rounded-lg text-white font-semibold bg-indigo-500 hover:bg-indigo-600 transition duration-150 flex items-center justify-center text-sm">
+                            <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                            Adicionar/Editar Limitações
+                        </button>
+                        <p class="text-xs text-gray-500 mt-1">Clique acima para selecionar múltiplas limitações físicas (se houver).</p>
                     </div>
 
-                    <!-- Alimentos que o aluno não gosta ou não pode comer (Custom UI com Tags e Botão '+') -->
                     <div>
                         <label class="block text-sm font-medium mb-1">Alimentos que Não Gosta/Não Pode Comer</label>
                         <div id="selected-food-tags" class="flex flex-wrap gap-2 p-2 min-h-[40px] border border-gray-600 rounded-lg focus-within:border-indigo-500 transition duration-150 bg-gray-700/50">
-                            <!-- Tags serão injetadas aqui pelo JS -->
                             <span id="no-foods-selected" class="text-sm text-gray-400">Nenhum alimento selecionado.</span>
                         </div>
                         
@@ -228,18 +210,13 @@
                         <p class="text-xs text-gray-500 mt-1">Clique acima para selecionar múltiplos alimentos.</p>
                     </div>
                 </div>
-                <!-- FIM DOS NOVOS CAMPOS PARA ALUNOS -->
-
-                <!-- Peso e Altura -->
                 <div class="grid grid-cols-2 gap-4">
-                    <!-- Peso -->
                     <div>
                         <label for="weight" class="block text-sm font-medium mb-1">Peso (kg)</label>
                         <input type="number" id="weight" placeholder="Ex: 75.5" step="0.1" min="1" required
                                  class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
                     </div>
 
-                    <!-- Altura -->
                     <div>
                         <label for="height" class="block text-sm font-medium mb-1">Altura (cm)</label>
                         <input type="number" id="height" placeholder="Ex: 175" step="1" min="50" required
@@ -247,7 +224,6 @@
                     </div>
                 </div>
 
-                <!-- Botão de Enviar -->
                 <button type="submit" id="save-info-btn"
                          class="w-full py-2 px-4 mt-4 rounded-lg text-white font-semibold bg-indigo-600 hover:bg-indigo-700 transition duration-150 shadow-md">
                     Salvar Informações
@@ -255,13 +231,10 @@
             </form>
         </div>
 
-        <!-- 4. Tela de Sucesso (Dashboard) -->
         <div id="success-view" class="view hidden text-center p-8">
-            <!-- Ícone de sucesso -->
             <svg class="mx-auto h-16 w-16 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
-            <!-- Título de Sucesso -->
             <h2 class="text-2xl font-bold text-white mt-4"><span id="dashboard-message">Bem-vindo(a)!</span></h2>
             <p class="mt-2">Seu perfil está completo, <span id="user-display-name" class="font-semibold text-indigo-400"></span>.</p>
             <p class="text-sm mt-1">Seu ID de usuário (UID) é: <span id="user-uid-display" class="font-mono text-xs bg-gray-700 p-1 rounded text-gray-300"></span></p>
@@ -273,21 +246,31 @@
         </div>
     </div>
 
-    <!-- Modal para Seleção de Alimentos -->
     <div id="food-selection-modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 hidden flex items-center justify-center p-4">
         <div class="bg-gray-800 p-6 rounded-xl w-full max-w-sm border border-gray-700 shadow-2xl">
             <h3 class="text-xl font-bold mb-4 text-white">Selecione os Alimentos Restritos</h3>
             <div id="food-checklist-container" class="space-y-2 max-h-60 overflow-y-auto pr-2">
-                <!-- Checkboxes serão injetados aqui pelo JS -->
-            </div>
-            <button type="button" id="close-food-modal-btn"
+                </div>
+            <button type="button" id="close-food-modal-btn" data-modal="food"
                     class="mt-6 w-full py-2 px-4 rounded-lg text-white font-semibold bg-green-600 hover:bg-green-700 transition duration-150">
                 Confirmar Seleção
             </button>
         </div>
     </div>
 
-    <!-- JavaScript e Inicialização do Firebase -->
+    <div id="limitations-selection-modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-gray-800 p-6 rounded-xl w-full max-w-sm border border-gray-700 shadow-2xl">
+            <h3 class="text-xl font-bold mb-4 text-white">Selecione as Limitações</h3>
+            <div id="limitations-checklist-container" class="space-y-2 max-h-60 overflow-y-auto pr-2">
+                </div>
+            <button type="button" id="close-limitations-modal-btn" data-modal="limitations"
+                    class="mt-6 w-full py-2 px-4 rounded-lg text-white font-semibold bg-green-600 hover:bg-green-700 transition duration-150">
+                Confirmar Seleção
+            </button>
+        </div>
+    </div>
+
+
     <script type="module">
         // Importa as funções necessárias do Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -321,7 +304,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app); // Inicializa o Firestore
 
-        // --- Dados de Alimentos ---
+        // --- Dados de Opções ---
         const FOOD_OPTIONS = [
             { value: "azeitona", label: "Azeitona" },
             { value: "figado", label: "Fígado de boi" },
@@ -349,8 +332,18 @@
             { value: "ostra", label: "Ostra" },
         ];
         
-        // --- Estado Local para Restrições Alimentares ---
+        const LIMITATION_OPTIONS = [
+            { value: "joelho", label: "Dor/Lesão no Joelho" },
+            { value: "coluna", label: "Dor/Lesão na Coluna (Lombar, Cervical)" },
+            { value: "ombro", label: "Dor/Lesão no Ombro" },
+            { value: "cardio", label: "Problemas Cardiovasculares (Hipertensão, etc.)" },
+            { value: "respiratorio", label: "Problemas Respiratórios (Asma, Bronquite)" },
+            { value: "diabetes", label: "Diabetes" },
+        ];
+
+        // --- Estado Local para Seleções Múltiplas ---
         let selectedFoodRestrictions = [];
+        let selectedPhysicalLimitations = []; // NOVO ESTADO
 
         // --- Variáveis de Elementos DOM ---
         const html = document.documentElement; 
@@ -371,17 +364,24 @@
         const heightInput = document.getElementById('height');
         
         const alunoFields = document.getElementById('aluno-fields'); 
-        const physicalLimitationsInput = document.getElementById('physical-limitations-input');
         const saveInfoBtn = document.getElementById('save-info-btn');
         
-        // Elementos da nova funcionalidade de Múltipla Seleção (Alimentos)
+        // Elementos de Restrições Alimentares
         const selectedFoodTagsContainer = document.getElementById('selected-food-tags');
         const addFoodRestrictionBtn = document.getElementById('add-food-restriction-btn');
         const foodSelectionModal = document.getElementById('food-selection-modal');
         const foodChecklistContainer = document.getElementById('food-checklist-container');
         const closeFoodModalBtn = document.getElementById('close-food-modal-btn');
+
+        // Elementos de Limitações Físicas (NOVOS)
+        const selectedLimitationsTagsContainer = document.getElementById('selected-limitations-tags');
+        const addLimitationsBtn = document.getElementById('add-limitations-btn');
+        const limitationsSelectionModal = document.getElementById('limitations-selection-modal');
+        const limitationsChecklistContainer = document.getElementById('limitations-checklist-container');
+        const closeLimitationsModalBtn = document.getElementById('close-limitations-modal-btn');
         
-        // --- Funções de UI/Theme/Error ---
+        // --- Funções de UI/Theme/Error (MANTIDAS) ---
+
         function applyTheme(isDark) {
             body.classList.remove('light');
             
@@ -478,57 +478,84 @@
         
         userTypeInput.addEventListener('change', updateAlunoFieldsVisibility);
 
-        // --- Funções de Restrições Alimentares (Tags e Modal) ---
         
-        function renderFoodTags() {
-            selectedFoodTagsContainer.innerHTML = '';
+        // --- Funções de Seleção Múltipla (Generalizadas) ---
+
+        /** Renderiza as tags selecionadas em um container. */
+        function renderTags(selectedValues, options, container) {
+            container.innerHTML = '';
             
-            if (selectedFoodRestrictions.length === 0) {
-                selectedFoodTagsContainer.innerHTML = '<span id="no-foods-selected" class="text-sm text-gray-400">Nenhum alimento selecionado.</span>';
+            if (selectedValues.length === 0) {
+                const defaultText = container.id.includes('food') ? 'Nenhum alimento selecionado.' : 'Nenhuma limitação selecionada.';
+                container.innerHTML = `<span class="text-sm text-gray-400">${defaultText}</span>`;
                 return;
             }
 
-            selectedFoodRestrictions.forEach(value => {
-                const food = FOOD_OPTIONS.find(f => f.value === value);
-                if (food) {
+            selectedValues.forEach(value => {
+                const item = options.find(f => f.value === value);
+                if (item) {
                     const tag = document.createElement('span');
-                    tag.className = 'food-tag';
-                    tag.textContent = food.label;
-                    selectedFoodTagsContainer.appendChild(tag);
+                    tag.className = 'restriction-tag';
+                    tag.textContent = item.label;
+                    container.appendChild(tag);
                 }
             });
         }
 
-        function openFoodModal() {
-            // 1. Renderiza a lista de checkboxes no modal
-            foodChecklistContainer.innerHTML = '';
-            FOOD_OPTIONS.forEach(food => {
-                const isChecked = selectedFoodRestrictions.includes(food.value);
+        /** Abre o modal de seleção para um conjunto específico de opções. */
+        function openSelectionModal(options, selectedValues, container, modal) {
+            container.innerHTML = '';
+            
+            options.forEach(item => {
+                const isChecked = selectedValues.includes(item.value);
                 const itemHtml = `
                     <label class="flex items-center space-x-3 cursor-pointer p-2 rounded-lg hover:bg-gray-700 transition duration-100">
-                        <input type="checkbox" value="${food.value}" ${isChecked ? 'checked' : ''}
+                        <input type="checkbox" value="${item.value}" ${isChecked ? 'checked' : ''}
                                class="form-checkbox h-5 w-5 text-indigo-500 rounded border-gray-600 bg-gray-600 focus:ring-indigo-500">
-                        <span class="text-sm text-gray-200">${food.label}</span>
+                        <span class="text-sm text-gray-200">${item.label}</span>
                     </label>
                 `;
-                foodChecklistContainer.insertAdjacentHTML('beforeend', itemHtml);
+                container.insertAdjacentHTML('beforeend', itemHtml);
             });
 
-            // 2. Mostra o modal
-            foodSelectionModal.classList.remove('hidden');
+            modal.classList.remove('hidden');
         }
 
-        function closeFoodModal() {
-            // 1. Coleta as seleções e atualiza o estado
-            const checkedBoxes = foodChecklistContainer.querySelectorAll('input[type="checkbox"]:checked');
-            selectedFoodRestrictions = Array.from(checkedBoxes).map(cb => cb.value);
+        /** Fecha o modal e atualiza o estado e as tags. */
+        function closeSelectionModal(container, modal, stateVariable, options, tagContainer) {
+            const checkedBoxes = container.querySelectorAll('input[type="checkbox"]:checked');
+            const newSelections = Array.from(checkedBoxes).map(cb => cb.value);
 
-            // 2. Re-renderiza as tags
-            renderFoodTags();
+            // Atualiza o estado
+            if (modal.id === 'food-selection-modal') {
+                selectedFoodRestrictions = newSelections;
+                renderTags(selectedFoodRestrictions, options, tagContainer);
+            } else if (modal.id === 'limitations-selection-modal') {
+                selectedPhysicalLimitations = newSelections;
+                renderTags(selectedPhysicalLimitations, options, tagContainer);
+            }
 
-            // 3. Esconde o modal
-            foodSelectionModal.classList.add('hidden');
+            modal.classList.add('hidden');
         }
+
+        // --- Configuração dos Modais Específicos ---
+
+        // Alimentos
+        addFoodRestrictionBtn.addEventListener('click', () => {
+            openSelectionModal(FOOD_OPTIONS, selectedFoodRestrictions, foodChecklistContainer, foodSelectionModal);
+        });
+        closeFoodModalBtn.addEventListener('click', () => {
+            closeSelectionModal(foodChecklistContainer, foodSelectionModal, selectedFoodRestrictions, FOOD_OPTIONS, selectedFoodTagsContainer);
+        });
+
+        // Limitações Físicas (NOVO)
+        addLimitationsBtn.addEventListener('click', () => {
+            openSelectionModal(LIMITATION_OPTIONS, selectedPhysicalLimitations, limitationsChecklistContainer, limitationsSelectionModal);
+        });
+        closeLimitationsModalBtn.addEventListener('click', () => {
+            closeSelectionModal(limitationsChecklistContainer, limitationsSelectionModal, selectedPhysicalLimitations, LIMITATION_OPTIONS, selectedLimitationsTagsContainer);
+        });
+
 
         // --- Funções de Carregamento e Persistência ---
 
@@ -561,15 +588,14 @@
                     
                     // Preenche campos de Aluno
                     if (data.userType === 'aluno') {
-                        physicalLimitationsInput.value = data.physicalLimitations || 'nenhuma';
                         
-                        // NOVO: Carrega a lista de restrições alimentares
-                        if (Array.isArray(data.foodRestrictions)) {
-                             selectedFoodRestrictions = data.foodRestrictions;
-                        } else {
-                            selectedFoodRestrictions = [];
-                        }
-                        renderFoodTags();
+                        // NOVO: Carrega Limitações Físicas (Array)
+                        selectedPhysicalLimitations = Array.isArray(data.physicalLimitations) ? data.physicalLimitations : [];
+                        renderTags(selectedPhysicalLimitations, LIMITATION_OPTIONS, selectedLimitationsTagsContainer);
+
+                        // Carrega Restrições Alimentares (Array)
+                        selectedFoodRestrictions = Array.isArray(data.foodRestrictions) ? data.foodRestrictions : [];
+                        renderTags(selectedFoodRestrictions, FOOD_OPTIONS, selectedFoodTagsContainer);
                     }
                     
                     displayMessage('Dados de perfil carregados com sucesso!', 'success');
@@ -594,7 +620,9 @@
                 document.getElementById('user-uid-display').textContent = user.uid;
 
             } else {
+                // Limpa estados ao deslogar
                 selectedFoodRestrictions = [];
+                selectedPhysicalLimitations = [];
                 toggleView('login');
             }
         }
@@ -634,8 +662,9 @@
                 
                 // Adiciona campos de Aluno se o tipo for 'aluno'
                 if (userType === 'aluno') {
-                    userData.physicalLimitations = physicalLimitationsInput.value; 
-                    // NOVO: Salva o array de restrições alimentares
+                    // NOVO: Salva o array de limitações físicas
+                    userData.physicalLimitations = selectedPhysicalLimitations;
+                    // Salva o array de restrições alimentares
                     userData.foodRestrictions = selectedFoodRestrictions;
                 }
                 
@@ -643,7 +672,7 @@
                 const docRef = doc(db, "users_data", uid);
                 await setDoc(docRef, userData, { merge: true });
 
-                // 4. Feedback e Transição para a tela final de Sucesso (DASHBOARD)
+                // 4. Feedback e Transição
                 const dashboardMessage = userType === 'personal' ? 
                                          'Direcionando para o Dashboard do Personal Trainer!' : 
                                          'Direcionando para o seu Dashboard de Aluno!';
@@ -663,7 +692,7 @@
             }
         }
 
-        // --- Funções de Autenticação ---
+        // --- Funções de Autenticação (MANTIDAS) ---
         async function loginWithEmailPassword(e) {
             e.preventDefault();
             messageArea.classList.add('hidden');
@@ -713,10 +742,12 @@
         async function handleLogout() {
             try {
                 await signOut(auth);
-                // Limpa o estado local
+                // Limpa o estado local e os campos visuais
                 document.getElementById('info-form').reset(); 
                 selectedFoodRestrictions = [];
-                renderFoodTags();
+                selectedPhysicalLimitations = [];
+                renderTags(selectedFoodRestrictions, FOOD_OPTIONS, selectedFoodTagsContainer);
+                renderTags(selectedPhysicalLimitations, LIMITATION_OPTIONS, selectedLimitationsTagsContainer);
                 displayMessage('Você foi desconectado com sucesso.', 'success');
             } catch (error) {
                 console.error("Erro ao fazer logout:", error);
@@ -735,10 +766,6 @@
         document.getElementById('logout-btn').addEventListener('click', handleLogout);
         document.getElementById('theme-toggle').addEventListener('click', toggleDarkMode); 
 
-        // Listeners para a nova funcionalidade de alimentos
-        addFoodRestrictionBtn.addEventListener('click', openFoodModal);
-        closeFoodModalBtn.addEventListener('click', closeFoodModal);
-
         document.getElementById('show-register-link').addEventListener('click', (e) => {
             e.preventDefault();
             toggleView('register');
@@ -756,3 +783,8 @@
     </script>
 </body>
 </html>
+```eof
+
+O formulário agora permite a **seleção de múltiplos itens** tanto para **Limitações Físicas** quanto para **Restrições Alimentares**, usando a mesma interface visual de tags e modal de checklist.
+
+Qual outra seção do perfil do aluno você gostaria de adicionar ou modificar?
