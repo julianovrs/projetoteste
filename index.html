@@ -31,16 +31,16 @@
         .light select {
             color: #4b5563; /* gray-700 */
         }
-
-        /* Estilo para lista múltipla de alimentos para se destacar, agora um pouco maior */
-        #food-restrictions-input {
-            height: 180px; /* Altura fixa para visualização de múltiplas opções */
-        }
-        /* Garante que o input múltiplo não tenha a seta padrão */
-        select[multiple] {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
+        /* Estilo para tags (chips) */
+        .food-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 9999px; /* rounded-full */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500;
+            background-color: #4f46e5; /* indigo-600 */
+            color: white;
         }
     </style>
 </head>
@@ -196,7 +196,7 @@
                 <div id="aluno-fields" class="space-y-4 hidden pt-2 border-t border-dashed border-gray-600/50">
                     <p class="text-sm text-gray-400 font-semibold pt-2">Informações Adicionais (Aluno)</p>
 
-                    <!-- Limitações Físicas (LISTA FECHADA - SEM OPÇÃO 'OUTRA') -->
+                    <!-- Limitações Físicas (SELEÇÃO ÚNICA - Conforme solicitado) -->
                     <div>
                         <label for="physical-limitations-input" class="block text-sm font-medium mb-1">Limitações Físicas</label>
                         <select id="physical-limitations-input"
@@ -212,38 +212,20 @@
                         <p class="text-xs text-gray-500 mt-1">Selecione uma limitação se aplicável.</p>
                     </div>
 
-                    <!-- Alimentos que o aluno não gosta ou não pode comer (Múltipla Seleção) -->
+                    <!-- Alimentos que o aluno não gosta ou não pode comer (Custom UI com Tags e Botão '+') -->
                     <div>
-                        <label for="food-restrictions-input" class="block text-sm font-medium mb-1">Alimentos que Não Gosta/Não Pode Comer</label>
-                        <!-- O atributo 'multiple' torna este campo uma caixa de seleção com múltiplas opções -->
-                        <select id="food-restrictions-input" multiple
-                                 class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
-                            <option value="azeitona">Azeitona</option>
-                            <option value="figado">Fígado de boi</option>
-                            <option value="ameixa">Ameixa</option>
-                            <option value="damasco">Damasco</option>
-                            <option value="pimentao">Pimentão</option>
-                            <option value="cebola">Cebola</option>
-                            <option value="quiabo">Quiabo</option>
-                            <option value="beterraba">Beterraba</option>
-                            <option value="berinjela">Berinjela</option>
-                            <option value="couve-flor">Couve-flor</option>
-                            <option value="brocolis">Brócolis</option>
-                            <option value="rucula">Rúcula</option>
-                            <option value="repolho">Repolho</option>
-                            <option value="jilo">Jiló</option>
-                            <option value="palmito">Palmito</option>
-                            <option value="tomate">Tomate</option>
-                            <option value="nabo">Nabo</option>
-                            <option value="rabanete">Rabanete</option>
-                            <option value="alho">Alho</option>
-                            <option value="pepino">Pepino</option>
-                            <option value="ervilha">Ervilha</option>
-                            <option value="coentro">Coentro (Cilantro)</option>
-                            <option value="sardinha">Sardinha</option>
-                            <option value="ostra">Ostra</option>
-                        </select>
-                        <p class="text-xs text-gray-500 mt-1">Use **Ctrl/Cmd + clique** (ou toque longo no celular) para selecionar múltiplos alimentos.</p>
+                        <label class="block text-sm font-medium mb-1">Alimentos que Não Gosta/Não Pode Comer</label>
+                        <div id="selected-food-tags" class="flex flex-wrap gap-2 p-2 min-h-[40px] border border-gray-600 rounded-lg focus-within:border-indigo-500 transition duration-150 bg-gray-700/50">
+                            <!-- Tags serão injetadas aqui pelo JS -->
+                            <span id="no-foods-selected" class="text-sm text-gray-400">Nenhum alimento selecionado.</span>
+                        </div>
+                        
+                        <button type="button" id="add-food-restriction-btn"
+                                class="mt-2 w-full py-2 px-4 rounded-lg text-white font-semibold bg-indigo-500 hover:bg-indigo-600 transition duration-150 flex items-center justify-center text-sm">
+                            <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                            Adicionar/Editar Alimentos
+                        </button>
+                        <p class="text-xs text-gray-500 mt-1">Clique acima para selecionar múltiplos alimentos.</p>
                     </div>
                 </div>
                 <!-- FIM DOS NOVOS CAMPOS PARA ALUNOS -->
@@ -291,6 +273,20 @@
         </div>
     </div>
 
+    <!-- Modal para Seleção de Alimentos -->
+    <div id="food-selection-modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-gray-800 p-6 rounded-xl w-full max-w-sm border border-gray-700 shadow-2xl">
+            <h3 class="text-xl font-bold mb-4 text-white">Selecione os Alimentos Restritos</h3>
+            <div id="food-checklist-container" class="space-y-2 max-h-60 overflow-y-auto pr-2">
+                <!-- Checkboxes serão injetados aqui pelo JS -->
+            </div>
+            <button type="button" id="close-food-modal-btn"
+                    class="mt-6 w-full py-2 px-4 rounded-lg text-white font-semibold bg-green-600 hover:bg-green-700 transition duration-150">
+                Confirmar Seleção
+            </button>
+        </div>
+    </div>
+
     <!-- JavaScript e Inicialização do Firebase -->
     <script type="module">
         // Importa as funções necessárias do Firebase SDK
@@ -306,10 +302,10 @@
             updateProfile 
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         
-        // NOVO: Importa funções do Firestore
+        // Importa funções do Firestore
         import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
-        // Sua configuração do Firebase
+        // Sua configuração do Firebase (Mantenha este bloco de código com as variáveis de configuração)
         const firebaseConfig = {
             apiKey: "AIzaSyDhTtTqh0e4D2k-g9Lufzih4A9HSsIDKPM",
             authDomain: "projeto-personal-6ed7e.firebaseapp.com",
@@ -324,6 +320,37 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app); // Inicializa o Firestore
+
+        // --- Dados de Alimentos ---
+        const FOOD_OPTIONS = [
+            { value: "azeitona", label: "Azeitona" },
+            { value: "figado", label: "Fígado de boi" },
+            { value: "ameixa", label: "Ameixa" },
+            { value: "damasco", label: "Damasco" },
+            { value: "pimentao", label: "Pimentão" },
+            { value: "cebola", label: "Cebola" },
+            { value: "quiabo", label: "Quiabo" },
+            { value: "beterraba", label: "Beterraba" },
+            { value: "berinjela", label: "Berinjela" },
+            { value: "couve-flor", label: "Couve-flor" },
+            { value: "brocolis", label: "Brócolis" },
+            { value: "rucula", label: "Rúcula" },
+            { value: "repolho", label: "Repolho" },
+            { value: "jilo", label: "Jiló" },
+            { value: "palmito", label: "Palmito" },
+            { value: "tomate", label: "Tomate" },
+            { value: "nabo", label: "Nabo" },
+            { value: "rabanete", label: "Rabanete" },
+            { value: "alho", label: "Alho" },
+            { value: "pepino", label: "Pepino" },
+            { value: "ervilha", label: "Ervilha" },
+            { value: "coentro", label: "Coentro (Cilantro)" },
+            { value: "sardinha", label: "Sardinha" },
+            { value: "ostra", label: "Ostra" },
+        ];
+        
+        // --- Estado Local para Restrições Alimentares ---
+        let selectedFoodRestrictions = [];
 
         // --- Variáveis de Elementos DOM ---
         const html = document.documentElement; 
@@ -345,8 +372,14 @@
         
         const alunoFields = document.getElementById('aluno-fields'); 
         const physicalLimitationsInput = document.getElementById('physical-limitations-input');
-        const foodRestrictionsInput = document.getElementById('food-restrictions-input'); 
         const saveInfoBtn = document.getElementById('save-info-btn');
+        
+        // Elementos da nova funcionalidade de Múltipla Seleção (Alimentos)
+        const selectedFoodTagsContainer = document.getElementById('selected-food-tags');
+        const addFoodRestrictionBtn = document.getElementById('add-food-restriction-btn');
+        const foodSelectionModal = document.getElementById('food-selection-modal');
+        const foodChecklistContainer = document.getElementById('food-checklist-container');
+        const closeFoodModalBtn = document.getElementById('close-food-modal-btn');
         
         // --- Funções de UI/Theme/Error ---
         function applyTheme(isDark) {
@@ -445,22 +478,60 @@
         
         userTypeInput.addEventListener('change', updateAlunoFieldsVisibility);
 
-        // Função para pré-selecionar múltiplas opções em um select (usada para carregar dados)
-        function setMultipleSelectOptions(selectElement, values) {
-            if (!selectElement || !Array.isArray(values)) return;
-            // Desseleciona tudo primeiro
-            Array.from(selectElement.options).forEach(option => {
-                option.selected = false;
-            });
-            // Seleciona os valores correspondentes
-            values.forEach(value => {
-                const option = selectElement.querySelector(`option[value="${value}"]`);
-                if (option) {
-                    option.selected = true;
+        // --- Funções de Restrições Alimentares (Tags e Modal) ---
+        
+        function renderFoodTags() {
+            selectedFoodTagsContainer.innerHTML = '';
+            
+            if (selectedFoodRestrictions.length === 0) {
+                selectedFoodTagsContainer.innerHTML = '<span id="no-foods-selected" class="text-sm text-gray-400">Nenhum alimento selecionado.</span>';
+                return;
+            }
+
+            selectedFoodRestrictions.forEach(value => {
+                const food = FOOD_OPTIONS.find(f => f.value === value);
+                if (food) {
+                    const tag = document.createElement('span');
+                    tag.className = 'food-tag';
+                    tag.textContent = food.label;
+                    selectedFoodTagsContainer.appendChild(tag);
                 }
             });
         }
-        
+
+        function openFoodModal() {
+            // 1. Renderiza a lista de checkboxes no modal
+            foodChecklistContainer.innerHTML = '';
+            FOOD_OPTIONS.forEach(food => {
+                const isChecked = selectedFoodRestrictions.includes(food.value);
+                const itemHtml = `
+                    <label class="flex items-center space-x-3 cursor-pointer p-2 rounded-lg hover:bg-gray-700 transition duration-100">
+                        <input type="checkbox" value="${food.value}" ${isChecked ? 'checked' : ''}
+                               class="form-checkbox h-5 w-5 text-indigo-500 rounded border-gray-600 bg-gray-600 focus:ring-indigo-500">
+                        <span class="text-sm text-gray-200">${food.label}</span>
+                    </label>
+                `;
+                foodChecklistContainer.insertAdjacentHTML('beforeend', itemHtml);
+            });
+
+            // 2. Mostra o modal
+            foodSelectionModal.classList.remove('hidden');
+        }
+
+        function closeFoodModal() {
+            // 1. Coleta as seleções e atualiza o estado
+            const checkedBoxes = foodChecklistContainer.querySelectorAll('input[type="checkbox"]:checked');
+            selectedFoodRestrictions = Array.from(checkedBoxes).map(cb => cb.value);
+
+            // 2. Re-renderiza as tags
+            renderFoodTags();
+
+            // 3. Esconde o modal
+            foodSelectionModal.classList.add('hidden');
+        }
+
+        // --- Funções de Carregamento e Persistência ---
+
         // Função para carregar dados do Firestore e preencher o formulário
         async function loadUserData(uid) {
             const user = auth.currentUser;
@@ -469,7 +540,6 @@
                 saveInfoBtn.textContent = 'Carregando Dados...';
                 saveInfoBtn.disabled = true;
 
-                // Garante que o nome de exibição (se existir) seja preenchido para edição
                 fullNameInput.value = user.displayName || '';
 
                 const docRef = doc(db, "users_data", uid);
@@ -478,7 +548,7 @@
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     
-                    // Preenche campos comuns (preserva o displayName do Auth se não houver no Firestore)
+                    // Preenche campos comuns
                     fullNameInput.value = data.displayName || user.displayName || '';
                     ageInput.value = data.age || '';
                     genderInput.value = data.gender || '';
@@ -492,13 +562,18 @@
                     // Preenche campos de Aluno
                     if (data.userType === 'aluno') {
                         physicalLimitationsInput.value = data.physicalLimitations || 'nenhuma';
-                        // Preenche o dropdown MÚLTIPLO de restrições alimentares
-                        setMultipleSelectOptions(foodRestrictionsInput, data.foodRestrictions || []);
+                        
+                        // NOVO: Carrega a lista de restrições alimentares
+                        if (Array.isArray(data.foodRestrictions)) {
+                             selectedFoodRestrictions = data.foodRestrictions;
+                        } else {
+                            selectedFoodRestrictions = [];
+                        }
+                        renderFoodTags();
                     }
                     
                     displayMessage('Dados de perfil carregados com sucesso!', 'success');
                 } else {
-                    // Usuário sem dados de perfil ainda
                     displayMessage('Primeiro acesso. Complete seu perfil.', 'success');
                 }
             } catch (error) {
@@ -512,20 +587,14 @@
 
         function handleAuthStateChange(user) {
             if (user) {
-                // Usuário logado
-                
-                // 1. Tenta carregar dados do Firestore
                 loadUserData(user.uid);
-                
-                // 2. Redireciona para o formulário de informações
                 toggleView('info-form');
                 
-                // 3. Atualiza a tela de sucesso
                 document.getElementById('user-display-name').textContent = user.displayName || 'Usuário';
                 document.getElementById('user-uid-display').textContent = user.uid;
 
             } else {
-                // Usuário deslogado
+                selectedFoodRestrictions = [];
                 toggleView('login');
             }
         }
@@ -548,7 +617,6 @@
                 saveInfoBtn.textContent = 'Salvando...';
                 saveInfoBtn.disabled = true;
 
-                // 1. Atualiza o displayName do Firebase Auth (se diferente)
                 if (newName && newName !== user.displayName) {
                     await updateProfile(user, { displayName: newName });
                 }
@@ -567,12 +635,8 @@
                 // Adiciona campos de Aluno se o tipo for 'aluno'
                 if (userType === 'aluno') {
                     userData.physicalLimitations = physicalLimitationsInput.value; 
-                    // Salva a lista de restrições alimentares
-                    userData.foodRestrictions = Array.from(foodRestrictionsInput.selectedOptions).map(option => option.value);
-                } else {
-                    // Limpa dados específicos de aluno caso o usuário mude para "Personal"
-                    // (O Firestore não limpa automaticamente, então podemos evitar salvar estes campos)
-                    // No entanto, como estamos usando 'merge: true', é melhor deixar o merge funcionar
+                    // NOVO: Salva o array de restrições alimentares
+                    userData.foodRestrictions = selectedFoodRestrictions;
                 }
                 
                 // 3. Salva os dados no Firestore (Coleção: users_data, Documento: uid)
@@ -649,10 +713,10 @@
         async function handleLogout() {
             try {
                 await signOut(auth);
-                // Limpa os campos do formulário para o próximo login
+                // Limpa o estado local
                 document.getElementById('info-form').reset(); 
-                // Também limpa as seleções múltiplas
-                setMultipleSelectOptions(foodRestrictionsInput, []);
+                selectedFoodRestrictions = [];
+                renderFoodTags();
                 displayMessage('Você foi desconectado com sucesso.', 'success');
             } catch (error) {
                 console.error("Erro ao fazer logout:", error);
@@ -670,6 +734,10 @@
         document.getElementById('google-login-btn').addEventListener('click', signInWithGoogle);
         document.getElementById('logout-btn').addEventListener('click', handleLogout);
         document.getElementById('theme-toggle').addEventListener('click', toggleDarkMode); 
+
+        // Listeners para a nova funcionalidade de alimentos
+        addFoodRestrictionBtn.addEventListener('click', openFoodModal);
+        closeFoodModalBtn.addEventListener('click', closeFoodModal);
 
         document.getElementById('show-register-link').addEventListener('click', (e) => {
             e.preventDefault();
