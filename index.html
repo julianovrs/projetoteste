@@ -4,11 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login, Cadastro e Perfil com Persistência</title>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-        }
-    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
@@ -521,7 +516,7 @@
             document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
             messageArea.classList.add('hidden');
             
-            authCard.classList.remove('max-w-lg');
+            authCard.classList.remove('max-w-md'); // Garantindo o tamanho certo
             if (viewName === 'info-form' || viewName === 'student-dashboard' || viewName === 'personal-dashboard') {
                  authCard.classList.add('max-w-lg'); 
                  if (viewName === 'info-form') infoFormView.classList.remove('hidden');
@@ -529,10 +524,16 @@
                  if (viewName === 'personal-dashboard') personalDashboardView.classList.remove('hidden');
                  updateAlunoFieldsVisibility();
             } else if (viewName === 'login') {
+                authCard.classList.remove('max-w-lg'); 
+                authCard.classList.add('max-w-md'); 
                 loginView.classList.remove('hidden');
             } else if (viewName === 'register') {
+                authCard.classList.remove('max-w-lg'); 
+                authCard.classList.add('max-w-md'); 
                 registerView.classList.remove('hidden');
             } else if (viewName === 'plan-generation') { 
+                authCard.classList.remove('max-w-lg'); 
+                authCard.classList.add('max-w-md'); 
                 planGenerationView.classList.remove('hidden');
             }
         }
@@ -758,6 +759,7 @@
             }
             
             try {
+                // Requisição de leitura para o documento do aluno
                 const docRef = doc(db, "users_data", searchUid);
                 const docSnap = await getDoc(docRef);
 
@@ -776,7 +778,8 @@
 
             } catch (error) {
                  console.error("Erro ao buscar aluno:", error);
-                 displayMessage('Erro ao buscar o aluno. Verifique o código e a conexão.', 'error');
+                 // Este erro pode ser "Missing or insufficient permissions" se a regra de 'read' não estiver OK.
+                 displayMessage('Erro ao buscar o aluno. Verifique o código e a conexão (e as regras do Firestore).', 'error');
             }
         }
         
@@ -793,19 +796,20 @@
                 const foodRoutine = editFoodRoutineTextarea.value;
                 const trainingRoutine = editTrainingRoutineTextarea.value;
                 
+                // Requisição de escrita para o documento do aluno (não é o UID do Personal)
                 const docRef = doc(db, "users_data", currentEditingStudentUid);
                 await setDoc(docRef, {
                     foodRoutine: foodRoutine,
                     trainingRoutine: trainingRoutine,
                     updatedAt: new Date(),
-                    // Opcional: registrar quem editou: lastUpdatedByPersonal: auth.currentUser.uid 
                 }, { merge: true });
                 
                 displayMessage(`Rotina do aluno ${editingStudentName.textContent} salva com sucesso!`, 'success');
 
             } catch (error) {
                  console.error("Erro ao salvar rotina do aluno:", error);
-                 displayMessage('Erro ao salvar a rotina do aluno. Tente novamente.', 'error');
+                 // Este erro será "Missing or insufficient permissions" se a regra de 'update' para Personal não estiver OK.
+                 displayMessage('Erro ao salvar a rotina do aluno. Tente novamente (e verifique as regras do Firestore).', 'error');
             }
         }
 
@@ -822,6 +826,7 @@
                 fullNameInput.value = user.displayName || '';
                 studentDashboardEmail.textContent = user.email; // Atualiza o email no dashboard
                 
+                // Requisição de leitura para o próprio documento
                 const docRef = doc(db, "users_data", uid);
                 const docSnap = await getDoc(docRef);
 
@@ -884,7 +889,8 @@
                 }
             } catch (error) {
                 console.error("Erro ao carregar dados do usuário:", error);
-                displayMessage('Erro ao carregar dados do perfil. Tente salvar novamente.', 'error');
+                // Este erro será "Missing or insufficient permissions" se a regra de 'read' não estiver OK.
+                displayMessage('Erro ao carregar dados do perfil. Verifique a conexão (e as regras do Firestore).', 'error');
                 toggleView('info-form');
             } finally {
                 saveInfoBtn.textContent = 'Salvar Informações';
@@ -898,11 +904,6 @@
                 selectedPhysicalLimitations = ['nenhuma'];
                 
                 loadUserData(user.uid); 
-                
-                // Os displays de nome e UID agora são feitos em loadUserData ou no dashboard
-                // document.getElementById('user-display-name').textContent = user.displayName || 'Usuário';
-                // document.getElementById('user-uid-display').textContent = user.uid;
-
             } else {
                 selectedFoodRestrictions = [];
                 selectedPhysicalLimitations = ['nenhuma'];
@@ -948,7 +949,6 @@
                     userData.physicalLimitations = selectedPhysicalLimitations; 
                     userData.foodRestrictions = selectedFoodRestrictions;
                     
-                    // Rotina é gerada para o primeiro salvamento do aluno
                     const restrictionLabels = getRestrictionLabels(selectedFoodRestrictions);
                     const limitationLabels = getLimitationLabels(selectedPhysicalLimitations);
                     
@@ -962,6 +962,7 @@
                     userData.trainingRoutine = planData.trainingRoutine;
                 }
                 
+                // Requisição de escrita para o próprio documento
                 const docRef = doc(db, "users_data", uid);
                 await setDoc(docRef, userData, { merge: true });
 
@@ -970,7 +971,6 @@
                     toggleView('plan-generation');
                     // Simula o tempo de geração (3 segundos)
                     setTimeout(() => {
-                        // Após a geração, carrega os dados e vai para o dashboard
                         displayMessage('Plano de Ação gerado com sucesso!', 'success');
                         renderStudentDashboard(userData, user.email, uid);
                         toggleView('student-dashboard');
@@ -983,7 +983,8 @@
 
             } catch (error) {
                 console.error("Erro ao salvar informações no Firestore:", error);
-                displayMessage('Erro ao salvar as informações. Verifique a conexão.', 'error');
+                 // Este erro será "Missing or insufficient permissions" se a regra de 'write' ou 'create' não estiver OK.
+                displayMessage('Erro ao salvar as informações. Verifique a conexão (e as regras do Firestore).', 'error');
             } finally {
                 saveInfoBtn.textContent = 'Salvar Informações';
                 saveInfoBtn.disabled = false;
