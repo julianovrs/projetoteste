@@ -263,7 +263,7 @@
 
                 <div class="space-y-6">
                     <div class="bg-white dark:bg-gray-700/70 p-6 rounded-xl shadow-xl dark:shadow-none border border-gray-200 dark:border-pink-500/30">
-                         <h3 class="text-2xl font-semibold mb-4 text-pink-700 dark:text-pink-400 flex items-center border-b border-gray-300 dark:border-gray-600 pb-2">
+                        <h3 class="text-2xl font-semibold mb-4 text-indigo-700 dark:text-indigo-400 flex items-center border-b border-gray-300 dark:border-gray-600 pb-2">
                             <svg class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 3h5v5M18 10a8 8 0 11-16 0 8 8 0 0116 0z" /></svg>
                             Plano Alimentar
                         </h3>
@@ -743,7 +743,6 @@
             const limitations = userData.physicalLimitations.filter(l => l !== 'nenhuma');
             const restrictions = userData.foodRestrictions; 
 
-            // ASTERISCOS REMOVIDOS
             let foodPlan = `Objetivo: Manutenção e Ganho Leve de Massa. IMC Estimado: ${(weight / ((height / 100) ** 2)).toFixed(1)}.\n`;
             foodPlan += `\nRestrições Alimentares: ${restrictions.length > 0 ? restrictions.join(', ') : 'Nenhuma.'}\n`;
             foodPlan += "\nExemplo de Rotina Diária (3 Refeições):\n";
@@ -751,7 +750,6 @@
             foodPlan += "- Almoço: 1 porção de proteína (frango/carne magra) + arroz integral (4 col.) + salada verde à vontade. \n  (Evitar alimentos da sua lista de restrições)\n";
             foodPlan += "- Jantar: Sopa de legumes (exceto os restritos) ou peixe grelhado com batata doce.\n";
 
-            // ASTERISCOS REMOVIDOS
             let trainingPlan = `Foco: Força e Resistência para ${gender === 'feminino' ? 'Membros Inferiores' : 'Membros Superiores'}.\n`;
             trainingPlan += `\nLimitações Físicas: ${limitations.length > 0 ? limitations.join(', ') : 'Nenhuma.'}\n`;
             trainingPlan += `\nRotina Semanal Sugerida:\n`;
