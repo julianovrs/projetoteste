@@ -881,7 +881,7 @@
         function generateUniquePlan(userData) {
             const { name, age, gender, weight, height, goal, limitations, foodRestrictions, activityLevel, trainingFrequency, trainingDuration, equipmentPreference } = userData;
 
-            // 1. CÁLCULO DE CALORIAS (Fórmula de Mifflin-St Jeor)
+            // 1. CÁLCULO DE CALORIAS E HIDRATAÇÃO (Fórmula de Mifflin-St Jeor)
             let bmr;
             if (gender === 'masculino') {
                 // BMR = 10 * peso (kg) + 6.25 * altura (cm) - 5 * idade (anos) + 5
@@ -906,6 +906,24 @@
                 calorieAdjustment = -500;
                 calorieGoal = Math.round(tdee + calorieAdjustment);
             }
+            
+            // ** NOVO CÁLCULO DE ÁGUA **
+            // Base: 35 ml por kg de peso
+            let waterGoalMl = weight * 35; 
+            let activityMultiplier = 1.0; 
+
+            if (activityLevel === 'leve') {
+                activityMultiplier = 1.05; // +5% de ajuste por atividade
+            } else if (activityLevel === 'moderado') {
+                activityMultiplier = 1.10; // +10% de ajuste por atividade
+            } else if (activityLevel === 'alto') {
+                activityMultiplier = 1.15; // +15% de ajuste por atividade
+            }
+
+            waterGoalMl = waterGoalMl * activityMultiplier;
+            // Formata para Litros com 2 casas decimais, usando vírgula
+            const waterGoalLiters = (waterGoalMl / 1000).toFixed(2).replace('.', ','); 
+
 
             // 2. MONTAGEM DO PLANO ALIMENTAR
             // Fallback para 'medio' se a duração for desconhecida
@@ -915,8 +933,9 @@
             foodRoutine += `**Cálculo:** Seu Metabolismo Basal (BMR) é de ${Math.round(bmr)} kcal.\n`;
             foodRoutine += `**Gasto Diário Estimado (TDEE):** ${Math.round(tdee)} kcal (${ACTIVITY_LABELS[activityLevel]}).\n\n`;
             foodRoutine += `**META CALÓRICA DIÁRIA:** ${calorieGoal} kcal (${calorieAdjustment > 0 ? 'Excedente' : 'Déficit'} de ${Math.abs(calorieAdjustment)} kcal).\n`;
-            foodRoutine += `**META PROTEICA MÍNIMA:** ${proteinTarget}g/dia.\n\n`;
-
+            foodRoutine += `**META PROTEICA MÍNIMA:** ${proteinTarget}g/dia.\n`;
+            foodRoutine += `**META DE HIDRATAÇÃO:** ${waterGoalLiters} Litros por dia (Mínimo, ajustado para seu nível de atividade).\n\n`; // Adiciona a meta de água
+            
             // Substitui a variável no template
             foodRoutine += foodRoutineTemplate.replace('{CALORIAS_META}', calorieGoal) + '\n';
             
