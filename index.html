@@ -9,7 +9,6 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            /* Garante que o body possa rolar quando o conteúdo for grande */
         }
         /* Estilização para Placeholders no Dark Mode Padrão (Melhor legibilidade) */
         input::placeholder {
@@ -60,17 +59,17 @@
         <div id="message-area" class="mb-4 hidden p-3 rounded-lg text-sm transition-opacity duration-300" role="alert"></div>
 
         <div id="login-view" class="view">
-            <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Acesse sua Conta</h2>
+            <h2 class="text-3xl font-extrabold text-white dark:text-white light:text-gray-900 mb-6 text-center">Acesse sua Conta</h2>
             <form id="login-form" class="space-y-4">
                 <div>
-                    <label for="login-email" class="block text-sm font-medium mb-1">E-mail</label>
+                    <label for="login-email" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">E-mail</label>
                     <input type="email" id="login-email" placeholder="seu@email.com" required
-                           class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                           class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
                 </div>
                 <div>
-                    <label for="login-password" class="block text-sm font-medium mb-1">Senha</label>
+                    <label for="login-password" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Senha</label>
                     <input type="password" id="login-password" placeholder="••••••••" required
-                           class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                           class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
                 </div>
                 
                 <button type="submit"
@@ -80,13 +79,13 @@
             </form>
 
             <div class="my-6 flex items-center">
-                <div class="flex-grow border-t border-gray-700"></div>
-                <span class="flex-shrink mx-4 text-sm">OU</span>
-                <div class="flex-grow border-t border-gray-700"></div>
+                <div class="flex-grow border-t border-gray-700 light:border-gray-300"></div>
+                <span class="flex-shrink mx-4 text-sm dark:text-gray-400 light:text-gray-500">OU</span>
+                <div class="flex-grow border-t border-gray-700 light:border-gray-300"></div>
             </div>
 
             <button id="google-login-btn"
-                     class="w-full flex items-center justify-center py-2 px-4 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-200 bg-gray-700 hover:bg-gray-600 transition duration-150">
+                     class="w-full flex items-center justify-center py-2 px-4 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg shadow-sm text-sm font-medium dark:text-gray-200 light:text-gray-700 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 hover:bg-gray-600 light:hover:bg-gray-200 transition duration-150">
                 <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48">
                     <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.158,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.684,43.868,21.327,43.611,20.083z"/>
                     <path fill="#FF3D00" d="M6.306 14.691L11.41 18.257C13.204 16.292 14.004 14.072 14.004 12C14.004 9.928 13.204 7.708 11.41 5.743L6.306 9.309C5.541 10.334 5.148 11.167 5.148 12C5.148 12.833 5.541 13.666 6.306 14.691z"/>
@@ -96,36 +95,36 @@
                 Entrar com Google
             </button>
 
-            <p class="mt-6 text-center text-sm">
+            <p class="mt-6 text-center text-sm dark:text-gray-400 light:text-gray-600">
                 Não tem uma conta?
-                <a href="#" id="show-register-link" class="font-medium text-indigo-400 hover:text-indigo-300">
+                <a href="#" id="show-register-link" class="font-medium text-indigo-400 hover:text-indigo-300 dark:text-indigo-400 light:text-indigo-600">
                     Criar conta
                 </a>
             </p>
         </div>
 
         <div id="register-view" class="view hidden">
-            <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Crie sua Conta</h2>
+            <h2 class="text-3xl font-extrabold text-white dark:text-white light:text-gray-900 mb-6 text-center">Crie sua Conta</h2>
             <form id="register-form" class="space-y-4">
                 <div>
-                    <label for="register-name" class="block text-sm font-medium mb-1">Nome Completo</label>
+                    <label for="register-name" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Nome Completo</label>
                     <input type="text" id="register-name" placeholder="Seu Nome" required
-                           class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                           class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
                 </div>
                 <div>
-                    <label for="register-email" class="block text-sm font-medium mb-1">E-mail</label>
+                    <label for="register-email" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">E-mail</label>
                     <input type="email" id="register-email" placeholder="seu@email.com" required
-                           class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                           class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
                 </div>
                 <div>
-                    <label for="register-password" class="block text-sm font-medium mb-1">Senha</label>
+                    <label for="register-password" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Senha</label>
                     <input type="password" id="register-password" placeholder="Mínimo 6 caracteres" required
-                           class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                           class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
                 </div>
                 <div>
-                    <label for="register-confirm-password" class="block text-sm font-medium mb-1">Confirme a Senha</label>
+                    <label for="register-confirm-password" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Confirme a Senha</label>
                     <input type="password" id="register-confirm-password" placeholder="Repita a senha" required
-                           class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                           class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
                 </div>
                 
                 <button type="submit"
@@ -134,24 +133,24 @@
                 </button>
             </form>
 
-            <p class="mt-6 text-center text-sm">
+            <p class="mt-6 text-center text-sm dark:text-gray-400 light:text-gray-600">
                 Já tem uma conta?
-                <a href="#" id="show-login-link" class="font-medium text-indigo-400 hover:text-indigo-300">
+                <a href="#" id="show-login-link" class="font-medium text-indigo-400 hover:text-indigo-300 dark:text-indigo-400 light:text-indigo-600">
                     Fazer Login
                 </a>
             </p>
         </div>
         
         <div id="info-form-view" class="view hidden">
-            <h2 class="text-3xl font-extrabold text-white mb-6 text-center">Seu Perfil</h2>
-            <p class="text-center text-gray-400 mb-6">Preencha ou atualize seus dados.</p>
+            <h2 class="text-3xl font-extrabold text-white dark:text-white light:text-gray-900 mb-6 text-center">Seu Perfil</h2>
+            <p class="text-center dark:text-gray-400 light:text-gray-500 mb-6">Preencha ou atualize seus dados.</p>
             
             <form id="info-form" class="space-y-4">
 
                 <div>
-                    <label for="user-type-input" class="block text-sm font-medium mb-1">Tipo de Usuário</label>
+                    <label for="user-type-input" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Tipo de Usuário</label>
                     <select id="user-type-input" required
-                             class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white appearance-none pr-8">
+                             class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900 appearance-none pr-8">
                         <option value="" disabled selected>Selecione seu papel (Aluno ou Personal)</option>
                         <option value="aluno">Aluno</option>
                         <option value="personal">Personal Trainer</option>
@@ -159,34 +158,34 @@
                 </div>
                 
                 <div>
-                    <label for="full-name" class="block text-sm font-medium mb-1">Nome Completo</label>
+                    <label for="full-name" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Nome Completo</label>
                     <input type="text" id="full-name" placeholder="Nome Completo" 
-                           class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                           class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
                 </div>
 
                 <div>
-                    <label for="age" class="block text-sm font-medium mb-1">Idade</label>
+                    <label for="age" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Idade</label>
                     <input type="number" id="age" placeholder="Ex: 30" min="1" max="150" required
-                           class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                           class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
                 </div>
 
                 <div>
-                    <label for="gender" class="block text-sm font-medium mb-1">Gênero</label>
+                    <label for="gender" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Gênero</label>
                     <select id="gender" required
-                             class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 appearance-none pr-8">
+                             class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900 appearance-none pr-8">
                         <option value="" disabled selected>Selecione</option>
                         <option value="masculino">Masculino</option>
                         <option value="feminino">Feminino</option>
                     </select>
                 </div>
 
-                <div id="aluno-fields" class="space-y-4 hidden pt-2 border-t border-dashed border-gray-600/50">
-                    <p class="text-sm text-gray-400 font-semibold pt-2">Informações Adicionais (Aluno)</p>
+                <div id="aluno-fields" class="space-y-4 hidden pt-2 border-t border-dashed border-gray-600/50 light:border-gray-300/50">
+                    <p class="text-sm dark:text-gray-400 light:text-gray-700 font-semibold pt-2">Informações Adicionais (Aluno)</p>
 
                     <div>
-                        <label class="block text-sm font-medium mb-1">Limitações Físicas (Selecione uma ou mais)</label>
-                        <div id="selected-limitations-tags" class="flex flex-wrap gap-2 p-2 min-h-[40px] border border-gray-600 rounded-lg focus-within:border-indigo-500 transition duration-150 bg-gray-700/50">
-                            <span id="no-limitations-selected" class="text-sm text-gray-400">Nenhuma limitação selecionada.</span>
+                        <label class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Limitações Físicas (Selecione uma ou mais)</label>
+                        <div id="selected-limitations-tags" class="flex flex-wrap gap-2 p-2 min-h-[40px] border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus-within:border-indigo-500 transition duration-150 bg-gray-700/50 dark:bg-gray-700/50 light:bg-gray-100/50">
+                            <span id="no-limitations-selected" class="text-sm dark:text-gray-400 light:text-gray-500">Nenhuma limitação selecionada.</span>
                         </div>
                         
                         <button type="button" id="add-limitation-btn"
@@ -194,13 +193,13 @@
                             <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
                             Adicionar/Editar Limitações
                         </button>
-                        <p class="text-xs text-gray-500 mt-1">Clique acima para selecionar as limitações aplicáveis.</p>
+                        <p class="text-xs dark:text-gray-500 light:text-gray-500 mt-1">Clique acima para selecionar as limitações aplicáveis.</p>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium mb-1">Alimentos que Não Gosta/Não Pode Comer</label>
-                        <div id="selected-food-tags" class="flex flex-wrap gap-2 p-2 min-h-[40px] border border-gray-600 rounded-lg focus-within:border-indigo-500 transition duration-150 bg-gray-700/50">
-                            <span id="no-foods-selected" class="text-sm text-gray-400">Nenhum alimento selecionado.</span>
+                        <label class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Alimentos que Não Gosta/Não Pode Comer</label>
+                        <div id="selected-food-tags" class="flex flex-wrap gap-2 p-2 min-h-[40px] border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus-within:border-indigo-500 transition duration-150 bg-gray-700/50 dark:bg-gray-700/50 light:bg-gray-100/50">
+                            <span id="no-foods-selected" class="text-sm dark:text-gray-400 light:text-gray-500">Nenhum alimento selecionado.</span>
                         </div>
                         
                         <button type="button" id="add-food-restriction-btn"
@@ -208,21 +207,21 @@
                             <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
                             Adicionar/Editar Alimentos
                         </button>
-                        <p class="text-xs text-gray-500 mt-1">Clique acima para selecionar múltiplos alimentos.</p>
+                        <p class="text-xs dark:text-gray-500 light:text-gray-500 mt-1">Clique acima para selecionar múltiplos alimentos.</p>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label for="weight" class="block text-sm font-medium mb-1">Peso (kg)</label>
+                        <label for="weight" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Peso (kg)</label>
                         <input type="number" id="weight" placeholder="Ex: 75.5" step="0.1" min="1" required
-                                 class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                                 class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
                     </div>
 
                     <div>
-                        <label for="height" class="block text-sm font-medium mb-1">Altura (cm)</label>
+                        <label for="height" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Altura (cm)</label>
                         <input type="number" id="height" placeholder="Ex: 175" step="1" min="50" required
-                                 class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 text-white">
+                                 class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
                     </div>
                 </div>
 
@@ -238,46 +237,46 @@
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            <h2 class="text-2xl font-bold text-white mt-4">Gerando Plano de Ação...</h2>
-            <p class="mt-2 text-gray-400">Estamos criando sua rotina alimentar e de treino, baseada em seus dados e restrições. Isso levará apenas alguns segundos.</p>
+            <h2 class="text-2xl font-bold dark:text-white light:text-gray-900 mt-4">Gerando Plano de Ação...</h2>
+            <p class="mt-2 dark:text-gray-400 light:text-gray-600">Estamos criando sua rotina alimentar e de treino, baseada em seus dados e restrições. Isso levará apenas alguns segundos.</p>
         </div>
 
         <div id="student-dashboard-view" class="view hidden p-4 sm:p-8">
-            <h2 class="text-3xl font-bold text-white mb-2 tracking-tight">Dashboard do Aluno</h2>
-            <p class="text-gray-400 mb-8 border-b border-gray-700/50 pb-4">Seu resumo de saúde e planos de ação.</p>
+            <h2 class="text-3xl font-bold dark:text-white light:text-gray-900 mb-2 tracking-tight">Dashboard do Aluno</h2>
+            <p class="dark:text-gray-400 light:text-gray-600 mb-8 border-b border-gray-700/50 light:border-gray-300/50 pb-4">Seu resumo de saúde e planos de ação.</p>
 
             <div class="space-y-8">
-                <div class="bg-gray-700/50 dark:bg-gray-700/70 p-6 rounded-xl shadow-lg border border-indigo-500/30">
-                    <h3 class="text-2xl font-semibold mb-4 text-indigo-400 flex items-center">
+                <div class="bg-white dark:bg-gray-700/70 p-6 rounded-xl shadow-xl dark:shadow-none border border-gray-200 dark:border-indigo-500/30">
+                    <h3 class="text-2xl font-semibold mb-4 text-indigo-700 dark:text-indigo-400 flex items-center">
                         <svg class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         Meu Perfil e Acesso
                     </h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6 text-base">
-                        <p><span class="font-medium text-gray-300">Nome:</span> <span id="student-dashboard-name" class="text-white block sm:inline"></span></p>
-                        <p><span class="font-medium text-gray-300">E-mail:</span> <span id="student-dashboard-email" class="text-white block sm:inline"></span></p>
+                        <p><span class="font-medium text-gray-500 dark:text-gray-300">Nome:</span> <span id="student-dashboard-name" class="text-gray-900 dark:text-white block sm:inline"></span></p>
+                        <p><span class="font-medium text-gray-500 dark:text-gray-300">E-mail:</span> <span id="student-dashboard-email" class="text-gray-900 dark:text-white block sm:inline"></span></p>
                         <div class="sm:col-span-2">
-                            <p class="font-medium text-gray-300 mb-1">Seu Código Único (UID):</p>
-                            <span id="student-dashboard-uid" class="font-mono bg-gray-900/50 p-2 rounded text-sm text-green-400 select-all break-all block"></span>
+                            <p class="font-medium text-gray-500 dark:text-gray-300 mb-1">Seu Código Único (UID):</p>
+                            <span id="student-dashboard-uid" class="font-mono bg-gray-200 dark:bg-gray-900/50 p-2 rounded text-sm text-green-700 dark:text-green-400 select-all break-all block"></span>
                         </div>
                     </div>
                 </div>
 
                 <div class="space-y-6">
-                    <div class="bg-gray-700/50 dark:bg-gray-700/70 p-6 rounded-xl shadow-lg border border-pink-500/30">
-                        <h3 class="text-2xl font-semibold mb-4 text-pink-400 flex items-center border-b border-gray-600 pb-2">
+                    <div class="bg-white dark:bg-gray-700/70 p-6 rounded-xl shadow-xl dark:shadow-none border border-gray-200 dark:border-pink-500/30">
+                         <h3 class="text-2xl font-semibold mb-4 text-pink-700 dark:text-pink-400 flex items-center border-b border-gray-300 dark:border-gray-600 pb-2">
                             <svg class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 3h5v5M18 10a8 8 0 11-16 0 8 8 0 0116 0z" /></svg>
                             Plano Alimentar
                         </h3>
-                        <pre id="student-food-routine" class="text-base text-gray-200 whitespace-pre-wrap font-sans leading-relaxed p-1">
+                        <pre id="student-food-routine" class="text-base text-gray-800 dark:text-gray-200 whitespace-pre-wrap font-sans leading-relaxed p-1">
                             </pre>
                     </div>
 
-                    <div class="bg-gray-700/50 dark:bg-gray-700/70 p-6 rounded-xl shadow-lg border border-yellow-500/30">
-                        <h3 class="text-2xl font-semibold mb-4 text-yellow-400 flex items-center border-b border-gray-600 pb-2">
+                    <div class="bg-white dark:bg-gray-700/70 p-6 rounded-xl shadow-xl dark:shadow-none border border-gray-200 dark:border-yellow-500/30">
+                        <h3 class="text-2xl font-semibold mb-4 text-yellow-700 dark:text-yellow-400 flex items-center border-b border-gray-300 dark:border-gray-600 pb-2">
                             <svg class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                             Plano de Treino
                         </h3>
-                         <pre id="student-training-routine" class="text-base text-gray-200 whitespace-pre-wrap font-sans leading-relaxed p-1">
+                        <pre id="student-training-routine" class="text-base text-gray-800 dark:text-gray-200 whitespace-pre-wrap font-sans leading-relaxed p-1">
                             </pre>
                     </div>
                 </div>
@@ -289,19 +288,19 @@
         </div>
 
         <div id="personal-dashboard-view" class="view hidden p-4 sm:p-8">
-            <h2 class="text-3xl font-bold text-white mb-2 tracking-tight">Dashboard Personal Trainer</h2>
-            <p class="text-gray-400 mb-8 border-b border-gray-700/50 pb-4">Gerencie e edite os planos de seus alunos.</p>
+            <h2 class="text-3xl font-bold dark:text-white light:text-gray-900 mb-2 tracking-tight">Dashboard Personal Trainer</h2>
+            <p class="dark:text-gray-400 light:text-gray-600 mb-8 border-b border-gray-700/50 light:border-gray-300/50 pb-4">Gerencie e edite os planos de seus alunos.</p>
 
-            <div class="bg-gray-700/50 dark:bg-gray-700/70 p-6 rounded-xl shadow-lg border border-indigo-500/50 mb-8">
-                <h3 class="text-2xl font-semibold mb-4 text-indigo-400 flex items-center border-b border-gray-600 pb-2">
+            <div class="bg-white dark:bg-gray-700/70 p-6 rounded-xl shadow-xl dark:shadow-none border border-gray-300 dark:border-indigo-500/50 mb-8">
+                <h3 class="text-2xl font-semibold mb-4 text-indigo-700 dark:text-indigo-400 flex items-center border-b border-gray-300 dark:border-gray-600 pb-2">
                     <svg class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                     Acessar Perfil do Aluno
                 </h3>
                 <form id="search-student-form" class="space-y-5">
                     <div>
-                        <label for="student-uid-search" class="block text-sm font-medium mb-2 text-gray-300">Código Único do Aluno (UID)</label>
+                        <label for="student-uid-search" class="block text-sm font-medium mb-2 text-gray-500 dark:text-gray-300">Código Único do Aluno (UID)</label>
                         <input type="text" id="student-uid-search" placeholder="Ex: 12345abcdefg..." required
-                                class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 bg-gray-700 text-white font-mono placeholder-gray-500">
+                                class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900 font-mono placeholder-gray-500 dark:placeholder-gray-500 light:placeholder-gray-400">
                     </div>
                     <button type="submit" class="w-full py-3 px-4 rounded-lg text-white font-bold bg-green-600 hover:bg-green-700 transition duration-200 shadow-lg shadow-green-900/50 tracking-wide">
                         Buscar Aluno e Abrir Edição
@@ -309,20 +308,20 @@
                 </form>
             </div>
             
-            <div id="personal-student-profile" class="hidden bg-gray-700/50 dark:bg-gray-700/70 p-6 rounded-xl shadow-2xl border border-yellow-500/50">
-                <h3 class="text-2xl font-bold mb-6 text-white border-b border-gray-700 pb-3">
-                    Editando: <span id="editing-student-name" class="text-yellow-400"></span>
+            <div id="personal-student-profile" class="hidden bg-white dark:bg-gray-700/70 p-6 rounded-xl shadow-xl dark:shadow-none border border-gray-300 dark:border-yellow-500/50">
+                <h3 class="text-2xl font-bold mb-6 dark:text-white light:text-gray-900 border-b border-gray-300 dark:border-gray-700 pb-3">
+                    Editando: <span id="editing-student-name" class="text-yellow-700 dark:text-yellow-400"></span>
                 </h3>
                 <form id="edit-student-routine-form" class="space-y-6">
                     <div>
-                        <label for="edit-food-routine" class="block text-lg font-medium mb-2 text-pink-400">Plano Alimentar do Aluno</label>
+                        <label for="edit-food-routine" class="block text-lg font-medium mb-2 text-pink-700 dark:text-pink-400">Plano Alimentar do Aluno</label>
                         <textarea id="edit-food-routine" rows="10" required
-                                class="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-pink-500 focus:border-pink-500 transition duration-150 bg-gray-900/70 text-gray-200 font-sans"></textarea>
+                                class="w-full px-4 py-3 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-pink-500 focus:border-pink-500 transition duration-150 bg-gray-50 dark:bg-gray-900/70 text-gray-900 dark:text-gray-200 font-sans"></textarea>
                     </div>
                     <div>
-                        <label for="edit-training-routine" class="block text-lg font-medium mb-2 text-yellow-400">Plano de Treino do Aluno</label>
-                         <textarea id="edit-training-routine" rows="10" required
-                                class="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-yellow-500 focus:border-yellow-500 transition duration-150 bg-gray-900/70 text-gray-200 font-sans"></textarea>
+                         <label for="edit-training-routine" class="block text-lg font-medium mb-2 text-yellow-700 dark:text-yellow-400">Plano de Treino do Aluno</label>
+                        <textarea id="edit-training-routine" rows="10" required
+                                class="w-full px-4 py-3 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-yellow-500 focus:border-yellow-500 transition duration-150 bg-gray-50 dark:bg-gray-900/70 text-gray-900 dark:text-gray-200 font-sans"></textarea>
                     </div>
                     
                     <button type="submit" class="w-full py-3 px-4 rounded-lg text-white font-bold bg-indigo-600 hover:bg-indigo-700 transition duration-200 shadow-lg shadow-indigo-900/50 tracking-wide">
@@ -449,7 +448,7 @@
         const infoFormView = document.getElementById('info-form-view'); 
         const messageArea = document.getElementById('message-area');
         
-        // NOVAS VIEWS
+        // VIEWS
         const planGenerationView = document.getElementById('plan-generation-view');
         const studentDashboardView = document.getElementById('student-dashboard-view');
         const personalDashboardView = document.getElementById('personal-dashboard-view');
@@ -501,7 +500,7 @@
         let currentEditingStudentUid = null;
         
 
-        // --- Funções de UI/Theme/Error (CORRIGIDO: toggleView) ---
+        // --- Funções de UI/Theme/Error (CORRIGIDO: toggleView e Theme) ---
         function applyTheme(isDark) {
             body.classList.remove('light');
             
@@ -541,7 +540,7 @@
             applyTheme(!isDark);
         }
 
-        // NOVO: Função para alternar as views e ajustar o tamanho do container
+        // Função para alternar as views e ajustar o tamanho do container
         function toggleView(viewName) {
             document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
             messageArea.classList.add('hidden');
@@ -614,7 +613,7 @@
             selectedFoodTagsContainer.innerHTML = '';
             
             if (selectedFoodRestrictions.length === 0) {
-                selectedFoodTagsContainer.innerHTML = '<span id="no-foods-selected" class="text-sm text-gray-400">Nenhum alimento selecionado.</span>';
+                selectedFoodTagsContainer.innerHTML = '<span id="no-foods-selected" class="text-sm dark:text-gray-400 light:text-gray-500">Nenhum alimento selecionado.</span>';
                 return;
             }
 
@@ -656,7 +655,7 @@
             selectedLimitationsTagsContainer.innerHTML = '';
             
             if (selectedPhysicalLimitations.length === 0 || (selectedPhysicalLimitations.length === 1 && selectedPhysicalLimitations[0] === 'nenhuma')) {
-                selectedLimitationsTagsContainer.innerHTML = '<span id="no-limitations-selected" class="text-sm text-gray-400">Nenhuma limitação selecionada.</span>';
+                selectedLimitationsTagsContainer.innerHTML = '<span id="no-limitations-selected" class="text-sm dark:text-gray-400 light:text-gray-500">Nenhuma limitação selecionada.</span>';
                 return;
             }
 
@@ -721,7 +720,7 @@
             limitationsSelectionModal.classList.add('hidden');
         }
 
-        // --- Funções de Geração e Renderização (Mantidas) ---
+        // --- Funções de Geração e Renderização (ASTERISCOS REMOVIDOS) ---
         function getRestrictionLabels(values) {
              return values.map(value => {
                 const item = FOOD_OPTIONS.find(f => f.value === value);
@@ -744,25 +743,27 @@
             const limitations = userData.physicalLimitations.filter(l => l !== 'nenhuma');
             const restrictions = userData.foodRestrictions; 
 
-            let foodPlan = `**Objetivo:** Manutenção e Ganho Leve de Massa. IMC Estimado: ${(weight / ((height / 100) ** 2)).toFixed(1)}.\n`;
-            foodPlan += `\n**Restrições Alimentares:** ${restrictions.length > 0 ? restrictions.join(', ') : 'Nenhuma.'}\n`;
-            foodPlan += "\n**Exemplo de Rotina Diária (3 Refeições):**\n";
+            // ASTERISCOS REMOVIDOS
+            let foodPlan = `Objetivo: Manutenção e Ganho Leve de Massa. IMC Estimado: ${(weight / ((height / 100) ** 2)).toFixed(1)}.\n`;
+            foodPlan += `\nRestrições Alimentares: ${restrictions.length > 0 ? restrictions.join(', ') : 'Nenhuma.'}\n`;
+            foodPlan += "\nExemplo de Rotina Diária (3 Refeições):\n";
             foodPlan += "- Café da Manhã: Ovos mexidos (2 unid.) + 1 fatia de pão integral e café. \n  (Se houver restrição de Laticínios, use bebida vegetal.)\n";
             foodPlan += "- Almoço: 1 porção de proteína (frango/carne magra) + arroz integral (4 col.) + salada verde à vontade. \n  (Evitar alimentos da sua lista de restrições)\n";
             foodPlan += "- Jantar: Sopa de legumes (exceto os restritos) ou peixe grelhado com batata doce.\n";
 
-            let trainingPlan = `**Foco:** Força e Resistência para ${gender === 'feminino' ? 'Membros Inferiores' : 'Membros Superiores'}.\n`;
-            trainingPlan += `\n**Limitações Físicas:** ${limitations.length > 0 ? limitations.join(', ') : 'Nenhuma.'}\n`;
-            trainingPlan += `\n**Rotina Semanal Sugerida:**\n`;
-            trainingPlan += `**Segunda:** Treino (A) - Peito e Bíceps\n`;
-            trainingPlan += `**Terça:** Treino (B) - Pernas e Ombros\n`;
-            trainingPlan += `**Quarta:** Descanso ou Cardio Leve\n`;
-            trainingPlan += `**Quinta:** Treino (A) - Peito e Bíceps\n`;
-            trainingPlan += `**Sexta:** Treino (B) - Pernas e Ombros\n`;
+            // ASTERISCOS REMOVIDOS
+            let trainingPlan = `Foco: Força e Resistência para ${gender === 'feminino' ? 'Membros Inferiores' : 'Membros Superiores'}.\n`;
+            trainingPlan += `\nLimitações Físicas: ${limitations.length > 0 ? limitations.join(', ') : 'Nenhuma.'}\n`;
+            trainingPlan += `\nRotina Semanal Sugerida:\n`;
+            trainingPlan += `Segunda: Treino (A) - Peito e Bíceps\n`;
+            trainingPlan += `Terça: Treino (B) - Pernas e Ombros\n`;
+            trainingPlan += `Quarta: Descanso ou Cardio Leve\n`;
+            trainingPlan += `Quinta: Treino (A) - Peito e Bíceps\n`;
+            trainingPlan += `Sexta: Treino (B) - Pernas e Ombros\n`;
             if (limitations.includes('joelho')) {
-                trainingPlan += `\n**NOTA:** Para Agachamento e Leg Press, utilize carga reduzida e foco em execução perfeita devido à limitação no Joelho.\n`;
+                trainingPlan += `\nNOTA: Para Agachamento e Leg Press, utilize carga reduzida e foco em execução perfeita devido à limitação no Joelho.\n`;
             } else if (limitations.includes('coluna')) {
-                trainingPlan += `\n**NOTA:** Evite exercícios que comprimam a Coluna, como Agachamento com barra nas costas. Prefira máquina e foco no core.\n`;
+                trainingPlan += `\nNOTA: Evite exercícios que comprimam a Coluna, como Agachamento com barra nas costas. Prefira máquina e foco no core.\n`;
             }
 
 
@@ -1079,7 +1080,7 @@
         studentLogoutBtn.addEventListener('click', handleLogout);
         personalLogoutBtn.addEventListener('click', handleLogout);
         
-        // CORREÇÃO: Adiciona o listener para o botão de tema que estava faltando
+        // Adiciona o listener para o botão de tema
         document.getElementById('theme-toggle').addEventListener('click', toggleDarkMode); 
 
         // Listeners para as funcionalidades de Alimentos e Limitações
