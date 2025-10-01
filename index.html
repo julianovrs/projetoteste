@@ -1065,6 +1065,9 @@
         // Listeners de Logout dos Dashboards
         studentLogoutBtn.addEventListener('click', handleLogout);
         personalLogoutBtn.addEventListener('click', handleLogout);
+        
+        // CORREÇÃO: Adiciona o listener para o botão de tema que estava faltando
+        document.getElementById('theme-toggle').addEventListener('click', toggleDarkMode); 
 
         // Listeners para as funcionalidades de Alimentos e Limitações
         addFoodRestrictionBtn.addEventListener('click', openFoodModal);
