@@ -10,18 +10,10 @@
         body {
             font-family: 'Inter', sans-serif;
         }
-        /* Estilização para Placeholders no Dark Mode Padrão (Melhor legibilidade) */
+        /* Estilização para Placeholders para garantir consistência */
         input::placeholder {
             color: #9ca3af; /* gray-400 */
             opacity: 1; 
-        }
-        /* Ajuste do Select no Dark Mode: garante que o texto seja claro */
-        select {
-            color: white; 
-        }
-        /* Ajuste do Select no Light Mode: garante que o texto seja escuro */
-        .light select {
-            color: #4b5563; /* gray-700 */
         }
         /* Estilo para tags (chips) */
         .food-tag {
@@ -34,19 +26,19 @@
             background-color: #4f46e5; /* indigo-600 */
             color: white;
         }
-        /* Remove a barra de rolagem dos textareas, se houver, garantindo que o body role. */
+        /* Remove a barra de rolagem dos textareas */
         textarea {
-            overflow: hidden; /* Oculta a barra de rolagem padrão se não for necessário */
-            resize: vertical; /* Permite redimensionar apenas verticalmente */
+            overflow: hidden; 
+            resize: vertical; 
         }
     </style>
 </head>
-<body class="min-h-screen p-4 sm:p-8 transition-colors duration-300 bg-gray-900"> 
+<body class="min-h-screen p-4 sm:p-8 transition-colors duration-300 bg-gray-100 dark:bg-gray-900"> 
 
-    <div id="auth-card" class="mx-auto w-full p-8 sm:p-10 rounded-xl shadow-2xl transition-all duration-300 dark:shadow-none border border-gray-700 bg-gray-800 text-gray-200 max-w-md">
+    <div id="auth-card" class="mx-auto w-full p-8 sm:p-10 rounded-xl shadow-2xl transition-all duration-300 dark:shadow-none border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 max-w-md">
         
         <div class="flex justify-end mb-4">
-            <button id="theme-toggle" class="p-2 rounded-full text-gray-300 hover:text-indigo-400 transition duration-300">
+            <button id="theme-toggle" class="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition duration-300">
                 <svg id="sun-icon" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
@@ -59,17 +51,17 @@
         <div id="message-area" class="mb-4 hidden p-3 rounded-lg text-sm transition-opacity duration-300" role="alert"></div>
 
         <div id="login-view" class="view">
-            <h2 class="text-3xl font-extrabold text-white dark:text-white light:text-gray-900 mb-6 text-center">Acesse sua Conta</h2>
+            <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-6 text-center">Acesse sua Conta</h2>
             <form id="login-form" class="space-y-4">
                 <div>
-                    <label for="login-email" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">E-mail</label>
+                    <label for="login-email" class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">E-mail</label>
                     <input type="email" id="login-email" placeholder="seu@email.com" required
-                           class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
+                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
                 </div>
                 <div>
-                    <label for="login-password" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Senha</label>
+                    <label for="login-password" class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">Senha</label>
                     <input type="password" id="login-password" placeholder="••••••••" required
-                           class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
+                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
                 </div>
                 
                 <button type="submit"
@@ -79,13 +71,13 @@
             </form>
 
             <div class="my-6 flex items-center">
-                <div class="flex-grow border-t border-gray-700 light:border-gray-300"></div>
-                <span class="flex-shrink mx-4 text-sm dark:text-gray-400 light:text-gray-500">OU</span>
-                <div class="flex-grow border-t border-gray-700 light:border-gray-300"></div>
+                <div class="flex-grow border-t border-gray-300 dark:border-gray-700"></div>
+                <span class="flex-shrink mx-4 text-sm text-gray-500 dark:text-gray-400">OU</span>
+                <div class="flex-grow border-t border-gray-300 dark:border-gray-700"></div>
             </div>
 
             <button id="google-login-btn"
-                     class="w-full flex items-center justify-center py-2 px-4 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg shadow-sm text-sm font-medium dark:text-gray-200 light:text-gray-700 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 hover:bg-gray-600 light:hover:bg-gray-200 transition duration-150">
+                     class="w-full flex items-center justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-150">
                 <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48">
                     <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.158,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.684,43.868,21.327,43.611,20.083z"/>
                     <path fill="#FF3D00" d="M6.306 14.691L11.41 18.257C13.204 16.292 14.004 14.072 14.004 12C14.004 9.928 13.204 7.708 11.41 5.743L6.306 9.309C5.541 10.334 5.148 11.167 5.148 12C5.148 12.833 5.541 13.666 6.306 14.691z"/>
@@ -95,36 +87,36 @@
                 Entrar com Google
             </button>
 
-            <p class="mt-6 text-center text-sm dark:text-gray-400 light:text-gray-600">
+            <p class="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
                 Não tem uma conta?
-                <a href="#" id="show-register-link" class="font-medium text-indigo-400 hover:text-indigo-300 dark:text-indigo-400 light:text-indigo-600">
+                <a href="#" id="show-register-link" class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
                     Criar conta
                 </a>
             </p>
         </div>
 
         <div id="register-view" class="view hidden">
-            <h2 class="text-3xl font-extrabold text-white dark:text-white light:text-gray-900 mb-6 text-center">Crie sua Conta</h2>
+            <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-6 text-center">Crie sua Conta</h2>
             <form id="register-form" class="space-y-4">
                 <div>
-                    <label for="register-name" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Nome Completo</label>
+                    <label for="register-name" class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">Nome Completo</label>
                     <input type="text" id="register-name" placeholder="Seu Nome" required
-                           class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
+                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
                 </div>
                 <div>
-                    <label for="register-email" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">E-mail</label>
+                    <label for="register-email" class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">E-mail</label>
                     <input type="email" id="register-email" placeholder="seu@email.com" required
-                           class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
+                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
                 </div>
                 <div>
-                    <label for="register-password" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Senha</label>
+                    <label for="register-password" class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">Senha</label>
                     <input type="password" id="register-password" placeholder="Mínimo 6 caracteres" required
-                           class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
+                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
                 </div>
                 <div>
-                    <label for="register-confirm-password" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Confirme a Senha</label>
+                    <label for="register-confirm-password" class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">Confirme a Senha</label>
                     <input type="password" id="register-confirm-password" placeholder="Repita a senha" required
-                           class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
+                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
                 </div>
                 
                 <button type="submit"
@@ -133,24 +125,24 @@
                 </button>
             </form>
 
-            <p class="mt-6 text-center text-sm dark:text-gray-400 light:text-gray-600">
+            <p class="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
                 Já tem uma conta?
-                <a href="#" id="show-login-link" class="font-medium text-indigo-400 hover:text-indigo-300 dark:text-indigo-400 light:text-indigo-600">
+                <a href="#" id="show-login-link" class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
                     Fazer Login
                 </a>
             </p>
         </div>
         
         <div id="info-form-view" class="view hidden">
-            <h2 class="text-3xl font-extrabold text-white dark:text-white light:text-gray-900 mb-6 text-center">Seu Perfil</h2>
-            <p class="text-center dark:text-gray-400 light:text-gray-500 mb-6">Preencha ou atualize seus dados.</p>
+            <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-6 text-center">Seu Perfil</h2>
+            <p class="text-center text-gray-500 dark:text-gray-400 mb-6">Preencha ou atualize seus dados.</p>
             
             <form id="info-form" class="space-y-4">
 
                 <div>
-                    <label for="user-type-input" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Tipo de Usuário</label>
+                    <label for="user-type-input" class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">Tipo de Usuário</label>
                     <select id="user-type-input" required
-                             class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900 appearance-none pr-8">
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white appearance-none pr-8">
                         <option value="" disabled selected>Selecione seu papel (Aluno ou Personal)</option>
                         <option value="aluno">Aluno</option>
                         <option value="personal">Personal Trainer</option>
@@ -158,34 +150,34 @@
                 </div>
                 
                 <div>
-                    <label for="full-name" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Nome Completo</label>
+                    <label for="full-name" class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">Nome Completo</label>
                     <input type="text" id="full-name" placeholder="Nome Completo" 
-                           class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
+                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
                 </div>
 
                 <div>
-                    <label for="age" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Idade</label>
+                    <label for="age" class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">Idade</label>
                     <input type="number" id="age" placeholder="Ex: 30" min="1" max="150" required
-                           class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
+                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
                 </div>
 
                 <div>
-                    <label for="gender" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Gênero</label>
+                    <label for="gender" class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">Gênero</label>
                     <select id="gender" required
-                             class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900 appearance-none pr-8">
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white appearance-none pr-8">
                         <option value="" disabled selected>Selecione</option>
                         <option value="masculino">Masculino</option>
                         <option value="feminino">Feminino</option>
                     </select>
                 </div>
 
-                <div id="aluno-fields" class="space-y-4 hidden pt-2 border-t border-dashed border-gray-600/50 light:border-gray-300/50">
-                    <p class="text-sm dark:text-gray-400 light:text-gray-700 font-semibold pt-2">Informações Adicionais (Aluno)</p>
+                <div id="aluno-fields" class="space-y-4 hidden pt-2 border-t border-dashed border-gray-300 dark:border-gray-600/50">
+                    <p class="text-sm text-gray-700 dark:text-gray-400 font-semibold pt-2">Informações Adicionais (Aluno)</p>
 
                     <div>
-                        <label class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Limitações Físicas (Selecione uma ou mais)</label>
-                        <div id="selected-limitations-tags" class="flex flex-wrap gap-2 p-2 min-h-[40px] border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus-within:border-indigo-500 transition duration-150 bg-gray-700/50 dark:bg-gray-700/50 light:bg-gray-100/50">
-                            <span id="no-limitations-selected" class="text-sm dark:text-gray-400 light:text-gray-500">Nenhuma limitação selecionada.</span>
+                        <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">Limitações Físicas (Selecione uma ou mais)</label>
+                        <div id="selected-limitations-tags" class="flex flex-wrap gap-2 p-2 min-h-[40px] border border-gray-300 dark:border-gray-600 rounded-lg focus-within:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700/50">
+                            <span id="no-limitations-selected" class="text-sm text-gray-500 dark:text-gray-400">Nenhuma limitação selecionada.</span>
                         </div>
                         
                         <button type="button" id="add-limitation-btn"
@@ -193,13 +185,13 @@
                             <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
                             Adicionar/Editar Limitações
                         </button>
-                        <p class="text-xs dark:text-gray-500 light:text-gray-500 mt-1">Clique acima para selecionar as limitações aplicáveis.</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-500 mt-1">Clique acima para selecionar as limitações aplicáveis.</p>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Alimentos que Não Gosta/Não Pode Comer</label>
-                        <div id="selected-food-tags" class="flex flex-wrap gap-2 p-2 min-h-[40px] border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus-within:border-indigo-500 transition duration-150 bg-gray-700/50 dark:bg-gray-700/50 light:bg-gray-100/50">
-                            <span id="no-foods-selected" class="text-sm dark:text-gray-400 light:text-gray-500">Nenhum alimento selecionado.</span>
+                        <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">Alimentos que Não Gosta/Não Pode Comer</label>
+                        <div id="selected-food-tags" class="flex flex-wrap gap-2 p-2 min-h-[40px] border border-gray-300 dark:border-gray-600 rounded-lg focus-within:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700/50">
+                            <span id="no-foods-selected" class="text-sm text-gray-500 dark:text-gray-400">Nenhum alimento selecionado.</span>
                         </div>
                         
                         <button type="button" id="add-food-restriction-btn"
@@ -207,15 +199,16 @@
                             <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
                             Adicionar/Editar Alimentos
                         </button>
-                        <p class="text-xs dark:text-gray-500 light:text-gray-500 mt-1">Clique acima para selecionar múltiplos alimentos.</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-500 mt-1">Clique acima para selecionar múltiplos alimentos.</p>
                     </div>
                     
-                    <p class="text-sm dark:text-gray-400 light:text-gray-700 font-semibold pt-4 border-t border-dashed border-gray-600/50 light:border-gray-300/50">Detalhes do Treino</p>
+                    <p class="text-sm text-gray-700 dark:text-gray-400 font-semibold pt-4 border-t border-dashed border-gray-300 dark:border-gray-600/50">Detalhes do Treino</p>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label for="activity-level" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Nível de Atividade</label>
-                            <select id="activity-level" required class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900 appearance-none pr-8">
+                            <label for="activity-level" class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">Nível de Atividade</label>
+                            <select id="activity-level" required 
+                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white appearance-none pr-8">
                                 <option value="" disabled selected>Selecione</option>
                                 <option value="sedentario">Sedentário (Trabalho de escritório)</option>
                                 <option value="leve">Leve (1-3 dias/semana)</option>
@@ -225,8 +218,9 @@
                         </div>
                         
                         <div>
-                            <label for="training-frequency" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Frequência Semanal</label>
-                            <select id="training-frequency" required class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900 appearance-none pr-8">
+                            <label for="training-frequency" class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">Frequência Semanal</label>
+                            <select id="training-frequency" required 
+                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white appearance-none pr-8">
                                 <option value="" disabled selected>Selecione</option>
                                 <option value="3x_semana">3x por semana (Ex: ABC)</option>
                                 <option value="4x_semana">4x por semana (Ex: Superior/Inferior)</option>
@@ -236,8 +230,9 @@
                         </div>
                         
                         <div>
-                            <label for="training-duration" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Tempo por Treino</label>
-                            <select id="training-duration" required class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900 appearance-none pr-8">
+                            <label for="training-duration" class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">Tempo por Treino</label>
+                            <select id="training-duration" required 
+                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white appearance-none pr-8">
                                 <option value="" disabled selected>Selecione</option>
                                 <option value="curto">Até 45 minutos</option>
                                 <option value="medio">45 a 75 minutos</option>
@@ -246,8 +241,9 @@
                         </div>
 
                         <div>
-                            <label for="equipment-preference" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Equipamento</label>
-                            <select id="equipment-preference" required class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900 appearance-none pr-8">
+                            <label for="equipment-preference" class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">Equipamento</label>
+                            <select id="equipment-preference" required 
+                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white appearance-none pr-8">
                                 <option value="" disabled selected>Selecione</option>
                                 <option value="academia">Academia Completa</option>
                                 <option value="casa_avancada">Em Casa (Halteres, Elásticos)</option>
@@ -259,15 +255,15 @@
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label for="weight" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Peso (kg)</label>
+                        <label for="weight" class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">Peso (kg)</label>
                         <input type="number" id="weight" placeholder="Ex: 75.5" step="0.1" min="1" required
-                                 class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
+                                 class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
                     </div>
 
                     <div>
-                        <label for="height" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Altura (cm)</label>
+                        <label for="height" class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">Altura (cm)</label>
                         <input type="number" id="height" placeholder="Ex: 175" step="1" min="50" required
-                                 class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900">
+                                 class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
                     </div>
                 </div>
 
@@ -283,13 +279,13 @@
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            <h2 class="text-2xl font-bold dark:text-white light:text-gray-900 mt-4">Gerando Plano de Ação...</h2>
-            <p class="mt-2 dark:text-gray-400 light:text-gray-600">Estamos criando sua rotina alimentar e de treino, baseada em seus dados e restrições. Isso levará apenas alguns segundos.</p>
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-4">Gerando Plano de Ação...</h2>
+            <p class="mt-2 text-gray-600 dark:text-gray-400">Estamos criando sua rotina alimentar e de treino, baseada em seus dados e restrições. Isso levará apenas alguns segundos.</p>
         </div>
 
         <div id="student-dashboard-view" class="view hidden p-4 sm:p-8">
-            <h2 class="text-3xl font-bold dark:text-white light:text-gray-900 mb-2 tracking-tight">Dashboard do Aluno</h2>
-            <p class="dark:text-gray-400 light:text-gray-600 mb-8 border-b border-gray-700/50 light:border-gray-300/50 pb-4">Seu resumo de saúde e planos de ação.</p>
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2 tracking-tight">Dashboard do Aluno</h2>
+            <p class="text-gray-600 dark:text-gray-400 mb-8 border-b border-gray-300 dark:border-gray-700/50 pb-4">Seu resumo de saúde e planos de ação.</p>
 
             <div class="space-y-8">
                 <div class="bg-white dark:bg-gray-700/70 p-6 rounded-xl shadow-xl dark:shadow-none border border-gray-200 dark:border-indigo-500/30">
@@ -327,7 +323,7 @@
                 </div>
 
                 <div class="space-y-6">
-                    <div class="bg-white dark:bg-gray-700/70 p-6 rounded-xl shadow-xl dark:shadow-none border border-gray-200 dark:border-pink-500/30">
+                    <div class="bg-white dark:bg-gray-700/70 p-6 rounded-xl shadow-xl dark:shadow-none border border-gray-200 dark:border-indigo-500/30">
                         <h3 class="text-2xl font-semibold mb-4 text-indigo-700 dark:text-indigo-400 flex items-center border-b border-gray-300 dark:border-gray-600 pb-2">
                             <svg class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 3h5v5M18 10a8 8 0 11-16 0 8 8 0 0116 0z" /></svg>
                             Plano Alimentar
@@ -353,8 +349,8 @@
         </div>
 
         <div id="personal-dashboard-view" class="view hidden p-4 sm:p-8">
-            <h2 class="text-3xl font-bold dark:text-white light:text-gray-900 mb-2 tracking-tight">Dashboard Personal Trainer</h2>
-            <p class="dark:text-gray-400 light:text-gray-600 mb-8 border-b border-gray-700/50 light:border-gray-300/50 pb-4">Gerencie e edite os planos de seus alunos.</p>
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2 tracking-tight">Dashboard Personal Trainer</h2>
+            <p class="text-gray-600 dark:text-gray-400 mb-8 border-b border-gray-300 dark:border-gray-700/50 pb-4">Gerencie e edite os planos de seus alunos.</p>
             <div class="bg-white dark:bg-gray-700/70 p-6 rounded-xl shadow-xl dark:shadow-none border border-gray-300 dark:border-indigo-500/50 mb-8">
                 <h3 class="text-2xl font-semibold mb-4 text-indigo-700 dark:text-indigo-400 flex items-center border-b border-gray-300 dark:border-gray-600 pb-2">
                     <svg class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
@@ -364,7 +360,7 @@
                     <div>
                         <label for="student-uid-search" class="block text-sm font-medium mb-2 text-gray-500 dark:text-gray-300">Código Único do Aluno (UID)</label>
                         <input type="text" id="student-uid-search" placeholder="Ex: 12345abcdefg..." required
-                               class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900 font-mono placeholder-gray-500 dark:placeholder-gray-500 light:placeholder-gray-400">
+                               class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white font-mono placeholder-gray-500 dark:placeholder-gray-500">
                     </div>
                     <button type="submit"
                              class="w-full py-3 px-4 rounded-lg text-white font-bold bg-green-600 hover:bg-green-700 transition duration-150 shadow-md tracking-wide">
@@ -396,14 +392,14 @@
                 <h4 class="text-xl font-semibold mb-3 text-indigo-600 dark:text-indigo-400 border-b border-gray-300 dark:border-gray-600 pb-2">Editar Rotina</h4>
                 <form id="edit-student-routine-form" class="space-y-4">
                     <div>
-                        <label for="new-food-routine" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Plano Alimentar</label>
+                        <label for="new-food-routine" class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">Plano Alimentar</label>
                         <textarea id="new-food-routine" rows="8" placeholder="Insira o novo plano alimentar aqui..." required
-                                  class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900"></textarea>
+                                  class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"></textarea>
                     </div>
                     <div>
-                        <label for="new-training-routine" class="block text-sm font-medium mb-1 dark:text-gray-200 light:text-gray-700">Plano de Treino</label>
+                        <label for="new-training-routine" class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">Plano de Treino</label>
                         <textarea id="new-training-routine" rows="8" placeholder="Insira o novo plano de treino aqui..." required
-                                  class="w-full px-4 py-2 border border-gray-600 dark:border-gray-600 light:border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-700 dark:bg-gray-700 light:bg-gray-100 text-white dark:text-white light:text-gray-900"></textarea>
+                                  class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"></textarea>
                     </div>
                     
                     <button type="submit"
@@ -422,22 +418,22 @@
 
     <div id="limitations-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden p-4">
         <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-sm">
-            <h3 class="text-xl font-bold mb-4 dark:text-white light:text-gray-900">Selecione Limitações</h3>
+            <h3 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">Selecione Limitações</h3>
             <div class="space-y-2">
-                <label class="flex items-center dark:text-gray-200 light:text-gray-800">
-                    <input type="checkbox" value="joelho" class="limitation-checkbox w-4 h-4 text-indigo-600 bg-gray-700 border-gray-600 rounded">
+                <label class="flex items-center text-gray-800 dark:text-gray-200">
+                    <input type="checkbox" value="joelho" class="limitation-checkbox w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded">
                     <span class="ml-2">Problemas no Joelho</span>
                 </label>
-                <label class="flex items-center dark:text-gray-200 light:text-gray-800">
-                    <input type="checkbox" value="coluna" class="limitation-checkbox w-4 h-4 text-indigo-600 bg-gray-700 border-gray-600 rounded">
+                <label class="flex items-center text-gray-800 dark:text-gray-200">
+                    <input type="checkbox" value="coluna" class="limitation-checkbox w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded">
                     <span class="ml-2">Problemas na Coluna/Lombar</span>
                 </label>
-                <label class="flex items-center dark:text-gray-200 light:text-gray-800">
-                    <input type="checkbox" value="ombro" class="limitation-checkbox w-4 h-4 text-indigo-600 bg-gray-700 border-gray-600 rounded">
+                <label class="flex items-center text-gray-800 dark:text-gray-200">
+                    <input type="checkbox" value="ombro" class="limitation-checkbox w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded">
                     <span class="ml-2">Lesão no Ombro/Manguito</span>
                 </label>
-                <label class="flex items-center dark:text-gray-200 light:text-gray-800">
-                    <input type="checkbox" value="cotovelo" class="limitation-checkbox w-4 h-4 text-indigo-600 bg-gray-700 border-gray-600 rounded">
+                <label class="flex items-center text-gray-800 dark:text-gray-200">
+                    <input type="checkbox" value="cotovelo" class="limitation-checkbox w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded">
                     <span class="ml-2">Problemas no Cotovelo/Tendinite</span>
                 </label>
             </div>
@@ -449,8 +445,8 @@
 
     <div id="food-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden p-4">
         <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-md">
-            <h3 class="text-xl font-bold mb-4 dark:text-white light:text-gray-900">Selecione Alimentos para Restrição</h3>
-            <div id="food-list-container" class="space-y-2 max-h-60 overflow-y-auto p-2 border border-gray-700 dark:border-gray-600 rounded-lg bg-gray-700/50 dark:bg-gray-700/50 light:bg-gray-100/50">
+            <h3 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">Selecione Alimentos para Restrição</h3>
+            <div id="food-list-container" class="space-y-2 max-h-60 overflow-y-auto p-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-gray-100 dark:bg-gray-700/50">
                 </div>
             <button id="close-food-modal-btn" class="mt-6 w-full py-2 px-4 rounded-lg text-white font-semibold bg-indigo-600 hover:bg-indigo-700 transition duration-150">
                 Salvar Restrições
@@ -460,14 +456,14 @@
 
     <div id="goal-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden p-4">
         <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-sm">
-            <h3 class="text-xl font-bold mb-4 dark:text-white light:text-gray-900">Selecione seu Objetivo Principal</h3>
+            <h3 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">Selecione seu Objetivo Principal</h3>
             <div class="space-y-3">
-                <label class="block p-3 border border-gray-600 rounded-lg cursor-pointer hover:bg-indigo-600/20 transition duration-150 dark:text-gray-200 light:text-gray-800">
-                    <input type="radio" name="goal" value="Emagrecer" class="goal-radio w-4 h-4 text-indigo-600 bg-gray-700 border-gray-600">
+                <label class="block p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-indigo-600/20 transition duration-150 text-gray-800 dark:text-gray-200">
+                    <input type="radio" name="goal" value="Emagrecer" class="goal-radio w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600">
                     <span class="ml-3 font-medium">Emagrecer / Definição</span>
                 </label>
-                <label class="block p-3 border border-gray-600 rounded-lg cursor-pointer hover:bg-indigo-600/20 transition duration-150 dark:text-gray-200 light:text-gray-800">
-                    <input type="radio" name="goal" value="Obter Massa Muscular" class="goal-radio w-4 h-4 text-indigo-600 bg-gray-700 border-gray-600">
+                <label class="block p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-indigo-600/20 transition duration-150 text-gray-800 dark:text-gray-200">
+                    <input type="radio" name="goal" value="Obter Massa Muscular" class="goal-radio w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600">
                     <span class="ml-3 font-medium">Ganhar Massa Muscular / Força</span>
                 </label>
             </div>
@@ -529,8 +525,13 @@
             return { user: newUser };
         };
         
+        // 🟢 FIX 2: Removendo o nome hardcoded 'Google User' e usando um UID/email único para forçar o preenchimento do formulário.
         const signInWithGoogle = async () => {
-            const user = { uid: 'google_uid_' + Date.now(), email: 'teste.google@mail.com', name: 'Google User', userType: 'aluno' };
+            const uid = 'google_uid_' + Date.now() + Math.random().toString(16).slice(2);
+            // Simulação de um e-mail único para evitar conflito de chaves no localStorage
+            const email = `usuario.social.${uid.slice(-6)}@mail.com`; 
+            // O nome é vazio. O usuário deverá preenchê-lo na tela de Perfil.
+            const user = { uid, email, name: '', userType: 'aluno' }; 
             auth.currentUser = user;
             localStorage.setItem('currentUser', JSON.stringify(user));
             return { user };
@@ -717,7 +718,7 @@
                     '4x_semana': {
                         academia: "Divisão: **Upper/Lower + 2x Cardio HIIT**. 2 dias de força (Alta Repetição, carga moderada) e 2 dias de treino intervalado de alta intensidade (HIIT).",
                         casa_avancada: "Divisão: **Circuito de 4 dias** (Corpo Inteiro A, Cardio, Corpo Inteiro B, Cardio). Foco na alta densidade de treino.",
-                        casa_simples: "Divisão: **HIIT Corporal** (4x). Aumente a intensidade e o volume das sessões, mas garanta 1-2 dias de descanso."
+                        casa_simples: "Rotina de 4 dias não recomendada para peso corporal simples; Mude para 3x na semana ou use 5x (HIIT) para emagrecimento."
                     },
                     '5x_semana': {
                         academia: "Divisão: **3x Força + 2x Cardio**. Treinos de força (Upper/Lower/Full) focados em manter a massa magra, complementados por 2 sessões de cardio extensivo (Ex: 45min esteira/eliptico) para maximizar o gasto calórico.",
@@ -776,7 +777,7 @@
             }, 5000);
         }
 
-        // 🟢 FIX: Corrigindo a lógica de visibilidade de ícones na troca de tema.
+        // 🟢 FIX 1: Lógica de tema agora apenas controla a classe 'light'/'dark' no HTML e os ícones
         function toggleDarkMode() {
             // isLightActive é true se a classe 'light' foi adicionada (o que significa que o tema agora é claro)
             const isLightActive = document.documentElement.classList.toggle('light');
@@ -819,8 +820,8 @@
             allFoodRestrictions.forEach(food => {
                 const isChecked = selectedFoodRestrictions.includes(food);
                 const checkboxHtml = `
-                    <label class="flex items-center dark:text-gray-200 light:text-gray-800">
-                        <input type="checkbox" value="${food}" class="food-checkbox w-4 h-4 text-indigo-600 bg-gray-700 border-gray-600 rounded" ${isChecked ? 'checked' : ''}>
+                    <label class="flex items-center text-gray-800 dark:text-gray-200">
+                        <input type="checkbox" value="${food}" class="food-checkbox w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded" ${isChecked ? 'checked' : ''}>
                         <span class="ml-2">${food}</span>
                     </label>
                 `;
@@ -1150,7 +1151,7 @@
 
                 } else {
                     // Novo usuário, abre o formulário de perfil
-                    fullNameInput.value = user.name || '';
+                    fullNameInput.value = user.name || ''; // O nome será vazio se for um novo login social
                     toggleView('info-form');
                     openGoalModal(); 
                 }
@@ -1339,7 +1340,7 @@
                 const password = loginPasswordInput.value;
                 await signInWithEmailAndPassword(email, password);
                 displayMessage('success', 'Login bem-sucedido!');
-                // 🟢 FIX: Força a atualização da view após login bem-sucedido (necessário em ambiente simulado)
+                // Força a atualização da view após login bem-sucedido (necessário em ambiente simulado)
                 loadUserData(auth.currentUser);
             } catch (error) {
                 displayMessage('error', error.message);
@@ -1364,7 +1365,7 @@
 
                 await createUserWithEmailAndPassword(email, password, name);
                 displayMessage('success', 'Conta criada com sucesso! Preencha seu perfil.');
-                // 🟢 FIX: Força a atualização da view após cadastro bem-sucedido
+                // Força a atualização da view após cadastro bem-sucedido
                 loadUserData(auth.currentUser); 
             } catch (error) {
                 displayMessage('error', error.message);
@@ -1395,11 +1396,11 @@
         });
 
         // Listeners de Autenticação Social e Logout
-        // 🟢 FIX: Alterando o listener para async e adicionando a atualização de view
+        // 🟢 FIX 2: Alterando o listener para async e adicionando a atualização de view
         document.getElementById('google-login-btn').addEventListener('click', async () => {
              try {
                 await signInWithGoogle();
-                displayMessage('success', 'Login com Google bem-sucedido!');
+                displayMessage('success', 'Login com Google bem-sucedido! Preencha seu perfil.');
                 loadUserData(auth.currentUser); 
              } catch (error) {
                  displayMessage('error', 'Erro no login com Google: ' + error.message);
