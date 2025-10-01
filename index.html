@@ -610,7 +610,7 @@
         const newFoodRoutine = document.getElementById('new-food-routine');
         const newTrainingRoutine = document.getElementById('new-training-routine');
         
-        // Modals e Botões
+        // Modais e Botões
         const addFoodRestrictionBtn = document.getElementById('add-food-restriction-btn');
         const closeFoodModalBtn = document.getElementById('close-food-modal-btn');
         const foodModal = document.getElementById('food-modal');
@@ -712,7 +712,7 @@
                     '3x_semana': {
                         academia: "Divisão: **Full Body Circuit Training** (Treino de Circuito). 3 sessões de força metabólica (descanso reduzido) + 1-2 sessões de Cardio Fixo (40min). Foco na manutenção de massa muscular em déficit calórico.",
                         casa_avancada: "Divisão: **Circuito de Queima HIIT**. Utilize Halteres/Elásticos para aumentar o esforço e a frequência cardíaca. Treinos de 30-45 minutos com foco em movimentos compostos.",
-                        casa_simples: "Divisão: **HIIT Corporal**. Rotinas curtas (Até 40min) de treino intervalado de alta intensidade. Concentre-se em movimentos que recrutam grandes grupos musculares, como burpees, sprints e mountain climbers."
+                        casa_simples: "Divisão: **HIIT Corporal (3x)**. Rotinas curtas (Até 40min) de treino intervalado de alta intensidade. Concentre-se em movimentos que recrutam grandes grupos musculares, como burpees, sprints e mountain climbers."
                     },
                     '4x_semana': {
                         academia: "Divisão: **Upper/Lower + 2x Cardio HIIT**. 2 dias de força (Alta Repetição, carga moderada) e 2 dias de treino intervalado de alta intensidade (HIIT).",
@@ -776,12 +776,21 @@
             }, 5000);
         }
 
+        // 🟢 FIX: Corrigindo a lógica de visibilidade de ícones na troca de tema.
         function toggleDarkMode() {
-            const isDark = document.documentElement.classList.toggle('light');
-            document.documentElement.classList.toggle('dark', !isDark);
-            document.getElementById('sun-icon').classList.toggle('hidden', isDark);
-            document.getElementById('moon-icon').classList.toggle('hidden', !isDark);
-            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+            // isLightActive é true se a classe 'light' foi adicionada (o que significa que o tema agora é claro)
+            const isLightActive = document.documentElement.classList.toggle('light');
+            
+            // Garante que 'dark' e 'light' não coexistam
+            document.documentElement.classList.toggle('dark', !isLightActive);
+
+            // Se o tema for CLARO (isLightActive é true):
+            // - Esconda a lua (moon-icon.hidden = true)
+            // - Mostre o sol (sun-icon.hidden = false)
+            document.getElementById('moon-icon').classList.toggle('hidden', isLightActive);
+            document.getElementById('sun-icon').classList.toggle('hidden', !isLightActive);
+            
+            localStorage.setItem('theme', isLightActive ? 'light' : 'dark');
         }
 
         function initializeTheme() {
@@ -789,11 +798,13 @@
             if (theme === 'light') {
                 document.documentElement.classList.add('light');
                 document.documentElement.classList.remove('dark');
+                // Inicializa os ícones no estado CLARO
                 document.getElementById('moon-icon').classList.add('hidden');
                 document.getElementById('sun-icon').classList.remove('hidden');
             } else {
                 document.documentElement.classList.add('dark');
                 document.documentElement.classList.remove('light');
+                 // Inicializa os ícones no estado ESCURO
                 document.getElementById('sun-icon').classList.add('hidden');
                 document.getElementById('moon-icon').classList.remove('hidden');
             }
@@ -907,7 +918,7 @@
                 calorieGoal = Math.round(tdee + calorieAdjustment);
             }
             
-            // ** NOVO CÁLCULO DE ÁGUA **
+            // ** CÁLCULO DE ÁGUA **
             // Base: 35 ml por kg de peso
             let waterGoalMl = weight * 35; 
             let activityMultiplier = 1.0; 
@@ -1328,6 +1339,8 @@
                 const password = loginPasswordInput.value;
                 await signInWithEmailAndPassword(email, password);
                 displayMessage('success', 'Login bem-sucedido!');
+                // 🟢 FIX: Força a atualização da view após login bem-sucedido (necessário em ambiente simulado)
+                loadUserData(auth.currentUser);
             } catch (error) {
                 displayMessage('error', error.message);
             }
@@ -1351,6 +1364,8 @@
 
                 await createUserWithEmailAndPassword(email, password, name);
                 displayMessage('success', 'Conta criada com sucesso! Preencha seu perfil.');
+                // 🟢 FIX: Força a atualização da view após cadastro bem-sucedido
+                loadUserData(auth.currentUser); 
             } catch (error) {
                 displayMessage('error', error.message);
             }
@@ -1380,7 +1395,16 @@
         });
 
         // Listeners de Autenticação Social e Logout
-        document.getElementById('google-login-btn').addEventListener('click', signInWithGoogle);
+        // 🟢 FIX: Alterando o listener para async e adicionando a atualização de view
+        document.getElementById('google-login-btn').addEventListener('click', async () => {
+             try {
+                await signInWithGoogle();
+                displayMessage('success', 'Login com Google bem-sucedido!');
+                loadUserData(auth.currentUser); 
+             } catch (error) {
+                 displayMessage('error', 'Erro no login com Google: ' + error.message);
+             }
+        });
         
         const handleLogout = async () => {
              await signOut();
