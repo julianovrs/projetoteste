@@ -9,6 +9,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
+            /* Garante que o body possa rolar quando o conteúdo for grande */
         }
         /* Estilização para Placeholders no Dark Mode Padrão (Melhor legibilidade) */
         input::placeholder {
@@ -34,11 +35,16 @@
             background-color: #4f46e5; /* indigo-600 */
             color: white;
         }
+        /* Remove a barra de rolagem dos textareas, se houver, garantindo que o body role. */
+        textarea {
+            overflow: hidden; /* Oculta a barra de rolagem padrão se não for necessário */
+            resize: vertical; /* Permite redimensionar apenas verticalmente */
+        }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 transition-colors duration-300 bg-gray-900"> 
+<body class="min-h-screen p-4 sm:p-8 transition-colors duration-300 bg-gray-900"> 
 
-    <div id="auth-card" class="w-full max-w-md p-8 sm:p-10 rounded-xl shadow-2xl transition-all duration-300 dark:shadow-none border border-gray-700 bg-gray-800 text-gray-200">
+    <div id="auth-card" class="mx-auto w-full p-8 sm:p-10 rounded-xl shadow-2xl transition-all duration-300 dark:shadow-none border border-gray-700 bg-gray-800 text-gray-200 max-w-md">
         
         <div class="flex justify-end mb-4">
             <button id="theme-toggle" class="p-2 rounded-full text-gray-300 hover:text-indigo-400 transition duration-300">
@@ -190,6 +196,7 @@
                         </button>
                         <p class="text-xs text-gray-500 mt-1">Clique acima para selecionar as limitações aplicáveis.</p>
                     </div>
+
                     <div>
                         <label class="block text-sm font-medium mb-1">Alimentos que Não Gosta/Não Pode Comer</label>
                         <div id="selected-food-tags" class="flex flex-wrap gap-2 p-2 min-h-[40px] border border-gray-600 rounded-lg focus-within:border-indigo-500 transition duration-150 bg-gray-700/50">
@@ -204,6 +211,7 @@
                         <p class="text-xs text-gray-500 mt-1">Clique acima para selecionar múltiplos alimentos.</p>
                     </div>
                 </div>
+
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label for="weight" class="block text-sm font-medium mb-1">Peso (kg)</label>
@@ -236,37 +244,40 @@
 
         <div id="student-dashboard-view" class="view hidden p-4 sm:p-8">
             <h2 class="text-3xl font-bold text-white mb-2 tracking-tight">Dashboard do Aluno</h2>
-            <p class="text-gray-400 mb-6 border-b border-gray-700/50 pb-4">Seu resumo de saúde e planos de ação.</p>
+            <p class="text-gray-400 mb-8 border-b border-gray-700/50 pb-4">Seu resumo de saúde e planos de ação.</p>
 
             <div class="space-y-8">
-                <div class="bg-gray-700/50 dark:bg-gray-800/70 p-6 rounded-xl shadow-lg border border-indigo-500/30">
-                    <h3 class="text-2xl font-semibold mb-4 text-indigo-400">Meu Perfil</h3>
+                <div class="bg-gray-700/50 dark:bg-gray-700/70 p-6 rounded-xl shadow-lg border border-indigo-500/30">
+                    <h3 class="text-2xl font-semibold mb-4 text-indigo-400 flex items-center">
+                        <svg class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        Meu Perfil e Acesso
+                    </h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6 text-base">
                         <p><span class="font-medium text-gray-300">Nome:</span> <span id="student-dashboard-name" class="text-white block sm:inline"></span></p>
                         <p><span class="font-medium text-gray-300">E-mail:</span> <span id="student-dashboard-email" class="text-white block sm:inline"></span></p>
-                        <p class="sm:col-span-2">
-                            <span class="font-medium text-gray-300">Seu Código Único (UID):</span> 
-                            <span id="student-dashboard-uid" class="font-mono bg-gray-600 dark:bg-gray-900/50 p-1 px-3 rounded text-sm text-green-400 select-all break-all mt-1 block sm:inline-block"></span>
-                        </p>
+                        <div class="sm:col-span-2">
+                            <p class="font-medium text-gray-300 mb-1">Seu Código Único (UID):</p>
+                            <span id="student-dashboard-uid" class="font-mono bg-gray-900/50 p-2 rounded text-sm text-green-400 select-all break-all block"></span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div class="bg-gray-700/50 dark:bg-gray-800/70 p-6 rounded-xl shadow-lg border border-pink-500/30">
-                        <h3 class="text-2xl font-semibold mb-4 text-pink-400 flex items-center">
+                <div class="space-y-6">
+                    <div class="bg-gray-700/50 dark:bg-gray-700/70 p-6 rounded-xl shadow-lg border border-pink-500/30">
+                        <h3 class="text-2xl font-semibold mb-4 text-pink-400 flex items-center border-b border-gray-600 pb-2">
                             <svg class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 3h5v5M18 10a8 8 0 11-16 0 8 8 0 0116 0z" /></svg>
                             Plano Alimentar
                         </h3>
-                        <pre id="student-food-routine" class="text-base text-gray-200 whitespace-pre-wrap font-sans leading-relaxed bg-gray-900/40 p-3 rounded-lg border border-gray-600/50 max-h-96 overflow-y-auto">
+                        <pre id="student-food-routine" class="text-base text-gray-200 whitespace-pre-wrap font-sans leading-relaxed p-1">
                             </pre>
                     </div>
 
-                    <div class="bg-gray-700/50 dark:bg-gray-800/70 p-6 rounded-xl shadow-lg border border-yellow-500/30">
-                        <h3 class="text-2xl font-semibold mb-4 text-yellow-400 flex items-center">
+                    <div class="bg-gray-700/50 dark:bg-gray-700/70 p-6 rounded-xl shadow-lg border border-yellow-500/30">
+                        <h3 class="text-2xl font-semibold mb-4 text-yellow-400 flex items-center border-b border-gray-600 pb-2">
                             <svg class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                             Plano de Treino
                         </h3>
-                        <pre id="student-training-routine" class="text-base text-gray-200 whitespace-pre-wrap font-sans leading-relaxed bg-gray-900/40 p-3 rounded-lg border border-gray-600/50 max-h-96 overflow-y-auto">
+                         <pre id="student-training-routine" class="text-base text-gray-200 whitespace-pre-wrap font-sans leading-relaxed p-1">
                             </pre>
                     </div>
                 </div>
@@ -281,8 +292,8 @@
             <h2 class="text-3xl font-bold text-white mb-2 tracking-tight">Dashboard Personal Trainer</h2>
             <p class="text-gray-400 mb-8 border-b border-gray-700/50 pb-4">Gerencie e edite os planos de seus alunos.</p>
 
-            <div class="bg-gray-700/50 dark:bg-gray-800/70 p-6 rounded-xl shadow-lg border border-indigo-500/50 mb-8">
-                <h3 class="text-2xl font-semibold mb-4 text-indigo-400 flex items-center">
+            <div class="bg-gray-700/50 dark:bg-gray-700/70 p-6 rounded-xl shadow-lg border border-indigo-500/50 mb-8">
+                <h3 class="text-2xl font-semibold mb-4 text-indigo-400 flex items-center border-b border-gray-600 pb-2">
                     <svg class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                     Acessar Perfil do Aluno
                 </h3>
@@ -290,7 +301,7 @@
                     <div>
                         <label for="student-uid-search" class="block text-sm font-medium mb-2 text-gray-300">Código Único do Aluno (UID)</label>
                         <input type="text" id="student-uid-search" placeholder="Ex: 12345abcdefg..." required
-                                class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 bg-gray-900/70 text-white font-mono placeholder-gray-500">
+                                class="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150 bg-gray-700 text-white font-mono placeholder-gray-500">
                     </div>
                     <button type="submit" class="w-full py-3 px-4 rounded-lg text-white font-bold bg-green-600 hover:bg-green-700 transition duration-200 shadow-lg shadow-green-900/50 tracking-wide">
                         Buscar Aluno e Abrir Edição
@@ -298,19 +309,19 @@
                 </form>
             </div>
             
-            <div id="personal-student-profile" class="hidden bg-gray-700/50 dark:bg-gray-800/70 p-6 rounded-xl shadow-2xl border border-yellow-500/50">
+            <div id="personal-student-profile" class="hidden bg-gray-700/50 dark:bg-gray-700/70 p-6 rounded-xl shadow-2xl border border-yellow-500/50">
                 <h3 class="text-2xl font-bold mb-6 text-white border-b border-gray-700 pb-3">
                     Editando: <span id="editing-student-name" class="text-yellow-400"></span>
                 </h3>
                 <form id="edit-student-routine-form" class="space-y-6">
                     <div>
                         <label for="edit-food-routine" class="block text-lg font-medium mb-2 text-pink-400">Plano Alimentar do Aluno</label>
-                        <textarea id="edit-food-routine" rows="8" required
+                        <textarea id="edit-food-routine" rows="10" required
                                 class="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-pink-500 focus:border-pink-500 transition duration-150 bg-gray-900/70 text-gray-200 font-sans"></textarea>
                     </div>
                     <div>
                         <label for="edit-training-routine" class="block text-lg font-medium mb-2 text-yellow-400">Plano de Treino do Aluno</label>
-                        <textarea id="edit-training-routine" rows="8" required
+                         <textarea id="edit-training-routine" rows="10" required
                                 class="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-yellow-500 focus:border-yellow-500 transition duration-150 bg-gray-900/70 text-gray-200 font-sans"></textarea>
                     </div>
                     
@@ -350,6 +361,7 @@
         </div>
     </div>
 
+
     <script type="module">
         // Importa as funções necessárias do Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -381,7 +393,7 @@
         // Inicializa o Firebase, Auth e Firestore
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const db = getFirestore(app); // Inicializa o Firestore
+        const db = getFirestore(app); 
 
         // --- Dados de Alimentos ---
         const FOOD_OPTIONS = [
@@ -489,7 +501,7 @@
         let currentEditingStudentUid = null;
         
 
-        // --- Funções de UI/Theme/Error ---
+        // --- Funções de UI/Theme/Error (CORRIGIDO: toggleView) ---
         function applyTheme(isDark) {
             body.classList.remove('light');
             
@@ -529,29 +541,32 @@
             applyTheme(!isDark);
         }
 
+        // NOVO: Função para alternar as views e ajustar o tamanho do container
         function toggleView(viewName) {
             document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
             messageArea.classList.add('hidden');
             
-            authCard.classList.remove('max-w-md'); // Garantindo o tamanho certo
-            if (viewName === 'info-form' || viewName === 'student-dashboard' || viewName === 'personal-dashboard') {
-                 authCard.classList.add('max-w-lg'); 
-                 if (viewName === 'info-form') infoFormView.classList.remove('hidden');
-                 if (viewName === 'student-dashboard') studentDashboardView.classList.remove('hidden');
-                 if (viewName === 'personal-dashboard') personalDashboardView.classList.remove('hidden');
-                 updateAlunoFieldsVisibility();
-            } else if (viewName === 'login') {
-                authCard.classList.remove('max-w-lg'); 
-                authCard.classList.add('max-w-md'); 
-                loginView.classList.remove('hidden');
-            } else if (viewName === 'register') {
-                authCard.classList.remove('max-w-lg'); 
-                authCard.classList.add('max-w-md'); 
-                registerView.classList.remove('hidden');
-            } else if (viewName === 'plan-generation') { 
-                authCard.classList.remove('max-w-lg'); 
-                authCard.classList.add('max-w-md'); 
-                planGenerationView.classList.remove('hidden');
+            // Define o tamanho do container: Max-w-md para login/cadastro, Max-w-4xl para dashboards/formulários grandes
+            const wideViews = ['info-form', 'student-dashboard', 'personal-dashboard'];
+            const isWide = wideViews.includes(viewName);
+            
+            authCard.classList.remove('max-w-md', 'max-w-4xl');
+            if (isWide) {
+                authCard.classList.add('max-w-4xl'); // Mais largo para acomodar o dashboard
+            } else {
+                authCard.classList.add('max-w-md'); // Padrão para telas de autenticação
+            }
+
+            // Exibe a view específica
+            if (viewName === 'login') loginView.classList.remove('hidden');
+            else if (viewName === 'register') registerView.classList.remove('hidden');
+            else if (viewName === 'info-form') infoFormView.classList.remove('hidden');
+            else if (viewName === 'plan-generation') planGenerationView.classList.remove('hidden');
+            else if (viewName === 'student-dashboard') studentDashboardView.classList.remove('hidden');
+            else if (viewName === 'personal-dashboard') personalDashboardView.classList.remove('hidden');
+            
+            if (isWide && viewName === 'info-form') {
+                updateAlunoFieldsVisibility();
             }
         }
 
@@ -593,7 +608,7 @@
         
         userTypeInput.addEventListener('change', updateAlunoFieldsVisibility);
 
-        // --- Funções de Restrições e Limitações ---
+        // --- Funções de Restrições e Limitações (Mantidas) ---
         
         function renderFoodTags() {
             selectedFoodTagsContainer.innerHTML = '';
@@ -706,7 +721,7 @@
             limitationsSelectionModal.classList.add('hidden');
         }
 
-        // --- NOVO: Lógica de Geração de Plano ---
+        // --- Funções de Geração e Renderização (Mantidas) ---
         function getRestrictionLabels(values) {
              return values.map(value => {
                 const item = FOOD_OPTIONS.find(f => f.value === value);
@@ -727,7 +742,7 @@
             const height = userData.height || 175;
             const gender = userData.gender;
             const limitations = userData.physicalLimitations.filter(l => l !== 'nenhuma');
-            const restrictions = userData.foodRestrictions; // Já recebe labels
+            const restrictions = userData.foodRestrictions; 
 
             let foodPlan = `**Objetivo:** Manutenção e Ganho Leve de Massa. IMC Estimado: ${(weight / ((height / 100) ** 2)).toFixed(1)}.\n`;
             foodPlan += `\n**Restrições Alimentares:** ${restrictions.length > 0 ? restrictions.join(', ') : 'Nenhuma.'}\n`;
@@ -754,8 +769,6 @@
             return { foodRoutine: foodPlan, trainingRoutine: trainingPlan };
         }
         
-        // --- NOVO: Funções de Renderização de Dashboard ---
-        
         function renderStudentDashboard(data, email, uid) {
             studentDashboardName.textContent = data.displayName || 'Aluno';
             studentDashboardEmail.textContent = email;
@@ -776,7 +789,6 @@
             }
             
             try {
-                // Requisição de leitura para o documento do aluno
                 const docRef = doc(db, "users_data", searchUid);
                 const docSnap = await getDoc(docRef);
 
@@ -795,7 +807,6 @@
 
             } catch (error) {
                  console.error("Erro ao buscar aluno:", error);
-                 // Este erro pode ser "Missing or insufficient permissions" se a regra de 'read' não estiver OK.
                  displayMessage('Erro ao buscar o aluno. Verifique o código e a conexão (e as regras do Firestore).', 'error');
             }
         }
@@ -813,7 +824,6 @@
                 const foodRoutine = editFoodRoutineTextarea.value;
                 const trainingRoutine = editTrainingRoutineTextarea.value;
                 
-                // Requisição de escrita para o documento do aluno (não é o UID do Personal)
                 const docRef = doc(db, "users_data", currentEditingStudentUid);
                 await setDoc(docRef, {
                     foodRoutine: foodRoutine,
@@ -825,13 +835,12 @@
 
             } catch (error) {
                  console.error("Erro ao salvar rotina do aluno:", error);
-                 // Este erro será "Missing or insufficient permissions" se a regra de 'update' para Personal não estiver OK.
                  displayMessage('Erro ao salvar a rotina do aluno. Tente novamente (e verifique as regras do Firestore).', 'error');
             }
         }
 
 
-        // --- Funções de Carregamento e Persistência ---
+        // --- Funções de Carregamento e Persistência (Mantidas) ---
 
         async function loadUserData(uid) {
             const user = auth.currentUser;
@@ -841,27 +850,23 @@
                 saveInfoBtn.disabled = true;
 
                 fullNameInput.value = user.displayName || '';
-                studentDashboardEmail.textContent = user.email; // Atualiza o email no dashboard
+                studentDashboardEmail.textContent = user.email; 
                 
-                // Requisição de leitura para o próprio documento
                 const docRef = doc(db, "users_data", uid);
                 const docSnap = await getDoc(docRef);
 
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     
-                    // Preenche campos comuns
                     fullNameInput.value = data.displayName || user.displayName || '';
                     ageInput.value = data.age || '';
                     genderInput.value = data.gender || '';
                     weightInput.value = data.weight || '';
                     heightInput.value = data.height || '';
                     
-                    // Preenche o tipo de usuário e mostra/esconde campos de aluno
                     userTypeInput.value = data.userType || '';
                     updateAlunoFieldsVisibility();
                     
-                    // Preenche campos de Aluno
                     if (data.userType === 'aluno') {
                         
                         if (Array.isArray(data.physicalLimitations) && data.physicalLimitations.length > 0) {
@@ -878,25 +883,21 @@
                         }
                         renderFoodTags();
                         
-                        // NOVO: Carrega Rotinas
                         data.foodRoutine = data.foodRoutine || '';
                         data.trainingRoutine = data.trainingRoutine || '';
                         
-                        // Transição para o Dashboard do Aluno se já tiver plano
                         if (data.foodRoutine && data.trainingRoutine) {
                             renderStudentDashboard(data, user.email, user.uid);
                             toggleView('student-dashboard');
-                            return; // Encerra a função após redirecionamento para o dashboard
+                            return; 
                         }
                     }
                     
-                    // 5. Se o Personal já tem perfil, vai para o dashboard
                     if (data.userType === 'personal') {
                         toggleView('personal-dashboard');
-                        return; // Encerra a função após redirecionamento para o dashboard
+                        return; 
                     }
 
-                    // Se chegou aqui, precisa preencher/atualizar o formulário
                     displayMessage('Dados de perfil carregados. Complete as informações.', 'success');
                     toggleView('info-form');
                     
@@ -906,7 +907,6 @@
                 }
             } catch (error) {
                 console.error("Erro ao carregar dados do usuário:", error);
-                // Este erro será "Missing or insufficient permissions" se a regra de 'read' não estiver OK.
                 displayMessage('Erro ao carregar dados do perfil. Verifique a conexão (e as regras do Firestore).', 'error');
                 toggleView('info-form');
             } finally {
@@ -979,28 +979,24 @@
                     userData.trainingRoutine = planData.trainingRoutine;
                 }
                 
-                // Requisição de escrita para o próprio documento
                 const docRef = doc(db, "users_data", uid);
                 await setDoc(docRef, userData, { merge: true });
 
-                // 4. Fluxo de Transição
                 if (isAluno) {
                     toggleView('plan-generation');
-                    // Simula o tempo de geração (3 segundos)
                     setTimeout(() => {
                         displayMessage('Plano de Ação gerado com sucesso!', 'success');
                         renderStudentDashboard(userData, user.email, uid);
                         toggleView('student-dashboard');
                     }, 3000); 
 
-                } else { // Personal Trainer
+                } else { 
                     toggleView('personal-dashboard');
                     displayMessage('Perfil de Personal Trainer salvo! Seja bem-vindo.', 'success');
                 }
 
             } catch (error) {
                 console.error("Erro ao salvar informações no Firestore:", error);
-                 // Este erro será "Missing or insufficient permissions" se a regra de 'write' ou 'create' não estiver OK.
                 displayMessage('Erro ao salvar as informações. Verifique a conexão (e as regras do Firestore).', 'error');
             } finally {
                 saveInfoBtn.textContent = 'Salvar Informações';
@@ -1008,7 +1004,7 @@
             }
         }
 
-        // --- Funções de Autenticação ---
+        // --- Funções de Autenticação e Logout (Mantidas) ---
         async function loginWithEmailPassword(e) {
             e.preventDefault();
             messageArea.classList.add('hidden');
